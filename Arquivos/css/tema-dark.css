@@ -1,0 +1,184 @@
+.tema-item {
+    background-color: #292929;
+}
+
+.tema-topo {
+    background-color: rgb(58, 58, 58);
+}
+
+#search-terms {
+    background-image: url('../img/welcome/searchicon-dark.png');
+    background-position: 5px 4px;
+    background-repeat: no-repeat;
+    background-color: rgb(94, 91, 91);
+    border: 0px solid #211F07;
+    color: darkgrey;
+}
+
+.tema-item-select {
+    background-color: #2e1a1a;
+}
+
+.category-tabs-select {
+    color: rgb(204, 211, 189);
+}
+
+.tema-modo-texto {
+    color: rgb(211, 189, 189);
+}
+
+.tema-modo-texto-topo {
+    color: rgb(255, 255, 255);
+}
+
+.tema-categoria {
+    background-color: rgb(31 26 26);
+}
+
+#category-tabs {
+    /* position: fixed; */
+    background-color: rgb(31 26 26);
+    border-color: rgb(255, 255, 255);
+    width: auto;
+    left: 0;
+    right: 16px;
+    /*top: 48px;*/
+    z-index: 5;
+    padding-top: 8px;
+    margin-bottom: 2px;
+    padding-bottom: 0;
+}
+
+.queue-card {
+    width: calc(100% - 32px);
+    background-color: rgb(41, 18, 18);
+    border: 1px solid hsla(210, 20%, 2%, 0.226);
+    margin: 8px;
+    padding: 8px;
+    height: 100%;
+    float: left;
+}
+
+.table-striped tbody>tr:nth-child(odd)>td,
+.table-striped tbody>tr:nth-child(odd)>th {
+    background-color: rgb(80, 82, 75);
+}
+
+.nav-pills>.active>a,
+.nav-pills>.active>a:hover,
+.nav-pills>.active>a:focus,
+.nav-pills>.active>button,
+.nav-pills>.active>button:hover,
+.nav-pills>.active>button:focus {
+    color: var( --selected_text);
+    background-color: #1c6de1;
+    border-color: rgb(255, 255, 255);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #b3aeae;
+    min-width: 280px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0px;
+    height: auto;
+}
+
+
+.navigation-button:hover {
+    color: #c5c2c2;
+}
+
+.navigation-button:focus {
+    border-color: rgb(255, 255, 255);
+    border-radius: 32px;
+}
+
+.navigation-button:active {
+    background-color: #1d2127;
+    border-radius: 32px;
+    color: #fff;
+}
+
+.navigation-button.active {
+    background-color: #1c6de1;
+    border-radius: 32px;
+}
+
+#pref-table>tbody>tr>td>button {
+    color: rgb(168, 148, 148);
+    text-decoration: none;
+}
+
+.installed-check {
+    color: #62af74;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
+    margin-top: -5px;
+}
+
+.not-installed-check {
+    color: #746a6a;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
+    margin-top: -5px;
+}
+
+.install-check {
+    color: #615ac2;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
+    margin-top: -5px;
+}
+
+.box-apps-info {
+    float: left;
+    background-color: rgba(7, 7, 7, 0.616);
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-size: 100% 100%;
+    
+    background-blend-mode: overlay;
+}
+
+.button-command-install {
+    border-color: rgb(58, 58, 58);
+}
+
+.queue-card>.status {
+    color: #8ec2a4;
+}
+
+.queue-card>.status>.drop {
+    color: rgb(211, 108, 108);
+}
+
+.table-hover tbody tr:hover>td,
+.table-hover tbody tr:hover>th {
+    background-color: rgb(41, 28, 28);
+}
+
+.tema-search-name {
+    color: rgb(236, 226, 226);
+}
+
+::-webkit-scrollbar-track {
+    background: #5c5252;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d3d3d3;
+}

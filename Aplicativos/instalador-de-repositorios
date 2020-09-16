@@ -1,0 +1,169 @@
+#!/usr/bin/python3
+
+# Copyright (C) 2015 Martin Wimpress <code@ubuntu-mate.org>
+# Copyright (C) 2016 Luke Horwell <luke@ubuntu-mate.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the
+# Free Software Foundation, Inc.,
+# 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+
+#import distro
+import glob
+import json
+import os
+import subprocess
+import sys
+import urllib.request
+
+def del_apt_sources(listname):
+    for filename in glob.glob(os.path.join('/','etc','apt','sources.list.d','*'+listname+'*.list*')):
+        os.remove(filename)
+
+def add_apt_sources(source, listname):
+    #subprocess.call(['aptdcon', '--add-repository=' + source, '--sources-file', listname + '.list'])
+    sources_file = os.path.join('/','etc','apt','sources.list.d',listname + '.list')
+    print('Writing: ' + sources_file)
+    with open(sources_file, 'w') as f:
+        f.write('\n'.join(source))
+
+def add_apt_key_from_url(key_url):
+    #subprocess.call(['aptdcon', '--add-vendor-key=' + os.path.join('/', 'tmp', 'pub.key')])
+    temp_key = os.path.join('/', 'tmp', 'pub.key')
+    print('Processing: ' + key_url)
+    if os.path.exists(temp_key):
+        os.remove(temp_key)
+
+    # Download the file from `url` and save it locally under `file_name`:
+    with urllib.request.urlopen(key_url) as response, open(temp_key, 'wb') as out_file:
+        data = response.read() # a `bytes` object
+        out_file.write(data)
+    subprocess.call(['apt-key', 'add', temp_key])
+
+def add_apt_key_from_keyserver(keyserver, key):
+    subprocess.call(['apt-key', 'adv', '--keyserver', keyserver, '--recv-keys', key])
+
+def enable_ppa(ppa):
+    #os_version = float(distro.version(pretty=False))
+    os_version = subprocess.run(['lsb_release','-rs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+    if (float(os_version) >= 18.04):
+        subprocess.call(['apt-add-repository', '--enable-source', '--yes', '--no-update', ppa])
+    else:
+        subprocess.call(['apt-add-repository', '--enable-source', '--yes', ppa])
+
+def enable_i386():
+    cpu_arch = str(subprocess.Popen(['dpkg','--print-architecture'], stdout=subprocess.PIPE).communicate()[0]).strip('\\nb\'')
+    if cpu_arch == 'amd64':
+        #os_version = float(distro.version(pretty=False))
+        os_version = subprocess.run(['lsb_release','-rs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+        if (float(os_version) >= 19.10):
+            subprocess.call(['dpkg', '--add-architecture', 'i386'])
+
+def enable_partner_repository():
+    #os_version = float(distro.version(pretty=False))
+    os_version = subprocess.run(['lsb_release','-rs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+    if (float(os_version) >= 18.04):
+        subprocess.call(['apt-add-repository', '--enable-source', '--yes', '--no-update', 'http://archive.canonical.com/ubuntu partner'])
+    else:
+        subprocess.call(['apt-add-repository', '--enable-source', '--yes', 'http://archive.canonical.com/ubuntu partner'])
+
+def enable_multiverse_repository():
+    #os_version = float(distro.version(pretty=False))
+    os_version = subprocess.run(['lsb_release','-rs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+    if (float(os_version) >= 18.04):
+        subprocess.call(['apt-add-repository', 'multiverse', '--yes', '--no-update'])
+    else:
+        subprocess.call(['apt-add-repository', 'multiverse', '--yes'])
+
+
+def finish(err=0):
+    ''' Fechar a aplicação '''
+    print('--------------------------------------------------------------')
+    sys.exit(err)
+
+if __name__ == "__main__":
+    '''
+        Este script requer as seguintes variáveis:
+             [0] = Caminho para o JSON do Índice de Aplicativos
+             [1] = Função a executar
+             [2] = categoria do programa
+             [3] = ID do programa
+             [4] = instruções "Alvo" para ler. Contém um nome de código ou "todos"
+
+        Este script lerá diretamente o JSON do Índice de Aplicativos em "/Programas/Central-Horizon-OS/Dados/Loja.json".
+    '''
+    print('--- Instalador de Repositório -------------------------------------')
+
+    # Set important variables.
+    #os_version = distro.version(pretty=False)
+    #codename = distro.codename().split(' ')[0].lower()
+    os_version = subprocess.run(['lsb_release','-rs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+    codename = subprocess.run(['lsb_release','-cs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+
+    try:
+        json_path = sys.argv[1]
+        function = sys.argv[2]
+        category = sys.argv[3]
+        program_id = sys.argv[4]
+        target = sys.argv[5]
+    except:
+        print('Este script requer parâmetros que são recuperados via Central Horizon OS.')
+        finish(1)
+
+    # Load the Application Index
+    if os.path.exists(json_path):
+        with open(json_path) as data_file:
+            index = json.load(data_file)
+    else:
+        finish(1)
+
+    # Perform functions based on the parameters.
+    if function == 'add_apt_key_from_keyserver':
+        keyserver = index[category][program_id]['pre-install'][target]['apt-key-server'][0]
+        key = index[category][program_id]['pre-install'][target]['apt-key-server'][1]
+        add_apt_key_from_keyserver(keyserver, key)
+
+    elif function == 'add_apt_key_from_url':
+        url = index[category][program_id]['pre-install'][target]['apt-key-url'].replace('OSVERSION',os_version).replace('CODENAME',codename)
+        add_apt_key_from_url(url)
+
+    elif function == 'add_apt_sources':
+        source_raw = index[category][program_id]['pre-install'][target]['apt-sources']
+        source_data = []
+        for line in source_raw:
+            source_data.append(line.replace('OSVERSION',os_version).replace('CODENAME',codename))
+        list_name = index[category][program_id]['pre-install'][target]['source-file']
+        list_name = list_name.replace('OSVERSION',os_version).replace('CODENAME',codename)
+        add_apt_sources(source_data, list_name)
+
+    elif function == 'del_apt_sources':
+        list_name = index[category][program_id]['pre-install'][target]['source-file']
+        list_name = list_name.replace('OSVERSION',os_version).replace('CODENAME',codename)
+        del_apt_sources(list_name)
+
+    elif function == 'enable_partner_repository':
+        enable_partner_repository()
+
+    elif function == 'enable_ppa':
+        ppa = index[category][program_id]['pre-install'][target]['enable-ppa']
+        enable_ppa(ppa)
+
+    elif function == 'enable_i386':
+        enable_i386()
+
+    else:
+        print('Invalid function specified: ' + function)
+        finish(1)
+
+    print('Successfully performed function: "' + function + '" for "' + program_id + '".')
+    finish(0)

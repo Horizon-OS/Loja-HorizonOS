@@ -1,0 +1,26 @@
+{
+
+    "Para Você": {
+        "Comment": "Experimente uns destes!",
+        "Apps": [
+            "caffeine",
+            "etcher",
+            "inkscape",
+            "luminance_hdr",
+            "rapid_photo_downloader"
+
+        ]
+
+    },
+
+    "Gallery": {
+        "Comment": "Alguns de nossa galeria personalizada! ",
+        "Apps_Galery": [
+            "gimp",
+            "steam"
+        ]
+
+    }
+
+
+}

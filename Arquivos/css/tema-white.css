@@ -1,0 +1,162 @@
+#search-terms {
+    background-image: url('../img/welcome/searchicon-white.png');
+    background-position: 5px 4px;
+    background-repeat: no-repeat;
+    border: 0px solid #b9b0b0;
+}
+
+.tema-item-select {
+    background-color: white;
+}
+
+.tema-topo {
+    background: var(--bg);
+}
+
+.tema-item {
+    background-color: rgb(248, 248, 248);
+}
+
+.tema-categoria {
+    background-color: #ecdbdb;
+}
+
+#category-tabs {
+    /* position: fixed; */
+    background: #ecdbdb;
+    width: auto;
+    left: 0;
+    right: 16px;
+    /*top: 48px;*/
+    z-index: 5;
+    padding-top: 8px;
+    margin-bottom: 2px;
+    padding-bottom: 0;
+}
+
+.queue-card {
+    width: calc(100% - 32px);
+    background-color: white;
+    border: 1px solid hsla(210, 20%, 2%, 0.226);
+    margin: 8px;
+    padding: 8px;
+    height: 100%;
+    float: left;
+}
+
+.table-striped tbody>tr:nth-child(odd)>td,
+.table-striped tbody>tr:nth-child(odd)>th {
+    background-color: rgb(235, 224, 222);
+}
+
+.nav-pills>.active>a,
+.nav-pills>.active>a:hover,
+.nav-pills>.active>a:focus,
+.nav-pills>.active>button,
+.nav-pills>.active>button:hover,
+.nav-pills>.active>button:focus {
+    color: var( --selected_text);
+    background-color: var( --selected_bg);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 280px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0px;
+    height: auto;
+}
+
+.navigation-button:hover {
+    color: #330784;
+}
+
+.navigation-button:focus {
+    border-color: var(--selected_bg);
+    border-radius: 32px;
+}
+
+.navigation-button:active {
+    background-color: var(--selected_bg);
+    color: #fff;
+    border-radius: 32px;
+}
+
+.navigation-button.active {
+    background-color: var(--selected_bg);
+    border-radius: 32px;
+}
+
+#pref-table>tbody>tr>td>button {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.installed-check {
+    color: #07a028;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
+    margin-top: -5px;
+}
+
+.not-installed-check {
+    color: #6e7971;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
+    margin-top: -5px;
+}
+
+.install-check {
+    color: #615ac2;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
+    margin-top: -5px;
+}
+
+.box-apps-info {
+    float: left;
+    background-color: rgb(202, 191, 191);
+    height: 100%;
+    width: 100%;
+}
+
+.button-command-install {
+    border-color: rgb(202, 191, 191);
+}
+
+.queue-card>.status {
+    color: #0f6332;
+}
+
+.queue-card>.status>.drop {
+    color: rgb(209, 83, 83);
+}
+
+.table-hover tbody tr:hover>td,
+.table-hover tbody tr:hover>th {
+    background-color: rgb(211, 182, 182);
+}
+
+.tema-search-name {
+    color: rgb(128, 106, 106);
+}
+
+::-webkit-scrollbar-track {
+    background: #cdb5b5;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #826b6b;
+}
