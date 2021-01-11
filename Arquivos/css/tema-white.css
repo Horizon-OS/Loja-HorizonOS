@@ -2,7 +2,7 @@
     background-image: url('../img/welcome/searchicon-white.png');
     background-position: 5px 4px;
     background-repeat: no-repeat;
-    border: 0px solid #b9b0b0;
+    border: 1px solid #b9b0b0;
 }
 
 .tema-item-select {
@@ -21,27 +21,12 @@
     background-color: #ecdbdb;
 }
 
-#category-tabs {
-    /* position: fixed; */
-    background: #ecdbdb;
-    width: auto;
-    left: 0;
-    right: 16px;
-    /*top: 48px;*/
-    z-index: 5;
-    padding-top: 8px;
-    margin-bottom: 2px;
-    padding-bottom: 0;
-}
 
 .queue-card {
-    width: calc(100% - 32px);
+
     background-color: white;
     border: 1px solid hsla(210, 20%, 2%, 0.226);
-    margin: 8px;
-    padding: 8px;
-    height: 100%;
-    float: left;
+
 }
 
 .table-striped tbody>tr:nth-child(odd)>td,
@@ -59,15 +44,12 @@
     background-color: var( --selected_bg);
 }
 
+
 .dropdown-menu {
-    display: none;
-    position: absolute;
+    
     background-color: #f1f1f1;
-    min-width: 280px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    right: 0px;
-    height: auto;
+    
 }
 
 .navigation-button:hover {
@@ -159,4 +141,58 @@
 
 ::-webkit-scrollbar-thumb {
     background: #826b6b;
+}
+
+.dropdown-filter-button {
+    background-color: #d3bbbbc7;
+}
+
+.button-select-filter{
+    border-color: #395a43;
+    color: rgb(58, 48, 48);
+}
+
+header { 
+background: #fff;
+box-shadow: 0px -8px 25px #6d6d6d;
+}
+
+aside ul li:hover {
+    background: #806969;
+    box-shadow: inset 0px 0px 77px #dedede;
+  }
+
+aside{
+    background-color: #fff;
+}
+
+aside ul li.active {
+    background-color: #b1b992;
+}
+
+.navigation-button-item {
+    color: black;
+}
+
+.navigation-button-item:hover {
+    color: #330784;
+}
+
+.navigation-button-item:focus {
+    border-color: var(--selected_bg);
+}
+
+.navigation-button-item:active {
+    background-color: var(--selected_bg);
+    color: #fff;
+}
+
+.navigation-button-item.active {
+    background-color: var(--selected_bg);
+}
+
+.screenshot-content {
+
+    
+    background-color: rgb(165, 165, 167);
 }

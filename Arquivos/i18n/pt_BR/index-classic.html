@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+
+<head id="cabecalho">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../../css/bootstrap-2.3.2.css" rel="stylesheet" media="screen">
+    <link href="../../css/font-awesome.css" rel="stylesheet" media="screen">
+    <link href="../../css/welcome.css" rel="stylesheet" media="screen">
+    <link href="../../css/configuracoes.css" rel="stylesheet" media="screen">
+    <link href="../../css/loja-detalhes.css" rel="stylesheet" media="screen">
+    <link href="../../css/tela-cheia.css" rel="stylesheet" media="screen">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/tema-white.css" rel="stylesheet">
+
+
+
+</head>
+
+<body class="backdrop-simple tema-topo">
+    <div id="boutique-loading" style="top: 14%;" class="animated fadeIn">
+        <span id="Text1">Loja</span>
+        <span id="Text2"><b>Horizon OS</b></span>
+        <img src="../../img/welcome/loading.svg" />
+
+
+    </div>
+    <div id="imagespawn"></div>
+
+    <div id="navigation-topo" class="container-fluid">
+        <div style="/* padding-right: 6px; */z-index: 1;height: 51px;/* float: left; */border: 1px solid #ccbcbc;border-radius: 16px;width: auto;padding-left: 7px;padding-right: 7px;margin-top: 7px;">
+            <ul id="menuprincipal">
+
+                <li style="margin-top: 7px;">
+
+                    <button class="botao-topo" id="menu-button" style="/* display: none; */" onclick="smoothPageFade('index.html');$('#footer-left').fadeOut();$('#non-free-toggle').fadeOut();$('#show-misc-cmds').fadeOut()">
+            <span class="fa fa-chevron-left"></span> 🏠
+         </button></li>
+
+
+            </ul>
+            <div style="float: left;width: 357px;"> <input type="text" class="tema-topo-busca" id="search-terms" placeholder="Procurar por..." style="float: left;box-sizing: border-box;margin-top: 7px;margin-bottom: 6px;" onchange="searchNow();showSearch();">
+            </div>
+
+
+            <div id="navigation-right">
+
+                <button id="detect_new_update" class="animated fadeIn" onclick="cmd('install-appid?dados_loja_horizon_os');$(detect_new_update).remove();showQueue('Atualização')" style="display:none">Nova Atualização Disponivel</button>
+                <button id="ativar-tema-dark" class="tema-modo-texto-topo navigation-button animated fadeIn" onclick="cmd('ativar-tema-dark')" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Ativar Modo Escuro">              <span class="fa fa-moon-o"></span></button>
+                <button id="desativar-tema-dark" class="tema-modo-texto-topo navigation-button animated fadeIn" onclick="cmd('desativar-tema-dark')" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Desativar Modo Escuro">              <span class="fa fa-sun-o"></span></button>
+                <button id="navigation-queue" class="tema-modo-texto-topo navigation-button animated fadeIn" onclick="showQueue('Lista de Espera')" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Lista de Espera">                  <span class="fa fa-clock-o"></span><div id="navigation-queue-count" class="empty">0</div></button>
+                <button id="navigation-queue-disabled" class="tema-modo-texto-topo navigation-button animated fadeIn" data-toggle="tooltip" data-placement="bottom" title="" style="display:none" data-original-title="Lista de Espera Desabilitada">                         <span class="fa fa-clock-o" style="opacity:0.5"></span></button>
+
+                <button id="navigation-news" class="tema-modo-texto-topo navigation-button animated fadeIn" onclick="showNews('Novidades na Loja Horizon OS')" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Novidades na Loja Horizon OS">              <span class="fa fa-newspaper-o"></span></button>
+                <div class="dropdown">
+                    <button id="dropdown1" class="tema-modo-texto-topo navigation-button animated fadeIn fa fa-ellipsis-h dropdown-toggle" type="button" data-toggle="dropdown"></button>
+                    <ul class="dropdown-menu">
+                        <button id="navigation-prefs" class="navigation-button-item item-select animated fadeIn" onclick="showPrefs('Preferências')">
+                            <span class=" fa fa-wrench"> Preferências</span>
+                            </button>
+                        <button id="navigation-font-list" class="navigation-button-item item-select animated fadeIn" onclick="showFontesLoja();cmd('list-repos');">
+                            <span class="fa fa-list-ul"></span> Fontes da Loja</button>
+                        <button class="navigation-button-item item-select animated fadeIn" onclick="cmd('apt-update');"><span class="fa fa-download">
+                             </span> Atualizar Lista de Pacotes</button>
+                        <button class="navigation-button-item item-select animated fadeIn" onclick="cmd('run?software-properties-gtk')">
+                            <span class="fa fa-cubes"></span> Gerenciar Repositórios</button>
+                        <button id="navigation-installed" class="navigation-button-item item-select animated fadeIn" onclick="showInstalados();">
+                            <span class="fa fa-cubes"></span> Instalados</button>
+
+
+
+                    </ul>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="tema-item" style="margin-top: 7px;">
+        <div class="_1-5zf" data-hook="bsm-main-container" style="
+    height: 100vh;
+    flex-direction: column;
+    display: flex;
+">
+            <div style="
+            overflow: hidden;
+            height: calc(100% - 66px);
+        ">
+                <div class="left" style="
+height: 100%;
+position: relative;
+overflow: hidden;
+display: flex;
+flex-direction: column;
+float: left;
+
+">
+                    <div class="tema-categoria" style="overflow-y: scroll;height: 100%;">
+
+
+
+                        <div id="category-tabs" style="float: left;/* position: relative; */width: 69px;/* overflow-y: scroll; */height: auto;" hidden>
+                            <ul id="tabs" class="nav nav-pills" data-tabs="tabs" style="text-align: center">
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Acessórios"> <button id="AccessoriesBtn" data-toggle="tab" onclick="changeCategoryTab('#Accessories', 'Acessórios');">      <span class="category-tabs-select fa fa-2x fa-va fa-scissors">       </span></button></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Educação"> <button id="EducationBtn" data-toggle="tab" onclick="changeCategoryTab('#Education',   'Educação');">        <span class="category-tabs-select fa fa-2x fa-va fa-graduation-cap"> </span></button></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Jogos"> <button id="GamesBtn" data-toggle="tab" onclick="changeCategoryTab('#Games',       'Jogos');">            <span class="category-tabs-select fa fa-2x fa-va fa-gamepad">        </span></button></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Gráficos"> <button id="GraphicsBtn" data-toggle="tab" onclick="changeCategoryTab('#Graphics',    'Gráficos');">         <span class="category-tabs-select fa fa-2x fa-va fa-picture-o">      </span></button></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Internet"> <button id="InternetBtn" data-toggle="tab" onclick="changeCategoryTab('#Internet',    'Internet');">         <span class="category-tabs-select fa fa-2x fa-va fa-globe">          </span></button></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Escritório"> <button id="OfficeBtn" data-toggle="tab" onclick="changeCategoryTab('#Office',      'Escritório');">           <span class="category-tabs-select fa fa-2x fa-va fa-bar-chart">      </span></button></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Programação"> <button id="ProgrammingBtn" data-toggle="tab" onclick="changeCategoryTab('#Programming', 'Programação');">      <span class="category-tabs-select fa fa-2x fa-va fa-code">           </span></button></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Som &amp; Vídeo"> <button id="MediaBtn" data-toggle="tab" onclick="changeCategoryTab('#Media',       'Som &amp; Vídeo');">    <span class="category-tabs-select fa fa-2x fa-va fa-film">           </span></button></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Ferramentas do Sistema"> <button id="SysToolsBtn" data-toggle="tab" onclick="changeCategoryTab('#SysTools',    'Ferramentas do Sistema');">     <span class="category-tabs-select fa fa-2x fa-va fa-cog">            </span></button></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Acesso Universal"> <button id="UnivAccessBtn" data-toggle="tab" onclick="changeCategoryTab('#UnivAccess',  'Acesso Universal');"> <span class="category-tabs-select fa fa-2x fa-va fa-wheelchair">     </span></button></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Servidores"> <button id="ServersBtn" data-toggle="tab" onclick="changeCategoryTab('#Servers',     'Servidores');">          <span class="category-tabs-select fa fa-2x fa-va fa-server">         </span></button></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Mais Software"> <button id="MoreAppsBtn" data-toggle="tab" onclick="changeCategoryTab('#MoreApps',    'Mais Software');">    <span class="category-tabs-select fa fa-2x fa-va fa-download">       </span></button></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Correções"> <button id="MiscBtn" data-toggle="tab" onclick="changeCategoryTab('#Misc',        'Correções');">            <span class="category-tabs-select fa fa-2x fa-va fa-check-square-o"> </span></button></li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="" style="overflow-y: scroll;/*width: 100%;*/height: 100%;">
+                    <div id="content" hidden class="entire-page-fade in" style="/*margin-top: 50px;*/ /* display: block; */" tabindex="1">
+
+                        <div class="row-fluid tema-modo-texto">
+
+                            <div class="AppsInfo" id="AppsInfo"></div>
+                            <div class="container-fluid">
+                                <div id="News" hidden>
+
+                                    <div class="offline">
+                                        <div id="offlineMessage">
+                                            <h2>Mais aplicativos aguardam.</h2>
+                                            <p>Ligue o seu computador à Internet para explorar uma grande variedade de aplicações para Horizon OS.</p>
+                                            <p>Uma vez online, você será capaz de baixar e instalar software experimentado e testado aqui. Nossas escolhas garantem que os recursos do software se integrem bem na área de trabalho do Horizon OS.</p>
+
+                                            <div id="reconnectFailed" hidden class="alert alert-danger" style="width: 350px; margin-top: 12px">
+                                                <span class="fa fa-exclamation-triangle"></span> Desculpe, a Loja Horizon OS não conseguiu estabelecer uma conexão com o servidor de repositório do Ubuntu e outros externos. Por favor, verifique sua conexão
+                                                e tente novamente.
+                                            </div>
+
+                                            <ul class="unstyled">
+                                                <li><button onclick="reconnectRetry()" class="button-info button-installed"> <span class="fa fa-refresh"></span> Reconectar</button>
+                                                    <button onclick='smoothFade("#offlineMessage","#helpMe"); changeSubtitle("Resolução de problemas de conexão"); smoothFade("#featured-grid","");' class="button-info button-clear"><span class="fa fa-question-circle"></span> Ajuda de Conexão</button>
+                                                </li>
+                                            </ul>
+
+
+                                        </div>
+
+                                        <div id="helpMe" hidden>
+                                            <h3>Conecte-se.</h3>
+                                            <p>Eis algumas coisas que você pode verificar, dependendo do tipo de conexão que você tem:</p>
+                                            <h5><span class="fa fa-plug"></span> Conexão com fio</h5>
+                                            <ul>
+                                                <li>O cabo está corretamente plugado?</li>
+                                                <li>O roteador está ativo e outros dispositivos podem acessar a rede? Tente reiniciar o roteador.</li>
+                                            </ul>
+                                            <hr>
+                                            <h5><span class="fa fa-wifi"></span> Conexão Sem-Fio</h5>
+                                            <li>Você digitou corretamente a senha da rede sem-fio a partir do <b>indicador de rede</b> no canto superior direito?</li>
+                                            <ul>
+                                                <li>Quando desconectado, o applet se parece como: <img src="../../img/screenshots/network-applet.svg"></li>
+                                            </ul>
+                                            <li>Existe um botão físico que pode ter acidentalmente desligado funcionalidade sem fio?</li>
+                                            <li>
+                                                Existe um interruptor macio (teclado) que possa desligar?
+                                                <ul>
+                                                    <li>Talvez você precise segurar a tecla FN enquanto pressiona a tecla de função.</li>
+                                                    <li>Aqui está um exemplo <img src="../../img/screenshots/hardware-wifi-button.png"></li>
+                                                </ul>
+                                            </li>
+                                            <hr>
+                                            <h5>Nada funciona ou a conexão está lenta?</h5>
+                                            <p>Lamento ouvir isso. Você vai precisar de uma conexão com fio temporária para instalar os drivers corretos.</p>
+                                            <ul>
+                                                <li>O <button onclick="cmd('drivers')">Drivers adicionais</button> guia pode ter eles disponíveis para o seu sistema</li>
+                                                <li>Caso contrário, você precisará instalar manualmente drivers de terceiros para o seu hardware, ou um pacote específico contendo o firmware. Veja no tópico <b>Drivers</b> em <button onclick="smoothPageFade('propriedades-do-sistema.html')">Propriedades do sistema</button>                                                    para obter mais detalhes.</li>
+                                                <li>Sinta-se livre para <button onclick="smoothPageFade('community.html')">Perguente à comunidade</button> se você precisar de ajuda.</li>
+                                            </ul>
+                                            <br>
+                                            <ul class="unstyled" id="helpButtonBack">
+                                                <li><button onclick='smoothFade("#helpMe","#offlineMessage"); changeSubtitle("Nossas Escolhas"); smoothFade("","#featured-grid");' class="button-info button-undo">
+              <span class="fa fa-check"></span> OK</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+                                    <section id="gallery-spawn" class="gallery-container"></section>
+
+                                    <span id="News-Content"></span>
+
+
+                                    <!--<iframe src="http://horizon-os.org/" height="100%" width="100%"></iframe>-->
+
+
+                                </div>
+
+                                <!-- Aplicativos/Programas a serem visualizados serão gerados em id="AppsInfo" -->
+
+
+
+                                <!-- Aplicativos/Programas instalados serão gerados em id="AppsInfoInstalled" -->
+                                <div id="AppsInfoInstalled" hidden>
+                                    <h2>Instalados</h2>
+                                    <p>Aplicativos/Programas instalados, reconhecidos pela <code>Loja Horizon OS</code></p>
+                                    <div id="info-installed-sort" class="queue-card ">
+
+                                        <button onclick="sortList()">Organizar em ordem Alfabética? <code class="">Isto pode demorar alguns segundos!</code></button>
+
+
+
+                                    </div>
+                                    <div id="AppsInfoInstalledSpawn">
+
+                                    </div>
+                                </div>
+
+                                <div id="Accessories" hidden>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h2>Acessórios</h2>
+                                            <select id="Filter-Accessories" class="filter-box">
+                                            <div>oiii</div>    
+                                            <option  value="none">Sem filtro</option>
+                                            </select>
+                                            <p>Utilitários práticos para as suas necessidades de computação.</p>
+                                            <hr class="soften-light" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div id="Education" hidden>
+
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h2>Educação</h2>
+                                            <select id="Filter-Education" class="filter-box">
+                                         <option value="none">Sem filtro</option>
+                                        </select>
+                                            <p>Para estudantes e crianças </p>
+                                            <hr class="soften-light" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="Games" hidden>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h2>Jogos</h2>
+                                            <select id="Filter-Games" class="filter-box">
+                                         <option value="none">Sem filtro</option>
+                                        </select>
+                                            <p>Uma coletânea de jogos 2D e 3D para o seu divertimento</p>
+                                            <hr class="soften-light" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="Graphics" hidden>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h2>Gráficos</h2>
+                                            <select id="Filter-Graphics" class="filter-box">
+                                         <option value="none">Sem filtro</option>
+                                        </select>
+                                            <p>Para a produção e edição de trabalhos artísticos.</p>
+                                            <hr class="soften-light" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="Internet" hidden>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h2>Internet</h2>
+                                            <select id="Filter-Internet" class="filter-box">
+                                         <option value="none">Sem filtro</option>
+                                        </select>
+                                            <p>Para continuar ligado e aproveitar as características de sua própria nuvem.</p>
+                                            <hr class="soften-light" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="Office" hidden>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h2>Escritório</h2>
+                                            <select id="Filter-Office" class="filter-box">
+                                         <option value="none">Sem filtro</option>
+                                        </select>
+                                            <p>Para mais do que apenas documentos e planilhas.</p>
+                                            <hr class="soften-light" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="Programming" hidden>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h2>Programação</h2>
+                                            <select id="Filter-Programming" class="filter-box">
+                                         <option value="none">Sem filtro</option>
+                                        </select>
+                                            <p>Para os desenvolvedores e administradores de sistemas de fora.</p>
+                                            <hr class="soften-light" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="Media" hidden>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h2>Som & Vídeo</h2>
+                                            <select id="Filter-Media" class="filter-box">
+                                         <option value="none">Sem filtro</option>
+                                        </select>
+                                            <p>Programas de multimídia para ouvir e reproduzir.</p>
+                                            <hr class="soften-light" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="SysTools" hidden>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h2>Ferramentas do Sistema</h2>
+                                            <select id="Filter-SysTools" class="filter-box">
+                                         <option value="none">Sem filtro</option>
+                                         </select>
+                                            <p>Programa que aproveita ao máximo recursos do seu sistema.</p>
+                                            <hr class="soften-light" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="UnivAccess" hidden>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h2>Acesso Universal</h2>
+                                            <p>Programa que faz seu computador ser mais acessível.</p>
+                                            <hr class="soften-light" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="Servers" hidden>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h2>Servidores</h2>
+                                            <p>Instalação com apenas um clique para servidor de rede.</p>
+                                            <hr class="soften-light" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="MoreApps" hidden>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <h2>Descubra mais programas</h2>
+                                            <p>Interface gráficas listando uma grande variedade de programas disponível para o seu sistema operacional.</p>
+                                            <hr class="soften-light" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="Misc" hidden>
+
+                                    <div id="footer-right" class="form">
+
+
+                                    </div>
+                                    <h2>Correções diversas</h2>
+                                    <p>Essa seção contém operações que podem corrigir problemas comuns que você poderá deparar-se ao atualizar ou instalar um novo Software.</p>
+                                    <hr class="soften" />
+
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <button id="show-misc-cmds" hidden>
+                                                <i id="MiscCheckbox" class="fa fa-square fa-va">Mostrar comandos do Terminal</i>
+                                            </button>
+                                            <h4>Listas de Pacotes Desatualizada?</h4>
+                                            <p>Sua lista de repositórios talvez esteja desatualizada, o que pode causar <b>Inúmeros Erros</b> e <b>Versões Desatualizadas </b> de informação enquanto tentar instalar versões mais novas de softwares. Esse caso
+                                                em particular acontece quando o Horizon OS conecta-se à internet pela primeira vez após a instalação.</p>
+                                            <blockquote class="terminal miscCmd">
+                                                <b>Atualiza as listas de repositórios: </b><br>
+                                                <span class="fa fa-dollar"></span> sudo apt update
+                                            </blockquote>
+                                            <div class="text-right">
+                                                <button onclick="cmd('apt-update')" class="btn btn-inverse right"><span class="fa fa-refresh"></span> Atualiza Lista de Fontes</button>
+                                                <button onclick="cmd('update')" class="btn btn-inverse right"><span class="fa fa-level-up"></span> Atualizar pacotes instalados</button>
+                                            </div>
+                                            <hr class="soften" />
+
+                                            <h4>Pacotes Quebrados</h4>
+                                            <p>Quando uma instalação ou remoção anterior foi interrompida <i>(por exemplo, devido à falha de energia ou perda de conexão com a Internet)</i>, mais programas não podem ser adicionados ou removidos sem a devida
+                                                reconfiguração desses pacotes quebrados. Se necessário, você também precisará resolver as dependências e instalar quaisquer pacotes que faltam para que o software seja executado corretamente.</p>
+                                            <blockquote class="terminal miscCmd">
+                                                <b>Configure os pacotes que foram descompactados mas ainda não foram configurados:</b><br>
+                                                <span class="fa fa-dollar"></span> sudo dpkg --configure -a
+                                            </blockquote>
+                                            <blockquote class="terminal miscCmd">
+                                                <b>Baixar e instalar as dependências quebradas:</b><br>
+                                                <span class="fa fa-dollar"></span> sudo apt --fix-broken install
+                                            </blockquote>
+                                            <div class="text-right">
+                                                <button onclick="cmd('fix-incomplete-install')" class="btn btn-inverse right"><span class="fa fa-cube"></span> Configurar pacotes interrompidos</button>
+                                                <button onclick="cmd('fix-broken-depends')" class="btn btn-inverse right"><span class="fa fa-check"></span> Resolver pacotes quebrados</button>
+                                            </div>
+                                            <hr class="soften" />
+
+                                            <p class="miscCmd"><b>Além disso, estão listados abaixo comandos de terminal equivalentes que, caso contrário, aparecem no Atualizador de Software</b></p>
+                                            <blockquote class="terminal miscCmd">
+                                                <b>Atualize todos os pacotes que tem uma nova versão disponível:</b><br>
+                                                <span class="fa fa-dollar"></span> sudo apt full-upgrade
+                                            </blockquote>
+                                            <blockquote class="terminal miscCmd">
+                                                <b>Atualize para uma nova versão do Horizon OS:</b><br>
+                                                <span class="fa fa-dollar"></span> sudo do-release-upgrade
+                                            </blockquote>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Search" hidden>
+                                <h2 id="navigation-sub-title"></h2>
+                                <p>Digite uma palavra-chave para pesquisar na Loja Horizon OS</p>
+
+                                <hr class="soften">
+                                <div id="search-results"></div>
+                                <div id="search-empty" class="alert alert-warning" hidden>
+                                    <h5>Nenhum software correspondente às suas palavras-chave.</h5>
+                                    <p>
+                                        A Boutique é apenas uma coleção de software.
+                                        <button onclick='changeCategoryTab("#MoreApps","Obter Mais aplicativos"); $("#MoreAppsBtn").tab("show");'>
+            <span class="fa fa-download"></span> Instale uma central de programas
+          </button> para explorar todo o catálogo do Horizon OS
+                                        <span id="search-retry-nonfree" hidden>
+            <br><br>
+            <button onclick="searchAgainNonFree()"><span class="fa fa-search"></span> Procure novamente e inclua software proprietário.</button>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div id="search-total" class="center"></div>
+                            </div>
+
+                            <div id="Preferences" hidden>
+                                <h2 class="container-fluid">Preferências</h2>
+                                <p class="container-fluid">Ajustar a Loja Horizon OS para atender aos seus comportamentos preferenciais.</p>
+                                <table id="pref-table" class="table">
+
+                                    <!-- Boutique Options -->
+                                    <tr>
+                                        <th width="40%">Seleção de Aplicações</th>
+                                        <td width="60%">
+                                            <button onclick="toggleNonFree();"><i id="pref-non-free" class="tema-modo-texto fa fa-square fa-va"></i> Esconder aplicações proprietárias.</button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Installation Options -->
+                                    <tr>
+                                        <th>Instalação</th>
+                                        <!--
+          <th rowspan=2>Instalação</th>
+-->
+                                        <td>
+                                            <button onclick="cmd('toggle-pref?enable-queue');"><i id="pref-enable-queue" class="tema-modo-texto fa fa-square fa-va"></i> Habilitar a Lista de Espera.</button>
+                                            <p class="pref-info">Aplicações que esperam para ser instaladas/removidas, e permitindo que você continue navegando.</p>
+                                            <button onclick="cmd('toggle-pref?hide-apt-progress');"><i id="pref-hide-apt-progress" class="tema-modo-texto fa fa-square fa-va"></i> Suprimir o Diálogo de Progresso</button>
+                                            <p class="pref-info">Instalar/remover aplicativos em segundo plano.</p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+
+                                    <!-- Advanced Options -->
+
+                                </table>
+                            </div>
+
+                            <div class="container-fluid" id="Queue" hidden>
+                                <h2>Lista de Espera</h2>
+                                <p>Decida qual software adicionar ou remover sem comprometer imediatamente. </p>
+                                <hr class="soften" />
+
+                                <div id="queue-options" hidden>
+                                    <button id="queue-btn-apply" onclick="startQueue()" class="button-info button-installed"><span class="fa fa-check"></span> Aplicar Mudanças</button>
+                                    <button id="queue-btn-clear" onclick="cmd('queue-clear')" class="button-info button-clear"><span class="fa fa-trash"></span> Limpar</button>
+                                    <button id="queue-btn-reset" onclick="cmd('queue-clear')" class="btn btn-inverse" style="display:none"><span class="fa fa-check"></span> Finalizado</button>
+                                </div>
+                                <div id="queue-busy" class="alert alert-success" hidden>
+                                    <h5><img src="../../img/welcome/processing.gif" /> <span id="queue-status">Preparando para iniciar...</span></h5>
+                                    <p>Suas alterações estão sendo aplicadas.</p>
+                                    <div id="bulk-queue-progress" class="progress progress-striped progress-success active">
+                                        <div id="queue-bar" class="bar" style="width: 40%;"></div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div id="queue-error" class="alert alert-danger" hidden>
+                                    <h5>Nem todas as mudanças puderam ser aplicadas.</h5>
+                                    <p>Por favor, reveja o diálogo de erro para mais detalhes.</p>
+                                </div>
+
+                                <span id="queue-cards-base"><span id="queue-cards"></span></span>
+                                <div id="queue-empty">Nada para ver aqui - Não há nenhum software na fila ainda.</div>
+
+                            </div>
+
+                            <div id="PrettyRepos" hidden>
+                                <h2 class="container-fluid">Fontes da Loja</h2>
+                                <p class="container-fluid">Seu sistema e aplicações são obtidos e mantidos atualizados através dos seguintes repositórios.</p>
+                                <div id="repo-busy" class="alert alert-warning">
+                                    <h5><img src="../../img/welcome/processing.gif" /> Analisando as listas ...</h5>
+                                </div>
+                                <table id="repo-table" class="table table-hover" style="width:100%" hidden>
+                                    <!-- Generated via Python -->
+                                </table>
+
+                                <hr class="soften" />
+
+
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- What's inside my computer? -->
+                    </div>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    </div>
+
+    <div class="footer-content">
+        <div id="footer-left">
+            <span id="footer-global-left"></span>
+        </div>
+        <div id="footer-right" class="form">
+            <button id="non-free-toggle" onclick="toggleNonFree();" onmouseover="$('#nonfree-info-popup').fadeIn('fast')" onmouseout="$('#nonfree-info-popup').fadeOut('fast')" hidden>
+                 <i id="nonFreeCheckBox" class="fa fa-square fa-va">Esconder Programas Proprietários</i>
+                 </button>
+            <button id="show-misc-cmds" hidden>
+                    <i id="MiscCheckbox" class="fa fa-square fa-va">Mostrar comandos do Terminal</i>
+                </button>
+            <span id="footer-global-right"></span>
+        </div>
+    </div>
+    </div>
+    <div id="nonfree-info-popup" hidden>
+        <div class="title">Sobre Software Proprietário</div>
+        <div class="body">
+            <p><span class="fa fa-lock"></span> <b>Software proprietário </b> é de propriedade de um indivíduo ou empresa. Pode haver restrições sobre seu uso (como um contrato de licença), e não fornece acesso ao código-fonte.</p>
+
+            <p><span class="fa fa-heart"></span> <b>Software Livre e Código-Aberto</b> concede ao usuário a liberdade de compartilhar, estudar e modificar o software sem restrições. Por exemplo, o GPL é um exemplo de uma licença "software livre".</p>
+        </div>
+    </div>
+    </div>
+
+
+    <script src="../../js/jquery-2.1.4.js"></script>
+    <script src="../../js/bootstrap-2.3.2.js"></script>
+    <script src="../../js/janimate.js"></script>
+    <script src="../../js/welcome.js"></script>
+    <script src="../../js/gallery.js"></script>
+    <script src="../../js/instalados.js"></script>
+
+
+
+
+</body>
+
+</html>

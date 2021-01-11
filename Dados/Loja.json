@@ -7,6 +7,7 @@
 
         "horizon_os_wallpaper": {
             "name": "Wallpaper do Horizon OS",
+            "img-numbers": "5",
             "img": "logo_horizon",
             "img-paralax": null,
             "main-package": "horizon-os-wallpaper",
@@ -19,12 +20,13 @@
             "alternate-to": null,
             "subcategory": "Papel de Parede",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Este pacote contém os wallpapers padrão do Horizon OS",
             "url-info": "http://horizon-os.org/info/wallpapers",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
@@ -37,6 +39,7 @@
 
         "caffeine": {
             "name": "Caffeine",
+            "img-numbers": "5",
             "img": "caffeine",
             "img-paralax": null,
             "main-package": "caffeine",
@@ -52,12 +55,13 @@
             "alternate-to": null,
             "subcategory": "Desktop Management",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Prevents the desktop from becoming idle when an application is",
             "url-info": "https://launchpad.net/caffeine",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "xenial": {
                     "method": "ppa",
@@ -72,6 +76,7 @@
         },
         "convertall": {
             "name": "ConvertAll",
+            "img-numbers": "5",
             "img": "convertall",
             "img-paralax": null,
             "main-package": "convertall",
@@ -87,12 +92,13 @@
             "alternate-to": null,
             "subcategory": "Calculadora",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Converta qualquer unidade no banco de dados grande para qualquer outra..",
             "url-info": "http://convertall.bellz.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -102,6 +108,7 @@
         },
         "diodon": {
             "name": "Diodon",
+            "img-numbers": "5",
             "img": "diodon",
             "img-paralax": null,
             "main-package": "diodon",
@@ -119,12 +126,13 @@
             "alternate-to": null,
             "subcategory": "Desktop Management",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.ubuntu.com/Diodon",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -134,6 +142,7 @@
         },
         "gip": {
             "name": "Gip",
+            "img-numbers": "5",
             "img": "gip",
             "img-paralax": null,
             "main-package": "gip",
@@ -153,12 +162,13 @@
             "alternate-to": null,
             "subcategory": "Calculadora",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://code.google.com/archive/p/gip/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -168,6 +178,7 @@
         },
         "gnote": {
             "name": "Gnote",
+            "img-numbers": "5",
             "img": "gnote",
             "img-paralax": null,
             "main-package": "gnote",
@@ -182,12 +193,13 @@
             "alternate-to": "Post-it &reg; notes",
             "subcategory": "Note Taking",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.gnome.org/Apps/Gnote",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -197,6 +209,7 @@
         },
         "gparted": {
             "name": "GParted",
+            "img-numbers": "5",
             "img": "gparted",
             "img-paralax": null,
             "main-package": "gparted",
@@ -212,12 +225,13 @@
             "alternate-to": null,
             "subcategory": "Partitioning Tools",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://gparted.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -227,6 +241,7 @@
         },
         "etcher": {
             "name": "Etcher",
+            "img-numbers": "5",
             "img": "etcher",
             "img-paralax": null,
             "main-package": "balena-etcher-electron",
@@ -241,12 +256,13 @@
             "alternate-to": null,
             "subcategory": "USB Writer",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Etcher é um programa para gravar arquivos de imagem, como arquivos .iso e .img e pastas compactadas em unidades flash USB.",
             "url-info": "https://etcher.io/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -264,6 +280,7 @@
         },
         "keepassxc": {
             "name": "KeePassXC",
+            "img-numbers": "5",
             "img": "keepassxc",
             "img-paralax": null,
             "main-package": "keepassxc",
@@ -281,12 +298,13 @@
             "alternate-to": "Enpass and LastPass",
             "subcategory": "Password Management",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.keepassxc.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -296,6 +314,7 @@
         },
         "redshift": {
             "name": "Redshift",
+            "img-numbers": "5",
             "img": "redshift",
             "img-paralax": null,
             "main-package": "redshift-gtk",
@@ -319,12 +338,13 @@
             "alternate-to": "f.lux &reg",
             "subcategory": "Cosmetic",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://jonls.dk/redshift/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -334,6 +354,7 @@
         },
         "subsurface": {
             "name": "Subsurface",
+            "img-numbers": "5",
             "img": "subsurface",
             "img-paralax": null,
             "main-package": "subsurface",
@@ -353,6 +374,7 @@
             "alternate-to": null,
             "subcategory": "Registro de mergulho",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://subsurface-divelog.org/",
             "url-android": "https://play.google.com/store/apps/details?id=org.subsurfacedivelog.mobile",
@@ -370,6 +392,7 @@
         },
         "variety": {
             "name": "Variety",
+            "img-numbers": "5",
             "img": "variety",
             "img-paralax": null,
             "main-package": "variety",
@@ -387,12 +410,13 @@
             "alternate-to": null,
             "subcategory": "Cosmetic",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://peterlevi.com/variety/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -402,6 +426,7 @@
         },
         "veracrypt": {
             "name": "VeraCrypt",
+            "img-numbers": "5",
             "img": "veracrypt",
             "img-paralax": null,
             "main-package": "veracrypt",
@@ -418,6 +443,7 @@
             "alternate-to": null,
             "subcategory": "Encryption",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://veracrypt.codeplex.com/",
             "url-android": null,
@@ -437,6 +463,7 @@
     "Education": {
         "gcompris": {
             "name": "GCompris",
+            "img-numbers": "5",
             "img": "gcompris",
             "img-paralax": null,
             "main-package": "gcompris",
@@ -456,6 +483,7 @@
             "alternate-to": null,
             "subcategory": "Crianças",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://gcompris.net/",
             "url-android": null,
@@ -471,6 +499,7 @@
         },
         "gcompris_qt": {
             "name": "GCompris Qt",
+            "img-numbers": "5",
             "img": "gcompris",
             "img-paralax": null,
             "main-package": "gcompris-qt",
@@ -490,6 +519,7 @@
             "alternate-to": null,
             "subcategory": "Crianças",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://gcompris.net/",
             "url-android": null,
@@ -505,6 +535,7 @@
         },
         "gelemental": {
             "name": "gElemental",
+            "img-numbers": "5",
             "img": "gelemental",
             "img-paralax": null,
             "main-package": "gelemental",
@@ -522,12 +553,13 @@
             "alternate-to": null,
             "subcategory": "Ciência",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://freecode.com/projects/gelemental",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -537,6 +569,7 @@
         },
         "libreoffice_math": {
             "name": "LibreOffice Math",
+            "img-numbers": "5",
             "img": "libreoffice_math",
             "img-paralax": null,
             "main-package": "libreoffice-math",
@@ -556,12 +589,13 @@
             "alternate-to": null,
             "subcategory": "Mathematics",
             "open-source": true,
+            "checking": false,
             "description-get-info": "LibreOffice Math é um editor de fórmulas da suíte LibreOffice",
             "url-info": "https://www.libreoffice.org/discover/math/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -571,6 +605,7 @@
         },
         "stellarium": {
             "name": "Stellarium",
+            "img-numbers": "4",
             "img": "stellarium",
             "img-paralax": null,
             "main-package": "stellarium",
@@ -600,12 +635,13 @@
             "alternate-to": null,
             "subcategory": "Ciência",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Stellarium é um software livre de astronomia para visualização do céu nos moldes de um planetário...",
             "url-info": "http://www.stellarium.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
@@ -617,6 +653,7 @@
         },
         "tuxpaint": {
             "name": "Tux Paint",
+            "img-numbers": "5",
             "img": "tuxpaint",
             "img-paralax": null,
             "main-package": "tuxpaint",
@@ -630,14 +667,15 @@
                 "children throughout the program."
             ],
             "alternate-to": null,
-            "subcategory": "Children",
+            "subcategory": "Crianças",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.tuxpaint.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -650,6 +688,7 @@
 
         "0ad": {
             "name": "0 A.D",
+            "img-numbers": "5",
             "img": "0ad",
             "img-paralax": null,
             "main-package": "0ad",
@@ -669,12 +708,13 @@
             "alternate-to": null,
             "subcategory": "Real-time Strategy",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://play0ad.com/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "xenial": {
                     "method": "ppa",
@@ -690,6 +730,7 @@
 
         "dino_storm": {
             "name": "Dino Storm",
+            "img-numbers": "5",
             "img": "dino_storm",
             "img-paralax": "dino_storm.png",
             "main-package": "dino-storm",
@@ -706,12 +747,13 @@
             "alternate-to": null,
             "subcategory": "MMO",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Dino Storm é um jogo grátis multiplayer 3D. É sobre dinossauros, cowboys e armas laser.",
             "url-info": "https://dinostorm.com/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
@@ -723,6 +765,7 @@
         },
         "chromium_bsu": {
             "name": "Chromium B.S.U",
+            "img-numbers": "5",
             "img": "chromium_bsu",
             "img-paralax": null,
             "main-package": "chromium-bsu",
@@ -740,12 +783,13 @@
             "alternate-to": null,
             "subcategory": "Shooter",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://chromium-bsu.sourceforge.net/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -755,6 +799,7 @@
         },
         "extremetuxracer": {
             "name": "Extreme Tux Racer",
+            "img-numbers": "5",
             "img": "extremetuxracer",
             "img-paralax": null,
             "main-package": "extremetuxracer",
@@ -772,12 +817,13 @@
             "alternate-to": null,
             "subcategory": "Racing",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://sourceforge.net/projects/extremetuxracer/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -787,6 +833,7 @@
         },
         "flightgear": {
             "name": "Flightgear",
+            "img-numbers": "5",
             "img": "flightgear",
             "img-paralax": null,
             "main-package": "flightgear",
@@ -804,12 +851,13 @@
             "alternate-to": null,
             "subcategory": "Simulation",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.flightgear.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -819,6 +867,7 @@
         },
         "freeciv": {
             "name": "Freeciv",
+            "img-numbers": "5",
             "img": "freeciv",
             "img-paralax": null,
             "main-package": "freeciv",
@@ -834,12 +883,13 @@
             "alternate-to": "Sid Meier\u2019s Civilization",
             "subcategory": "Strategy",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.freeciv.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -849,6 +899,7 @@
         },
         "frozenbubble": {
             "name": "Frozen-Bubble",
+            "img-numbers": "5",
             "img": "frozen_bubble",
             "img-paralax": null,
             "main-package": "frozen-bubble",
@@ -870,12 +921,13 @@
             "alternate-to": null,
             "subcategory": "Puzzle",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://frozen-bubble.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -885,6 +937,7 @@
         },
         "aisleriot": {
             "name": "Desktop Games",
+            "img-numbers": "5",
             "img": "aisleriot",
             "img-paralax": null,
             "main-package": "gnome-cards-data",
@@ -897,12 +950,13 @@
             "alternate-to": null,
             "subcategory": "Card and Board Games",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.gnome.org/action/show/Attic/Games",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -912,6 +966,7 @@
         },
         "hedgewars": {
             "name": "Hedgewars",
+            "img-numbers": "5",
             "img": "hedgewars",
             "img-paralax": null,
             "main-package": "hedgewars",
@@ -934,12 +989,13 @@
             "alternate-to": null,
             "subcategory": "Puzzle",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.hedgewars.org",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -950,6 +1006,7 @@
         },
         "lutris": {
             "name": "Lutris",
+            "img-numbers": "5",
             "img": "lutris",
             "img-paralax": null,
             "main-package": "lutris",
@@ -963,12 +1020,13 @@
             "alternate-to": null,
             "subcategory": "Gerenciador de Jogos",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Lutris é um gerenciador de jogos FOSS para sistemas operacionais baseados em Linux",
             "url-info": "http://lutris.net",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
@@ -981,6 +1039,7 @@
         },
         "minecraft": {
             "name": "Minecraft",
+            "img-numbers": "5",
             "img": "minecraft",
             "img-paralax": null,
             "main-package": "minecraft-installer",
@@ -1001,12 +1060,13 @@
             "alternate-to": null,
             "subcategory": "Mundo Aberto",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://minecraft.net",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
@@ -1018,6 +1078,7 @@
         },
         "neverball": {
             "name": "Neverball",
+            "img-numbers": "5",
             "img": "neverball",
             "img-paralax": null,
             "main-package": "neverball",
@@ -1035,12 +1096,13 @@
             "alternate-to": null,
             "subcategory": "Puzzle",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://neverball.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1050,6 +1112,7 @@
         },
         "neverputt": {
             "name": "Neverputt",
+            "img-numbers": "5",
             "img": "neverputt",
             "img-paralax": null,
             "main-package": "neverputt",
@@ -1067,12 +1130,13 @@
             "alternate-to": null,
             "subcategory": "Sports",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://apps.ubuntu.com/cat/applications/neverputt/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1082,6 +1146,7 @@
         },
         "nexuiz": {
             "name": "Nexuiz Classic",
+            "img-numbers": "5",
             "img": "nexuiz",
             "img-paralax": null,
             "main-package": "nexuiz",
@@ -1102,12 +1167,13 @@
             "alternate-to": null,
             "subcategory": "Shooter",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.alientrap.org/games/nexuiz",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1117,6 +1183,7 @@
         },
         "playonlinux": {
             "name": "PlayOnLinux",
+            "img-numbers": "5",
             "img": "playonlinux",
             "img-paralax": null,
             "main-package": "playonlinux",
@@ -1131,12 +1198,13 @@
             "alternate-to": null,
             "subcategory": "Game Management",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.playonlinux.com/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1155,6 +1223,7 @@
         },
         "pysolfc": {
             "name": "PySolFC",
+            "img-numbers": "5",
             "img": "pysolfc",
             "img-paralax": null,
             "main-package": "pysolfc",
@@ -1176,12 +1245,13 @@
             "alternate-to": null,
             "subcategory": "Card and Board Games",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://pysolfc.sourceforge.net/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1191,6 +1261,7 @@
         },
         "redeclipse": {
             "name": "Red Eclipse",
+            "img-numbers": "5",
             "img": "redeclipse",
             "img-paralax": null,
             "main-package": "redeclipse",
@@ -1206,12 +1277,13 @@
             "alternate-to": null,
             "subcategory": "Shooter",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.redeclipse.net/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1221,6 +1293,7 @@
         },
         "retroarch": {
             "name": "RetroArch",
+            "img-numbers": "5",
             "img": "retroarch",
             "img-paralax": null,
             "main-package": "retroarch",
@@ -1234,12 +1307,13 @@
             "alternate-to": null,
             "subcategory": "Game Management",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://libretro.com",
             "url-android": "https://play.google.com/store/apps/details?id=com.retroarch",
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "xenial": {
                     "method": "ppa",
@@ -1254,6 +1328,7 @@
         },
         "steam": {
             "name": "Steam",
+            "img-numbers": "5",
             "img": "steam",
             "img-paralax": "steam.png",
             "main-package": "steam:i386",
@@ -1272,6 +1347,7 @@
             "alternate-to": null,
             "subcategory": "Game Management",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://store.steampowered.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.valvesoftware.android.steam.community&hl=en",
@@ -1288,6 +1364,7 @@
         },
         "steam_devices": {
             "name": "Steam Devices",
+            "img-numbers": "5",
             "img": "steam",
             "img-paralax": null,
             "main-package": "steam-devices",
@@ -1306,12 +1383,13 @@
             "alternate-to": null,
             "subcategory": "Gerenciador de Jogos",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://store.steampowered.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.valvesoftware.android.steam.community&hl=en",
             "url-ios": "https://itunes.apple.com/gb/app/steam-mobile/id495369748",
             "arch": "i386,amd64",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "multiverse-repo"
@@ -1322,6 +1400,7 @@
         },
         "supertuxkart": {
             "name": "SuperTuxKart",
+            "img-numbers": "5",
             "img": "supertuxkart",
             "img-paralax": null,
             "main-package": "supertuxkart",
@@ -1346,12 +1425,13 @@
             "alternate-to": null,
             "subcategory": "Racing",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://supertuxkart.sourceforge.net/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1361,6 +1441,7 @@
         },
         "teeworlds": {
             "name": "Teeworlds",
+            "img-numbers": "5",
             "img": "teeworlds",
             "img-paralax": null,
             "main-package": "teeworlds",
@@ -1378,12 +1459,13 @@
             "alternate-to": null,
             "subcategory": "Shooter",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.teeworlds.com",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1393,6 +1475,7 @@
         },
         "warzone2100": {
             "name": "Warzone 2100",
+            "img-numbers": "5",
             "img": "warzone2100",
             "img-paralax": null,
             "main-package": "warzone2100",
@@ -1413,12 +1496,13 @@
             "alternate-to": null,
             "subcategory": "Strategy",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wz2100.net/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1428,6 +1512,7 @@
         },
         "wesnoth": {
             "name": "The Battle for Wesnoth",
+            "img-numbers": "5",
             "img": "wesnoth",
             "img-paralax": null,
             "main-package": "wesnoth",
@@ -1447,12 +1532,13 @@
             "alternate-to": null,
             "subcategory": "Strategy",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://wesnoth.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1464,6 +1550,7 @@
     "Graphics": {
         "blender": {
             "name": "Blender",
+            "img-numbers": "5",
             "img": "blender",
             "img-paralax": null,
             "main-package": "blender",
@@ -1486,12 +1573,13 @@
             "alternate-to": "Adobe&reg; After Effects, Autodesk 3ds Max",
             "subcategory": "3D Modelling",
             "open-source": true,
+            "checking": true,
             "description-get-info": "Uma suíte 3D integrada para modelagem",
             "url-info": "https://www.blender.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1501,6 +1589,7 @@
         },
         "dia": {
             "name": "Dia",
+            "img-numbers": "5",
             "img": "dia",
             "img-paralax": null,
             "main-package": "dia-gnome",
@@ -1517,6 +1606,7 @@
             "alternate-to": "Microsoft&reg; Office Visio&reg;",
             "subcategory": "Drawing",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.gnome.org/action/show/Apps/Dia",
             "url-android": null,
@@ -1532,6 +1622,7 @@
         },
         "displaycal": {
             "name": "DisplayCAL",
+            "img-numbers": "5",
             "img": "displaycal",
             "img-paralax": null,
             "main-package": "dispcalgui",
@@ -1552,12 +1643,13 @@
             "alternate-to": null,
             "subcategory": "Calibration",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://displaycal.net",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1567,6 +1659,7 @@
         },
         "darktable": {
             "name": "Darktable",
+            "img-numbers": "5",
             "img": "darktable",
             "img-paralax": null,
             "main-package": "darktable",
@@ -1596,12 +1689,13 @@
             "alternate-to": "Adobe&reg; Lightroom",
             "subcategory": "Photography",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.darktable.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "amd64,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1611,6 +1705,7 @@
         },
         "entangle": {
             "name": "Entangle",
+            "img-numbers": "5",
             "img": "entangle",
             "img-paralax": null,
             "main-package": "entangle",
@@ -1631,12 +1726,13 @@
             "alternate-to": null,
             "subcategory": "Photography",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://entangle-photo.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,arm64,armhf",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1646,6 +1742,7 @@
         },
         "shotwell": {
             "name": "Shotwell",
+            "img-numbers": "5",
             "img": "shotwell",
             "img-paralax": null,
             "main-package": "shotwell",
@@ -1662,12 +1759,13 @@
             "alternate-to": "Lightroom",
             "subcategory": "Photography",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.gnome.org/Apps/Shotwell",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1677,6 +1775,7 @@
         },
         "gimp": {
             "name": "GIMP",
+            "img-numbers": "5",
             "img": "gimp",
             "img-paralax": "gimp.png",
             "main-package": "gimp",
@@ -1699,12 +1798,13 @@
             "alternate-to": "Adobe&reg; Photoshop",
             "subcategory": "Editor de gráficos",
             "open-source": true,
+            "checking": true,
             "description-get-info": "GIMP é um programa de código aberto voltado principalmente para criação e edição de imagens raster, e em menor escala também para desenho vetorial.!",
             "url-info": "http://www.gimp.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1714,6 +1814,7 @@
         },
         "gpick": {
             "name": "Gpick",
+            "img-numbers": "5",
             "img": "gpick",
             "img-paralax": null,
             "main-package": "gpick",
@@ -1729,12 +1830,13 @@
             "alternate-to": null,
             "subcategory": "Color Picker",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://github.com/thezbyg/gpick",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1744,6 +1846,7 @@
         },
         "inkscape": {
             "name": "Inkscape",
+            "img-numbers": "5",
             "img": "inkscape",
             "img-paralax": null,
             "main-package": "inkscape",
@@ -1767,12 +1870,13 @@
             "alternate-to": "Adobe&reg; Illustrator",
             "subcategory": "Graphics Editor",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Inkscape é um software livre para editoração eletrônica de imagens e documentos vetoriais!",
             "url-info": "https://inkscape.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1782,6 +1886,7 @@
         },
         "luminance_hdr": {
             "name": "Luminance HDR",
+            "img-numbers": "5",
             "img": "luminance_hdr",
             "img-paralax": null,
             "main-package": "luminance-hdr",
@@ -1805,12 +1910,13 @@
             "alternate-to": "Photomatix",
             "subcategory": "Photography",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://qtpfsgui.sourceforge.net/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1820,6 +1926,7 @@
         },
         "mypaint": {
             "name": "MyPaint",
+            "img-numbers": "5",
             "img": "mypaint",
             "img-paralax": null,
             "main-package": "mypaint",
@@ -1837,12 +1944,13 @@
             "alternate-to": null,
             "subcategory": "Graphics Editor",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://mypaint.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1852,6 +1960,7 @@
         },
         "rapid_photo_downloader": {
             "name": "Rapid Photo Downloader",
+            "img-numbers": "5",
             "img": "rapid_photo_downloader",
             "img-paralax": null,
             "main-package": "rapid-photo-downloader",
@@ -1868,12 +1977,13 @@
             "alternate-to": null,
             "subcategory": "Photography",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.damonlynch.net/rapid/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1883,6 +1993,7 @@
         },
         "scribus": {
             "name": "Scribus",
+            "img-numbers": "5",
             "img": "scribus",
             "img-paralax": null,
             "main-package": "scribus",
@@ -1903,12 +2014,13 @@
             "alternate-to": "Adobe&reg; InDesign",
             "subcategory": "Design",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.scribus.net/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1918,6 +2030,7 @@
         },
         "sweethome3d": {
             "name": "Sweet Home 3D",
+            "img-numbers": "5",
             "img": "sweethome3d",
             "img-paralax": null,
             "main-package": "sweethome3d",
@@ -1932,12 +2045,13 @@
             "alternate-to": null,
             "subcategory": "3D Modelling",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.sweethome3d.com/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1949,6 +2063,7 @@
     "Internet": {
         "adobeflash": {
             "name": "Adobe&reg; Flash&reg; Player",
+            "img-numbers": "5",
             "img": "adobeflash",
             "img-paralax": null,
             "main-package": "flashplugin-installer",
@@ -1964,12 +2079,13 @@
             "alternate-to": null,
             "subcategory": "Plug-in",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.adobe.com/products/flashplayer.html",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -1979,6 +2095,7 @@
         },
         "brave": {
             "name": "Brave",
+            "img-numbers": "7",
             "img": "brave",
             "img-paralax": null,
             "main-package": "brave-browser",
@@ -1986,20 +2103,23 @@
             "install-packages": "brave-browser",
             "remove-packages": "brave-browser",
             "description": [
-                "Browse faster and safer with Brave.",
-                "The new Brave browser automatically blocks ads and trackers,",
-                "making it faster and safer than your current browser.",
-                "Start supporting publishers today with our new Brave Payments system."
+                "Brave é um navegador web livre e de código",
+                " aberto desenvolvido pela Brave Software Inc., ",
+                "e baseado no navegador web Chromium. O navegador",
+                " bloqueia anúncios e rastreadores de sites. Em uma ",
+                "versão futura do navegador, a empresa propôs a adoção ",
+                "de um modelo de negócio pay-to-surf."
             ],
             "alternate-to": null,
             "subcategory": "Navegadores da Web",
             "open-source": true,
+            "checking": true,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://brave.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.brave.browser",
             "url-ios": "https://itunes.apple.com/us/app/brave-web-browser-fast-with-built-in-adblock/id1052879175",
             "arch": "amd64",
-            "releases": "xenial,bionic,eoan,focal,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -2014,6 +2134,7 @@
         },
         "chromium": {
             "name": "Chromium",
+            "img-numbers": "5",
             "img": "chromium",
             "img-paralax": null,
             "main-package": "chromium-browser",
@@ -2028,12 +2149,13 @@
             "alternate-to": null,
             "subcategory": "Navegadores da Web",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Chromium é um projeto de navegador web de código aberto desenvolvido pela Google, no qual o Google Chrome baseia o seu código-fonte.",
             "url-info": "https://www.chromium.org/Home",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,arm64,armhf",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2043,6 +2165,7 @@
         },
         "caja_dropbox": {
             "name": "Caja Dropbox",
+            "img-numbers": "5",
             "img": "dropbox",
             "img-paralax": null,
             "main-package": "caja-dropbox",
@@ -2057,12 +2180,13 @@
             "alternate-to": null,
             "subcategory": "Cloud and Sync",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.dropbox.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.dropbox.android",
             "url-ios": "https://itunes.apple.com/us/app/dropbox/id327630330",
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2072,6 +2196,7 @@
         },
         "filezilla": {
             "name": "FileZilla",
+            "img-numbers": "5",
             "img": "filezilla",
             "img-paralax": null,
             "main-package": "filezilla",
@@ -2094,12 +2219,13 @@
             "alternate-to": null,
             "subcategory": "Download Manager",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://filezilla-project.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2109,6 +2235,7 @@
         },
         "firefox": {
             "name": "Firefox",
+            "img-numbers": "5",
             "img": "firefox",
             "img-paralax": null,
             "main-package": "firefox",
@@ -2125,12 +2252,13 @@
             "alternate-to": null,
             "subcategory": "Navegadores da Web",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.mozilla.org/firefox",
             "url-android": "https://play.google.com/store/apps/details?id=org.mozilla.firefox",
             "url-ios": "https://itunes.apple.com/us/app/firefox-web-browser/id989804926",
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2140,6 +2268,7 @@
         },
         "gajim": {
             "name": "Gajim",
+            "img-numbers": "5",
             "img": "gajim",
             "img-paralax": null,
             "main-package": "gajim",
@@ -2155,12 +2284,13 @@
             "alternate-to": null,
             "subcategory": "Instant Messaging",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://gajim.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2170,6 +2300,7 @@
         },
         "gobby": {
             "name": "Gobby",
+            "img-numbers": "5",
             "img": "gobby",
             "img-paralax": null,
             "main-package": "gobby",
@@ -2187,12 +2318,13 @@
             "alternate-to": null,
             "subcategory": "Collaboration",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://gobby.github.io",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2202,6 +2334,7 @@
         },
         "google_chrome": {
             "name": "Google Chrome",
+            "img-numbers": "5",
             "img": "google_chrome",
             "img-paralax": null,
             "main-package": "google-chrome-stable",
@@ -2218,12 +2351,13 @@
             "alternate-to": null,
             "subcategory": "Navegadores da Web",
             "open-source": false,
+            "checking": false,
             "description-get-info": "O Google Chrome é um navegador de internet, desenvolvido pela companhia Google com visual minimalista.",
             "url-info": "http://www.google.com/chrome/",
             "url-android": "https://play.google.com/store/apps/details?id=com.android.chrome",
             "url-ios": "https://itunes.apple.com/gb/app/chrome-web-browser-by-google/id535886823",
             "arch": "amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -2238,6 +2372,7 @@
         },
         "google_earth": {
             "name": "Google Earth",
+            "img-numbers": "5",
             "img": "google_earth",
             "img-paralax": null,
             "main-package": "google-earth-pro-stable",
@@ -2253,12 +2388,13 @@
             "alternate-to": null,
             "subcategory": "Navegadores da Web",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Google Earth é um programa de computador cuja função é apresentar um modelito tridimensional do globo terrestre!",
             "url-info": "https://www.google.com/earth/",
             "url-android": "https://play.google.com/store/apps/details?id=com.google.earth",
             "url-ios": "https://itunes.apple.com/gb/app/google-earth/id293622097",
             "arch": "amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -2273,6 +2409,7 @@
         },
         "google_musicmanager": {
             "name": "Google Music Manager",
+            "img-numbers": "5",
             "img": "google_musicmanager",
             "img-paralax": null,
             "main-package": "google-musicmanager-beta",
@@ -2291,12 +2428,13 @@
             "alternate-to": "Apple iTunes",
             "subcategory": "Cloud and Sync",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://music.google.com/music/listen?#manager_pl",
             "url-android": "https://play.google.com/store/apps/details?id=com.google.android.music",
             "url-ios": "https://itunes.apple.com/gb/app/google-play-music/id691797987",
             "arch": "amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -2311,6 +2449,7 @@
         },
         "hexchat": {
             "name": "Hexchat",
+            "img-numbers": "5",
             "img": "hexchat",
             "img-paralax": null,
             "main-package": "hexchat",
@@ -2326,12 +2465,13 @@
             "alternate-to": null,
             "subcategory": "Instant Messaging",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://hexchat.github.io/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2341,6 +2481,7 @@
         },
         "insync": {
             "name": "Insync",
+            "img-numbers": "5",
             "img": "insync",
             "img-paralax": null,
             "main-package": "insync",
@@ -2361,12 +2502,13 @@
             "alternate-to": null,
             "subcategory": "Cloud and Sync",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.insynchq.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.google.android.apps.docs",
             "url-ios": "https://itunes.apple.com/gb/app/google-drive-free-online-storage/id507874739",
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -2378,23 +2520,14 @@
                     "apt-sources": [
                         "deb http://apt.insync.io/ubuntu CODENAME non-free contrib"
                     ]
-                },
-                "eoan": {
-                    "method": "manual",
-                    "source-file": "insync",
-                    "apt-key-server": [
-                        "keyserver.ubuntu.com",
-                        "ACCAF35C"
-                    ],
-                    "apt-sources": [
-                        "deb http://apt.insynchq.com/ubuntu disco non-free contrib"
-                    ]
                 }
+                
             },
             "working": true
         },
         "liferea": {
             "name": "Liferea",
+            "img-numbers": "5",
             "img": "liferea",
             "img-paralax": null,
             "main-package": "liferea",
@@ -2418,12 +2551,13 @@
             "alternate-to": null,
             "subcategory": "Feed Reader",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://lzone.de/liferea/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2433,6 +2567,7 @@
         },
         "mumble": {
             "name": "Mumble",
+            "img-numbers": "5",
             "img": "mumble",
             "img-paralax": null,
             "main-package": "mumble",
@@ -2454,12 +2589,13 @@
             "alternate-to": null,
             "subcategory": "Instant Messaging",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://wiki.mumble.info/wiki/Main_Page",
             "url-android": "https://play.google.com/store/apps/details?id=com.morlunk.mumbleclient.free",
             "url-ios": "http://itunes.apple.com/us/app/mumble/id443472808",
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "xenial": {
                     "method": "ppa",
@@ -2474,6 +2610,7 @@
         },
         "opera_browser": {
             "name": "Opera",
+            "img-numbers": "5",
             "img": "opera",
             "img-paralax": null,
             "main-package": "opera-stable",
@@ -2489,12 +2626,13 @@
             "alternate-to": null,
             "subcategory": "Navegadores da Web",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.opera.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.opera.browser",
             "url-ios": "https://itunes.apple.com/gb/app/opera-mini-web-browser/id363729560",
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -2509,6 +2647,7 @@
         },
         "nextcloud_client": {
             "name": "Nextcloud Client",
+            "img-numbers": "5",
             "img": "nextcloud",
             "img-paralax": null,
             "main-package": "nextcloud-client",
@@ -2522,6 +2661,7 @@
             "alternate-to": null,
             "subcategory": "Cloud and Sync",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://nextcloud.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.nextcloud.client",
@@ -2539,6 +2679,7 @@
         },
         "owncloud_client": {
             "name": "ownCloud Client",
+            "img-numbers": "5",
             "img": "owncloud",
             "img-paralax": null,
             "main-package": "owncloud-client-caja",
@@ -2552,6 +2693,7 @@
             "alternate-to": null,
             "subcategory": "Cloud and Sync",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://owncloud.org/",
             "url-android": "https://play.google.com/store/apps/details?id=com.owncloud.android",
@@ -2572,6 +2714,7 @@
         },
         "pidgin": {
             "name": "Pidgin",
+            "img-numbers": "5",
             "img": "pidgin",
             "img-paralax": null,
             "main-package": "pidgin",
@@ -2587,12 +2730,13 @@
             "alternate-to": null,
             "subcategory": "Instant Messaging",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://pidgin.im/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2602,6 +2746,7 @@
         },
         "remmina": {
             "name": "Remmina",
+            "img-numbers": "5",
             "img": "remmina",
             "img-paralax": null,
             "main-package": "remmina",
@@ -2618,12 +2763,13 @@
             "alternate-to": "Microsoft&reg; Remote Desktop",
             "subcategory": "Remote Access",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://remmina.sourceforge.net/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2633,6 +2779,7 @@
         },
         "skypeforlinux": {
             "name": "Skype",
+            "img-numbers": "5",
             "img": "skypeforlinux",
             "img-paralax": null,
             "main-package": "skypeforlinux",
@@ -2650,12 +2797,13 @@
             "alternate-to": null,
             "subcategory": "Instant Messaging",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.skype.com",
             "url-android": "https://play.google.com/store/apps/details?id=com.skype.raider",
             "url-ios": "https://itunes.apple.com/gb/app/skype-for-iphone/id304878510",
             "arch": "amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -2670,6 +2818,7 @@
         },
         "sparkleshare": {
             "name": "SparkleShare",
+            "img-numbers": "5",
             "img": "sparkleshare",
             "img-paralax": null,
             "main-package": "sparkleshare",
@@ -2696,12 +2845,13 @@
             "alternate-to": null,
             "subcategory": "Cloud and Sync",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://sparkleshare.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2711,6 +2861,7 @@
         },
         "spideroakone": {
             "name": "SpiderOakONE",
+            "img-numbers": "5",
             "img": "spideroakone",
             "img-paralax": null,
             "main-package": "spideroakone",
@@ -2729,12 +2880,13 @@
             "alternate-to": null,
             "subcategory": "Cloud and Sync",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://spideroak.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.spideroak.android",
             "url-ios": "https://itunes.apple.com/gb/app/spideroak/id360584371",
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -2750,6 +2902,7 @@
         },
         "slack": {
             "name": "Slack",
+            "img-numbers": "5",
             "img": "slack",
             "img-paralax": null,
             "main-package": "slack-desktop",
@@ -2766,12 +2919,13 @@
             "alternate-to": null,
             "subcategory": "Collaboration",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://slack.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.Slack&hl=en",
             "url-ios": "https://itunes.apple.com/gb/app/slack/id803453959?mt=12",
             "arch": "amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -2786,6 +2940,7 @@
         },
         "syncthing": {
             "name": "Syncthing",
+            "img-numbers": "5",
             "img": "syncthing",
             "img-paralax": null,
             "main-package": "syncthing",
@@ -2802,12 +2957,13 @@
             "alternate-to": null,
             "subcategory": "Cloud and Sync",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://syncthing.net/",
             "url-android": "https://play.google.com/store/apps/details?id=com.nutomic.syncthingandroid",
             "url-ios": null,
             "arch": "i386,amd64,armhf",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -2823,6 +2979,7 @@
         },
         "telegram": {
             "name": "Telegram",
+            "img-numbers": "5",
             "img": "telegram",
             "img-paralax": null,
             "main-package": "telegram-desktop",
@@ -2844,12 +3001,13 @@
             "alternate-to": "WhatsApp",
             "subcategory": "Instant Messaging",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://telegram.org/",
             "url-android": "https://play.google.com/store/apps/details?id=org.telegram.messenger",
             "url-ios": "https://itunes.apple.com/gb/app/telegram-messenger/id686449807",
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2859,6 +3017,7 @@
         },
         "thunderbird": {
             "name": "Thunderbird",
+            "img-numbers": "5",
             "img": "thunderbird",
             "img-paralax": null,
             "main-package": "thunderbird",
@@ -2878,12 +3037,13 @@
             "alternate-to": null,
             "subcategory": "Email",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.mozilla.org/en-US/thunderbird/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2893,6 +3053,7 @@
         },
         "torbrowser_launcher": {
             "name": "Tor Browser",
+            "img-numbers": "5",
             "img": "torbrowser_launcher",
             "img-paralax": null,
             "main-package": "torbrowser-launcher",
@@ -2913,12 +3074,13 @@
             "alternate-to": null,
             "subcategory": "Navegadores da Web",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.torproject.org/projects/torbrowser.html",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2928,6 +3090,7 @@
         },
         "transmission": {
             "name": "Transmission",
+            "img-numbers": "5",
             "img": "transmission",
             "img-paralax": null,
             "main-package": "transmission-gtk",
@@ -2943,12 +3106,13 @@
             "alternate-to": null,
             "subcategory": "Download Manager",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://transmissionbt.com/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2958,6 +3122,7 @@
         },
         "uget": {
             "name": "uGet",
+            "img-numbers": "5",
             "img": "uget",
             "img-paralax": null,
             "main-package": "uget",
@@ -2974,12 +3139,13 @@
             "alternate-to": null,
             "subcategory": "Download Manager",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://ugetdm.com/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -2994,6 +3160,7 @@
         },
         "vivaldi": {
             "name": "Vivaldi",
+            "img-numbers": "5",
             "img": "vivaldi",
             "img-paralax": null,
             "main-package": "vivaldi-stable",
@@ -3006,12 +3173,13 @@
             "alternate-to": null,
             "subcategory": "Navegadores da Web",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://vivaldi.net",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -3024,6 +3192,7 @@
         },
         "wavebox": {
             "name": "Wavebox",
+            "img-numbers": "5",
             "img": "wavebox",
             "img-paralax": null,
             "main-package": "wavebox",
@@ -3038,12 +3207,13 @@
             "alternate-to": null,
             "subcategory": "Instant Messaging",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wavebox.io",
             "url-android": null,
             "url-ios": null,
             "arch": "amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -3058,6 +3228,7 @@
         },
         "wire_desktop": {
             "name": "Wire",
+            "img-numbers": "5",
             "img": "wire_desktop",
             "img-paralax": null,
             "main-package": "wire-desktop",
@@ -3073,12 +3244,13 @@
             "alternate-to": "Skype",
             "subcategory": "Instant Messaging",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wire.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.wire",
             "url-ios": "https://itunes.apple.com/gb/app/wire-private-messenger/id930944768",
             "arch": "amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -3091,6 +3263,7 @@
         },
         "wireshark": {
             "name": "Wireshark",
+            "img-numbers": "5",
             "img": "wireshark",
             "img-paralax": null,
             "main-package": "wireshark-gtk",
@@ -3107,12 +3280,13 @@
             "alternate-to": null,
             "subcategory": "Network Analyzer",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.wireshark.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3127,6 +3301,7 @@
         },
         "x2goclient": {
             "name": "X2Go Client",
+            "img-numbers": "5",
             "img": "x2go",
             "img-paralax": null,
             "main-package": "x2goclient",
@@ -3142,12 +3317,13 @@
             "alternate-to": null,
             "subcategory": "Remote Access",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://wiki.x2go.org/doku.php",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3157,6 +3333,7 @@
         },
         "zenmap": {
             "name": "Zenmap",
+            "img-numbers": "5",
             "img": "zenmap",
             "img-paralax": null,
             "main-package": "zenmap",
@@ -3172,12 +3349,13 @@
             "alternate-to": null,
             "subcategory": "Network Analyzer",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://nmap.org/zenmap/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3189,6 +3367,7 @@
     "Office": {
         "calibre": {
             "name": "Calibre",
+            "img-numbers": "5",
             "img": "calibre",
             "img-paralax": null,
             "main-package": "calibre",
@@ -3214,12 +3393,13 @@
             "alternate-to": null,
             "subcategory": "Specialized",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://calibre-ebook.com/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3229,6 +3409,7 @@
         },
         "evolution": {
             "name": "Evolution",
+            "img-numbers": "5",
             "img": "evolution",
             "img-paralax": null,
             "main-package": "evolution",
@@ -3243,12 +3424,13 @@
             "alternate-to": "Microsoft&reg; Outlook",
             "subcategory": "Email",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.gnome.org/Apps/Evolution",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3258,6 +3440,7 @@
         },
         "focuswriter": {
             "name": "FocusWriter",
+            "img-numbers": "5",
             "img": "focuswriter",
             "img-paralax": null,
             "main-package": "focuswriter",
@@ -3278,12 +3461,13 @@
             "alternate-to": null,
             "subcategory": "Office Applications",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://gottcode.org/focuswriter/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3293,6 +3477,7 @@
         },
         "glabels": {
             "name": "gLabels",
+            "img-numbers": "5",
             "img": "glabels",
             "img-paralax": null,
             "main-package": "glabels",
@@ -3310,12 +3495,13 @@
             "alternate-to": null,
             "subcategory": "Printing",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://glabels.org",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3325,6 +3511,7 @@
         },
         "gnucash": {
             "name": "Gnucash",
+            "img-numbers": "5",
             "img": "gnucash",
             "img-paralax": null,
             "main-package": "gnucash",
@@ -3347,12 +3534,13 @@
             "alternate-to": "Intuit&reg; Quicken&reg;",
             "subcategory": "Office Applications",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.gnucash.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3362,6 +3550,7 @@
         },
         "gramps": {
             "name": "gramps",
+            "img-numbers": "5",
             "img": "gramps",
             "img-paralax": null,
             "main-package": "gramps",
@@ -3380,12 +3569,13 @@
             "alternate-to": null,
             "subcategory": "Specialized",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://gramps-project.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3396,6 +3586,7 @@
 
         "libreoffice": {
             "name": "LibreOffice",
+            "img-numbers": "5",
             "img": "libreoffice",
             "img-paralax": null,
             "main-package": "libreoffice-core",
@@ -3410,12 +3601,13 @@
             "alternate-to": null,
             "subcategory": "Office Applications",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.libreoffice.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3425,6 +3617,7 @@
         },
         "libreoffice_base": {
             "name": "LibreOffice Base",
+            "img-numbers": "5",
             "img": "libreoffice_base",
             "img-paralax": null,
             "main-package": "libreoffice-base",
@@ -3440,12 +3633,13 @@
             "alternate-to": "Microsoft&reg; Access",
             "subcategory": "Office Applications",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.libreoffice.org/discover/base/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3455,6 +3649,7 @@
         },
         "texworks": {
             "name": "TexWorks",
+            "img-numbers": "5",
             "img": "texworks",
             "img-paralax": null,
             "main-package": "texworks",
@@ -3474,12 +3669,13 @@
             "alternate-to": null,
             "subcategory": "Office Applications",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.tug.org/texworks",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "xenial": {
                     "method": "ppa",
@@ -3494,6 +3690,7 @@
         },
         "planner": {
             "name": "Planner",
+            "img-numbers": "5",
             "img": "planner",
             "img-paralax": null,
             "main-package": "planner",
@@ -3512,12 +3709,13 @@
             "alternate-to": null,
             "subcategory": "Productivity Tracking",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.simpleprojectmanagement.com/planner/home.html",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3528,6 +3726,7 @@
 
         "retext": {
             "name": "ReText",
+            "img-numbers": "5",
             "img": "retext",
             "img-paralax": null,
             "main-package": "retext",
@@ -3544,12 +3743,13 @@
             "alternate-to": null,
             "subcategory": "Office Applications",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://github.com/retext-project/retext",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3561,6 +3761,7 @@
     "Programming": {
         "atom": {
             "name": "Atom",
+            "img-numbers": "5",
             "img": "atom",
             "img-paralax": null,
             "main-package": "atom",
@@ -3577,12 +3778,13 @@
             "alternate-to": null,
             "subcategory": "IDEs",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://atom.io/",
             "url-android": null,
             "url-ios": null,
             "arch": "amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -3597,6 +3799,7 @@
         },
         "d_feet": {
             "name": "d-feet",
+            "img-numbers": "5",
             "img": "d_feet",
             "img-paralax": null,
             "main-package": "d-feet",
@@ -3613,12 +3816,13 @@
             "alternate-to": null,
             "subcategory": "Debugger",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.gnome.org/Apps/DFeet",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3628,6 +3832,7 @@
         },
         "geany": {
             "name": "Geany",
+            "img-numbers": "5",
             "img": "geany",
             "img-paralax": null,
             "main-package": "geany",
@@ -3647,12 +3852,13 @@
             "alternate-to": null,
             "subcategory": "IDEs",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.geany.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3662,6 +3868,7 @@
         },
         "glade": {
             "name": "Glade",
+            "img-numbers": "5",
             "img": "glade",
             "img-paralax": null,
             "main-package": "glade",
@@ -3677,12 +3884,13 @@
             "alternate-to": null,
             "subcategory": "Design and Tools",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://glade.gnome.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3692,6 +3900,7 @@
         },
         "meld": {
             "name": "Meld",
+            "img-numbers": "5",
             "img": "meld",
             "img-paralax": null,
             "main-package": "meld",
@@ -3709,12 +3918,13 @@
             "alternate-to": null,
             "subcategory": "Design and Tools",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://meldmerge.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3724,6 +3934,7 @@
         },
         "sublime_text": {
             "name": "Sublime Text",
+            "img-numbers": "5",
             "img": "sublime_text",
             "img-paralax": null,
             "main-package": "sublime-text",
@@ -3739,12 +3950,13 @@
             "alternate-to": null,
             "subcategory": "IDEs",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.sublimetext.com/",
             "url-android": null,
             "url-ios": null,
             "arch": "amd64,i386",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -3759,6 +3971,7 @@
         },
         "sublime_merge": {
             "name": "Sublime Merge",
+            "img-numbers": "5",
             "img": "sublime_merge",
             "img-paralax": null,
             "main-package": "sublime-merge",
@@ -3772,12 +3985,13 @@
             "alternate-to": null,
             "subcategory": "Version Control",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.sublimemerge.com/",
             "url-android": null,
             "url-ios": null,
             "arch": "amd64,i386",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -3792,6 +4006,7 @@
         },
         "vscode": {
             "name": "Visual Studio Code",
+            "img-numbers": "5",
             "img": "vscode",
             "img-paralax": null,
             "main-package": "code",
@@ -3810,12 +4025,13 @@
             "alternate-to": null,
             "subcategory": "IDEs",
             "open-source": false,
+            "checking": true,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://code.visualstudio.com/",
             "url-android": null,
             "url-ios": null,
             "arch": "amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -3830,6 +4046,7 @@
         },
         "pgadmin": {
             "name": "pgAdmin 4",
+            "img-numbers": "5",
             "img": "pgadmin3",
             "img-paralax": null,
             "main-package": "pgadmin4",
@@ -3850,12 +4067,13 @@
             "alternate-to": null,
             "subcategory": "Database",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.pgadmin.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -3870,6 +4088,7 @@
         },
         "poedit": {
             "name": "Poedit",
+            "img-numbers": "5",
             "img": "poedit",
             "img-paralax": null,
             "main-package": "poedit",
@@ -3888,12 +4107,13 @@
             "alternate-to": null,
             "subcategory": "Translation",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://poedit.net/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3906,6 +4126,7 @@
 
         "ardour": {
             "name": "Ardour",
+            "img-numbers": "5",
             "img": "ardour",
             "img-paralax": null,
             "main-package": "ardour",
@@ -3928,12 +4149,13 @@
             "alternate-to": null,
             "subcategory": "Audio Production",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://ardour.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3943,6 +4165,7 @@
         },
         "asunder": {
             "name": "Asunder",
+            "img-numbers": "5",
             "img": "asunder",
             "img-paralax": null,
             "main-package": "asunder",
@@ -3960,12 +4183,13 @@
             "alternate-to": null,
             "subcategory": "Media Conversion",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.littlesvr.ca/asunder/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -3975,6 +4199,7 @@
         },
         "flacon": {
             "name": "Flacon",
+            "img-numbers": "5",
             "img": "flacon",
             "img-paralax": null,
             "main-package": "flacon",
@@ -3988,6 +4213,7 @@
             "alternate-to": null,
             "subcategory": "Media Conversion",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://flacon.github.io",
             "url-android": null,
@@ -4005,6 +4231,7 @@
         },
         "audacity": {
             "name": "Audacity",
+            "img-numbers": "5",
             "img": "audacity",
             "img-paralax": null,
             "main-package": "audacity",
@@ -4021,12 +4248,13 @@
             "alternate-to": null,
             "subcategory": "Audio Production",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://audacityteam.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4036,6 +4264,7 @@
         },
         "cheese": {
             "name": "Cheese",
+            "img-numbers": "5",
             "img": "cheese",
             "img-paralax": null,
             "main-package": "cheese",
@@ -4050,12 +4279,13 @@
             "alternate-to": null,
             "subcategory": "Photography",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.gnome.org/Apps/Cheese",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4065,6 +4295,7 @@
         },
         "clementine": {
             "name": "Clementine",
+            "img-numbers": "5",
             "img": "clementine",
             "img-paralax": null,
             "main-package": "clementine",
@@ -4079,12 +4310,13 @@
             "alternate-to": null,
             "subcategory": "Reprodução de mídia",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.clementine-player.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "xenial": {
                     "method": "ppa",
@@ -4099,6 +4331,7 @@
         },
         "musescore": {
             "name": "MuseScore",
+            "img-numbers": "5",
             "img": "musescore",
             "img-paralax": null,
             "main-package": "musescore",
@@ -4119,6 +4352,7 @@
             "alternate-to": null,
             "subcategory": "Music Composition",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://musescore.org/",
             "url-android": null,
@@ -4139,6 +4373,7 @@
         },
         "audio_recorder": {
             "name": "Audio Recorder",
+            "img-numbers": "5",
             "img": "audio_recorder",
             "img-paralax": null,
             "main-package": "audio-recorder",
@@ -4159,6 +4394,7 @@
             "alternate-to": null,
             "subcategory": "Audio Production",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://launchpad.net/~audio-recorder",
             "url-android": null,
@@ -4176,6 +4412,7 @@
         },
         "gnome_mpv": {
             "name": "GNOME MPV",
+            "img-numbers": "5",
             "img": "celluloid",
             "img-paralax": null,
             "main-package": "gnome-mpv",
@@ -4191,6 +4428,7 @@
             "alternate-to": null,
             "subcategory": "Reprodução de mídia",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://celluloid-player.github.io/",
             "url-android": null,
@@ -4206,6 +4444,7 @@
         },
         "celluloid": {
             "name": "Celluloid",
+            "img-numbers": "5",
             "img": "celluloid",
             "img-paralax": null,
             "main-package": "celluloid",
@@ -4221,12 +4460,13 @@
             "alternate-to": null,
             "subcategory": "Reprodução de mídia",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://celluloid-player.github.io/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4236,6 +4476,7 @@
         },
         "codecs": {
             "name": "Codecs Pack",
+            "img-numbers": "5",
             "img": "codecs",
             "img-paralax": null,
             "main-package": "gstreamer1.0-plugins-ugly",
@@ -4252,12 +4493,13 @@
             "alternate-to": null,
             "subcategory": "Codecs / Libraries",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4267,6 +4509,7 @@
         },
         "easytag": {
             "name": "EasyTAG",
+            "img-numbers": "5",
             "img": "easytag",
             "img-paralax": null,
             "main-package": "easytag",
@@ -4284,12 +4527,13 @@
             "alternate-to": null,
             "subcategory": "Audio Manipulation",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.gnome.org/Apps/EasyTAG",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4299,6 +4543,7 @@
         },
         "google_play_music_desktop_player": {
             "name": "Google Play Music Desktop Player",
+            "img-numbers": "5",
             "img": "google_play_music_desktop_player",
             "img-paralax": null,
             "main-package": "google-play-music-desktop-player",
@@ -4315,12 +4560,13 @@
             "alternate-to": "Apple iTunes",
             "subcategory": "Reprodução de mídia",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.googleplaymusicdesktopplayer.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.google.android.music",
             "url-ios": "https://itunes.apple.com/gb/app/google-play-music/id691797987",
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -4335,6 +4581,7 @@
         },
         "handbrake": {
             "name": "Handbrake",
+            "img-numbers": "5",
             "img": "handbrake",
             "img-paralax": null,
             "main-package": "handbrake",
@@ -4350,12 +4597,13 @@
             "alternate-to": null,
             "subcategory": "Media Conversion",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://handbrake.fr",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4365,6 +4613,7 @@
         },
         "kdenlive": {
             "name": "kdenlive",
+            "img-numbers": "5",
             "img": "kdenlive",
             "img-paralax": null,
             "main-package": "kdenlive",
@@ -4384,12 +4633,13 @@
             "alternate-to": "Adobe&reg; Premiere Pro",
             "subcategory": "Produção de vídeo",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.kdenlive.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4399,6 +4649,7 @@
         },
         "kodi": {
             "name": "Kodi",
+            "img-numbers": "5",
             "img": "kodi",
             "img-paralax": null,
             "main-package": "kodi",
@@ -4417,12 +4668,13 @@
             "alternate-to": null,
             "subcategory": "Reprodução de mídia",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://kodi.tv/",
             "url-android": "https://play.google.com/store/apps/details?id=org.xbmc.kodi",
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4437,6 +4689,7 @@
         },
         "makemkv": {
             "name": "MakeMKV",
+            "img-numbers": "5",
             "img": "makemkv",
             "img-paralax": null,
             "main-package": "makemkv-bin",
@@ -4462,12 +4715,13 @@
             "alternate-to": "Slysoft AnyDVD HD",
             "subcategory": "Media Conversion",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.makemkv.com/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
@@ -4479,6 +4733,7 @@
         },
         "obs_studio": {
             "name": "OBS Studio",
+            "img-numbers": "5",
             "img": "obs_studio",
             "img-paralax": null,
             "main-package": "obs-studio",
@@ -4499,6 +4754,7 @@
             "alternate-to": "telestream Wirecast",
             "subcategory": "Produção de vídeo",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Open Broadcaster Software é um programa de streaming e gravação gratuito e de código aberto mantido pelo OBS Project.",
             "url-info": "https://obsproject.com",
             "url-android": null,
@@ -4514,6 +4770,7 @@
         },
         "pithos": {
             "name": "Pithos",
+            "img-numbers": "5",
             "img": "pithos",
             "img-paralax": null,
             "main-package": "pithos",
@@ -4531,12 +4788,13 @@
             "alternate-to": null,
             "subcategory": "Reprodução de mídia",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://pithos.github.io/",
             "url-android": "https://play.google.com/store/apps/details?id=com.pandora.android",
             "url-ios": "https://itunes.apple.com/en/app/pandora-radio/id284035177",
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4546,6 +4804,7 @@
         },
         "pauvcontrol": {
             "name": "PulseAudio Volume Control",
+            "img-numbers": "5",
             "img": "pavucontrol",
             "img-paralax": null,
             "main-package": "pavucontrol",
@@ -4562,12 +4821,13 @@
             "alternate-to": null,
             "subcategory": "Reprodução de mídia",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://freedesktop.org/software/pulseaudio/pavucontrol/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4577,6 +4837,7 @@
         },
         "peek": {
             "name": "Peek",
+            "img-numbers": "5",
             "img": "peek",
             "img-paralax": null,
             "main-package": "peek",
@@ -4594,26 +4855,25 @@
             "alternate-to": null,
             "subcategory": "Produção de vídeo",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://github.com/phw/peek",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
                     "enable-ppa": "ppa:peek-developers/stable",
                     "source-file": "peek-developers-ubuntu-stable-CODENAME"
-                },
-                "eoan,focal": {
-                    "method": "skip"
                 }
             },
             "working": true
         },
         "kazam": {
             "name": "Kazam",
+            "img-numbers": "5",
             "img": "kazam",
             "img-paralax": null,
             "main-package": "kazam",
@@ -4629,6 +4889,7 @@
             "alternate-to": null,
             "subcategory": "Produção de vídeo",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://launchpad.net/kazam",
             "url-android": null,
@@ -4644,6 +4905,7 @@
         },
         "rhythmbox": {
             "name": "Rhythmbox",
+            "img-numbers": "5",
             "img": "rhythmbox",
             "img-paralax": null,
             "main-package": "rhythmbox",
@@ -4662,12 +4924,13 @@
             "alternate-to": "Apple iTunes",
             "subcategory": "Reprodução de mídia",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.gnome.org/Apps/Rhythmbox",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,arm64,armhf",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4677,6 +4940,7 @@
         },
         "simplescreenrecorder": {
             "name": "SimpleScreenRecorder",
+            "img-numbers": "5",
             "img": "simplescreenrecorder",
             "img-paralax": null,
             "main-package": "simplescreenrecorder",
@@ -4693,12 +4957,13 @@
             "alternate-to": null,
             "subcategory": "Produção de vídeo",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.maartenbaert.be/simplescreenrecorder/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "xenial": {
                     "method": "ppa",
@@ -4713,6 +4978,7 @@
         },
         "soundconverter": {
             "name": "Sound Converter",
+            "img-numbers": "5",
             "img": "soundconverter",
             "img-paralax": null,
             "main-package": "soundconverter",
@@ -4728,12 +4994,13 @@
             "alternate-to": null,
             "subcategory": "Media Conversion",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://soundconverter.org",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,arm64,armhf",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4743,6 +5010,7 @@
         },
         "spotify": {
             "name": "Spotify",
+            "img-numbers": "5",
             "img": "spotify",
             "img-paralax": null,
             "main-package": "spotify-client",
@@ -4756,12 +5024,13 @@
             "alternate-to": null,
             "subcategory": "Reprodução de mídia",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.spotify.com",
             "url-android": "https://play.google.com/store/apps/details?id=com.spotify.music",
             "url-ios": "https://itunes.apple.com/gb/app/spotify-music/id324684580",
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "manual",
@@ -4776,6 +5045,7 @@
         },
         "vlc": {
             "name": "VLC",
+            "img-numbers": "5",
             "img": "vlc",
             "img-paralax": null,
             "main-package": "vlc",
@@ -4790,6 +5060,7 @@
             "alternate-to": null,
             "subcategory": "Reprodução de mídia",
             "open-source": true,
+            "checking": false,
             "description-get-info": "O VLC media player é um software media player portátil gratuito e de código aberto, multiplataforma, e servidor de mídia de streaming desenvolvido pelo projeto VideoLAN.",
             "url-info": "http://www.videolan.org/",
             "url-android": "https://play.google.com/store/apps/details?id=org.videolan.vlc",
@@ -4809,6 +5080,7 @@
 
         "wine": {
             "name": "Wine",
+            "img-numbers": "5",
             "img": "wine",
             "img-paralax": null,
             "main-package": "wine",
@@ -4825,6 +5097,7 @@
             "alternate-to": "Windows",
             "subcategory": "Simulador",
             "open-source": true,
+            "checking": false,
             "description-get-info": "O Wine é uma das melhores maneiras de executar aplicativos do Windows no Linux",
             "url-info": "https://www.winehq.org/",
             "url-android": "https://dl.winehq.org/wine-builds/android/",
@@ -4842,6 +5115,7 @@
 
         "horizon_settings_desktop": {
             "name": "Configurações do Horizon OS",
+            "img-numbers": "5",
             "img": "logo_horizon",
             "img-paralax": null,
             "main-package": "horizon-settings-desktop",
@@ -4855,12 +5129,13 @@
             "alternate-to": null,
             "subcategory": "Desktop Management",
             "open-source": true,
+            "checking": false,
             "description-get-info": "horizon-settings-desktop",
             "url-info": null,
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
@@ -4875,6 +5150,7 @@
 
         "bleachbit": {
             "name": "BleachBit",
+            "img-numbers": "5",
             "img": "bleachbit",
             "img-paralax": null,
             "main-package": "bleachbit",
@@ -4894,12 +5170,13 @@
             "alternate-to": "Piriform CCleaner",
             "subcategory": "Maintenance",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://bleachbit.sourceforge.net",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4909,6 +5186,7 @@
         },
         "brasero": {
             "name": "Brasero",
+            "img-numbers": "5",
             "img": "brasero",
             "img-paralax": null,
             "main-package": "brasero",
@@ -4927,12 +5205,13 @@
             "alternate-to": null,
             "subcategory": "CD/DVD Burning",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.gnome.org/Apps/Brasero",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,arm64,armhf",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4942,6 +5221,7 @@
         },
         "deja_dup": {
             "name": "Déjà Dup",
+            "img-numbers": "5",
             "img": "deja_dup",
             "img-paralax": null,
             "main-package": "deja-dup",
@@ -4956,12 +5236,13 @@
             "alternate-to": null,
             "subcategory": "Maintenance",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://launchpad.net/deja-dup",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,arm64,armhf",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -4971,6 +5252,7 @@
         },
         "dconf_editor": {
             "name": "dconf-editor",
+            "img-numbers": "5",
             "img": "dconf_editor",
             "img-paralax": null,
             "main-package": "dconf-editor",
@@ -4985,12 +5267,13 @@
             "alternate-to": null,
             "subcategory": "Debugger",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.gnome.org/Projects/dconf",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5000,6 +5283,7 @@
         },
         "hardinfo": {
             "name": "System Profiler and Benchmark",
+            "img-numbers": "5",
             "img": "hardinfo",
             "img-paralax": null,
             "main-package": "hardinfo",
@@ -5015,12 +5299,13 @@
             "alternate-to": null,
             "subcategory": "System Information",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://hardinfo.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5030,6 +5315,7 @@
         },
         "kdeconnect": {
             "name": "KDE Connect Indicator",
+            "img-numbers": "5",
             "img": "kdeconnect",
             "img-paralax": null,
             "main-package": "indicator-kdeconnect",
@@ -5044,12 +5330,13 @@
             "alternate-to": null,
             "subcategory": "Connectivity",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://github.com/Bajoja/indicator-kdeconnect",
             "url-android": "https://play.google.com/store/apps/details?id=org.kde.kdeconnect_tp",
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
@@ -5061,6 +5348,7 @@
         },
         "psensor": {
             "name": "Psensor",
+            "img-numbers": "5",
             "img": "psensor",
             "img-paralax": null,
             "main-package": "psensor",
@@ -5074,12 +5362,13 @@
             "alternate-to": null,
             "subcategory": "System Information",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://wpitchoune.net/blog/psensor/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5089,6 +5378,7 @@
         },
         "terminator": {
             "name": "Terminator",
+            "img-numbers": "5",
             "img": "terminator",
             "img-paralax": null,
             "main-package": "terminator",
@@ -5104,12 +5394,13 @@
             "alternate-to": null,
             "subcategory": "Automation",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://gnometerminator.blogspot.co.uk/p/introduction.html",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "xenial": {
                     "method": "ppa",
@@ -5124,6 +5415,7 @@
         },
         "virtualbox": {
             "name": "VirtualBox",
+            "img-numbers": "5",
             "img": "virtualbox",
             "img-paralax": null,
             "main-package": "virtualbox-qt",
@@ -5141,12 +5433,13 @@
             "alternate-to": "VMware Workstation",
             "subcategory": "Virtualization",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.virtualbox.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5155,77 +5448,11 @@
             "working": true
         }
     },
-    "UnivAccess": {
-        "eviacam": {
-            "name": "Enable Viacam",
-            "img": "eviacam",
-            "img-paralax": null,
-            "main-package": "eviacam",
-            "launch-command": "eviacam",
-            "install-packages": "eviacam",
-            "remove-packages": "eviacam",
-            "description": [
-                "Enable Viacam (aka eViacam) is a mouse replacement",
-                "program that moves the pointer as you move your head. It",
-                "works on a standard computer equipped with a web camera. No",
-                "additional hardware is required. Based on the award winning",
-                "Facial Mouse software."
-            ],
-            "alternate-to": null,
-            "subcategory": "Accessibility",
-            "open-source": true,
-            "description-get-info": "Sem mini descrição!",
-            "url-info": "http://eviacam.sourceforge.net/index.php",
-            "url-android": null,
-            "url-ios": null,
-            "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
-            "pre-install": {
-                "xenial": {
-                    "method": "ppa",
-                    "enable-ppa": "ppa:cesar-crea-si/eviacam",
-                    "source-file": "cesar-crea-si-ubuntu-eviacam-CODENAME"
-                },
-                "all": {
-                    "method": "skip"
-                }
-            },
-            "working": true
-        },
-        "workrave": {
-            "name": "Workrave",
-            "img": "workrave",
-            "img-paralax": null,
-            "main-package": "workrave",
-            "launch-command": "workrave",
-            "install-packages": "workrave",
-            "remove-packages": "workrave",
-            "description": [
-                "A program that assists in the recovery",
-                "and prevention of Repetitive Strain Injury (RSI). The program",
-                "frequently alerts you to take micro-pauses, rest breaks and",
-                "restricts you to your daily limit."
-            ],
-            "alternate-to": null,
-            "subcategory": "Accessibility",
-            "open-source": true,
-            "description-get-info": "Sem mini descrição!",
-            "url-info": "http://www.workrave.org/",
-            "url-android": null,
-            "url-ios": null,
-            "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
-            "pre-install": {
-                "all": {
-                    "method": "skip"
-                }
-            },
-            "working": true
-        }
-    },
+    
     "Servers": {
         "caja_share": {
             "name": "Caja Share",
+            "img-numbers": "5",
             "img": "caja_share",
             "img-paralax": null,
             "main-package": "caja-share",
@@ -5240,12 +5467,13 @@
             "alternate-to": "Windows&reg; Simple File Sharing",
             "subcategory": "Server",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.samba.org/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5255,6 +5483,7 @@
         },
         "jellyfin": {
             "name": "Jellyfin",
+            "img-numbers": "5",
             "img": "jellyfin",
             "img-paralax": null,
             "main-package": "jellyfin",
@@ -5274,6 +5503,7 @@
             "alternate-to": "Plex Media Server",
             "subcategory": "Server",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://jellyfin.github.io/",
             "url-android": null,
@@ -5294,6 +5524,7 @@
         },
         "minecraft_server": {
             "name": "Minecraft Server",
+            "img-numbers": "5",
             "img": "minecraft",
             "img-paralax": null,
             "main-package": "minecraft-server-installer",
@@ -5309,12 +5540,13 @@
             "alternate-to": null,
             "subcategory": "Server",
             "open-source": false,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://minecraft.gamepedia.com/Setting_up_a_server",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
@@ -5326,6 +5558,7 @@
         },
         "murmur": {
             "name": "Murmur",
+            "img-numbers": "5",
             "img": "mumble",
             "img-paralax": null,
             "main-package": "mumble-server",
@@ -5341,12 +5574,13 @@
             "alternate-to": null,
             "subcategory": "Instant Messaging",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://wiki.mumble.info/wiki/Main_Page",
             "url-android": "https://play.google.com/store/apps/details?id=com.morlunk.mumbleclient.free",
             "url-ios": "http://itunes.apple.com/us/app/mumble/id443472808",
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "xenial": {
                     "method": "ppa",
@@ -5361,6 +5595,7 @@
         },
         "openssh_server": {
             "name": "OpenSSH",
+            "img-numbers": "5",
             "img": "openssh",
             "img-paralax": null,
             "main-package": "ssh",
@@ -5378,12 +5613,13 @@
             "alternate-to": null,
             "subcategory": "Server",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://www.openssh.com/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5393,6 +5629,7 @@
         },
         "x2go_server": {
             "name": "X2Go Server",
+            "img-numbers": "5",
             "img": "x2go",
             "img-paralax": null,
             "main-package": "x2goserver",
@@ -5408,12 +5645,13 @@
             "alternate-to": "Citrix Workspace Cloud",
             "subcategory": "Server",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://wiki.x2go.org/doku.php",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5425,6 +5663,7 @@
     "MoreApps": {
         "loja_horizon_os": {
             "name": "Loja Horizon OS",
+            "img-numbers": "5",
             "img": "loja-horizon",
             "img-paralax": null,
             "main-package": "loja-horizon-os",
@@ -5437,6 +5676,7 @@
             "alternate-to": null,
             "subcategory": "Centro de Software",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Loja Horizon OS",
             "url-info": "http://horizon-os.org/loja",
             "url-android": null,
@@ -5454,6 +5694,7 @@
         },
         "software": {
             "name": "Software",
+            "img-numbers": "5",
             "img": "gnome_software",
             "img-paralax": null,
             "main-package": "gnome-software",
@@ -5466,12 +5707,13 @@
             "alternate-to": null,
             "subcategory": "Centro de Software",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://wiki.gnome.org/Apps/Software",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5481,6 +5723,7 @@
         },
         "synaptic": {
             "name": "Synaptic Package Manager",
+            "img-numbers": "5",
             "img": "synaptic",
             "img-paralax": null,
             "main-package": "synaptic",
@@ -5499,12 +5742,13 @@
             "alternate-to": null,
             "subcategory": "Gerenciador de pacotes",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.nongnu.org/synaptic/index.html",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5516,6 +5760,7 @@
     "Unlisted": {
         "horizon_os": {
             "name": "Repositório da Interface KDE do Horizon OS",
+            "img-numbers": "5",
             "img": "logo_horizon",
             "img-paralax": null,
             "main-package": null,
@@ -5527,6 +5772,7 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
@@ -5544,6 +5790,7 @@
         },
         "horizon_os_base": {
             "name": "Repositório da Base do Horizon OS",
+            "img-numbers": "5",
             "img": "logo_horizon",
             "img-paralax": null,
             "main-package": null,
@@ -5555,6 +5802,7 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
@@ -5572,6 +5820,7 @@
         },
         "horizon_os_loja": {
             "name": "Repositório da Loja do Horizon OS",
+            "img-numbers": "5",
             "img": "logo-horizon",
             "img-paralax": null,
             "main-package": "central-horizon-os",
@@ -5583,6 +5832,7 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
@@ -5600,6 +5850,7 @@
         },
         "ubuntu_standard": {
             "name": "Ubuntu Standard Updates",
+            "img-numbers": "5",
             "img": "system",
             "img-paralax": null,
             "main-package": "ubuntu-standard",
@@ -5612,12 +5863,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5627,6 +5879,7 @@
         },
         "boot_repair": {
             "name": "Boot-Repair",
+            "img-numbers": "5",
             "img": "unknown",
             "img-paralax": null,
             "main-package": "boot-repair",
@@ -5637,12 +5890,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
@@ -5654,6 +5908,7 @@
         },
         "firmware": {
             "name": "Firmware Drivers",
+            "img-numbers": "5",
             "img": "additional-drivers",
             "img-paralax": null,
             "main-package": "firmware-b43-installer",
@@ -5664,12 +5919,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5679,6 +5935,7 @@
         },
         "hp_printer": {
             "name": "HP Printing and Imaging System",
+            "img-numbers": "5",
             "img": "hplip",
             "img-paralax": null,
             "main-package": "hplip-gui",
@@ -5689,12 +5946,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5704,6 +5962,7 @@
         },
         "solaar": {
             "name": "Solaar for Logitech Unifying Receivers",
+            "img-numbers": "5",
             "img": "solaar",
             "img-paralax": null,
             "main-package": "solaar",
@@ -5714,12 +5973,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://pwr.github.io/Solaar/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5729,6 +5989,7 @@
         },
         "keyboard_chinese": {
             "name": "Chinese Keyboard Layout",
+            "img-numbers": "5",
             "img": "keyboard",
             "img-paralax": null,
             "main-package": "fcitx-sunpinyin",
@@ -5739,12 +6000,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5754,6 +6016,7 @@
         },
         "keyboard_japanese": {
             "name": "Japanese Keyboard Layout",
+            "img-numbers": "5",
             "img": "keyboard",
             "img-paralax": null,
             "main-package": "fcitx-mozc",
@@ -5764,12 +6027,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5779,6 +6043,7 @@
         },
         "keyboard_korean": {
             "name": "Korean Keyboard Layout",
+            "img-numbers": "5",
             "img": "keyboard",
             "img-paralax": null,
             "main-package": "fcitx-hangul",
@@ -5789,12 +6054,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5805,6 +6071,7 @@
 
         "gufw": {
             "name": "Firewall",
+            "img-numbers": "5",
             "img": "gufw",
             "img-paralax": null,
             "main-package": "gufw",
@@ -5815,12 +6082,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5830,6 +6098,7 @@
         },
         "gnome_disk_utility": {
             "name": "GNOME Disks",
+            "img-numbers": "5",
             "img": "gnome-disk-utility",
             "img-paralax": null,
             "main-package": "gnome-disk-utility",
@@ -5840,12 +6109,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5856,6 +6126,7 @@
 
         "libdvdcss2_old": {
             "name": "Blu-ray and DVD Playback Support",
+            "img-numbers": "5",
             "img": "dvd",
             "img-paralax": null,
             "main-package": "libbluray-bdj",
@@ -5870,12 +6141,13 @@
             "alternate-to": null,
             "subcategory": "Codecs / Libraries",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.videolan.org/developers/libdvdcss.html",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5885,6 +6157,7 @@
         },
         "libdvdcss2_new": {
             "name": "Blu-ray and DVD Playback Support",
+            "img-numbers": "5",
             "img": "dvd",
             "img-paralax": null,
             "main-package": "libbluray-bdj",
@@ -5899,12 +6172,13 @@
             "alternate-to": null,
             "subcategory": "Codecs / Libraries",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "http://www.videolan.org/developers/libdvdcss.html",
             "url-android": null,
             "url-ios": null,
             "arch": "amd64",
-            "releases": "focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5914,6 +6188,7 @@
         },
         "xscreensaver": {
             "name": "Additional screensavers",
+            "img-numbers": "5",
             "img": "xscreensaver",
             "img-paralax": null,
             "main-package": "xscreensaver-gl",
@@ -5924,12 +6199,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64,armhf,arm64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "skip"
@@ -5940,6 +6216,7 @@
 
         "openrazer": {
             "name": "OpenRazer",
+            "img-numbers": "5",
             "img": "openrazer",
             "img-paralax": null,
             "main-package": "openrazer-meta",
@@ -5950,12 +6227,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://openrazer.github.io/",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
@@ -5967,6 +6245,7 @@
         },
         "polychromatic": {
             "name": "Polychromatic",
+            "img-numbers": "5",
             "img": "polychromatic",
             "img-paralax": null,
             "main-package": "polychromatic",
@@ -5977,12 +6256,13 @@
             "alternate-to": null,
             "subcategory": "null",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Sem mini descrição!",
             "url-info": "https://github.com/polychromatic/polychromatic",
             "url-android": null,
             "url-ios": null,
             "arch": "i386,amd64",
-            "releases": "xenial,bionic,eoan,focal",
+            "releases": "bionic,focal",
             "pre-install": {
                 "all": {
                     "method": "ppa",
@@ -6001,6 +6281,7 @@
     "StoreUpdates": {
         "dados_loja_horizon_os": {
             "name": "Dados da Loja Horizon OS ",
+            "img-numbers": "5",
             "img": "loja-horizon",
             "img-paralax": null,
             "main-package": "loja-horizon-os",
@@ -6013,6 +6294,7 @@
             "alternate-to": null,
             "subcategory": "Centro de Software",
             "open-source": true,
+            "checking": false,
             "description-get-info": "Dependência da Loja Horizon OS",
             "url-info": "http://horizon-os.org/loja",
             "url-android": null,

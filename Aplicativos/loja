@@ -4,7 +4,8 @@
 
 #                            Loja Horizon OS
 
-#    Copyright (C) 2020  Igor Pereira Formighieri <igorpereira1069@gmail.com>
+#    Copyright (C) 2021  Igor Pereira Formighieri <igorpereira1069@gmail.com>
+#    Copyright (C) 2021  Horizon Operating System <contato@horizon-os.org>
 
 #    Este programa é um software livre: você pode redistribuí-lo e/ou
 #    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
@@ -19,6 +20,7 @@
 #    Você deve ter recebido uma cópia da Licença Pública Geral GNU
 #    junto com este programa. Se não, veja <https://www.gnu.org/licenses/>.
 
+#    apt list   | cut -d/ -f1 --output-delimiter=" " |cat > aptList2.txt
 
 import gi
 gi.require_version("Gdk", "3.0")
@@ -70,6 +72,7 @@ try:
 except ImportError:
     proctitle_available = False
 
+loja_site = 'http://loja.horizon-os.org/'
 
 __VERSION__ = '3.0'
 
@@ -81,7 +84,10 @@ cabecalho = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="../../css/welcome.css" rel="stylesheet" media="screen">\
     <link href="../../css/configuracoes.css" rel="stylesheet" media="screen">\
     <link href="../../css/loja-detalhes.css" rel="stylesheet" media="screen">\
-    <link href="../../css/tela-cheia.css" rel="stylesheet" media="screen">'
+    <link href="../../css/tela-cheia.css" rel="stylesheet" media="screen">\
+    <link href="../../css/icon.css" rel="stylesheet">\
+    <link href="../../css/animate.css" rel="stylesheet">\
+    <link href="../../css/menu-style.css" rel="stylesheet">'
 
 tema_dark = '<link href="../../css/tema-dark.css" rel="stylesheet">'
 
@@ -768,7 +774,7 @@ class Translations(object):
             try:
                 self.locale = str(locale.getlocale()[0])
             except Exception:
-                dbg.stdout("i18n", "Não foi possível obter informações de localidade do sistema! Usanado a 'pt_BR' por padrão.")
+                dbg.stdout("i18n", "Não foi possível obter informações de localidade do sistema! Usansudo a 'pt_BR' por padrão.")
                 self.locale = "pt_BR"
 
         # Determine if localized pages exist, or fallback to original pages.
@@ -907,7 +913,6 @@ class Strings(object):
         self.programming = str(_("Programming"))
         self.media = str(_("Sound & Video"))
         self.systools = str(_("System Tools"))
-        self.univaccess = str(_("Universal Access"))
         self.servers = str(_("Server One-Click Installation"))
         self.misc = str(_("Miscellaneous"))
         
@@ -1084,7 +1089,7 @@ class AppView(WebKit2.WebView):
             app.update_page('.online', 'show')
             self.json_path_version = open('/Programas/Loja-HorizonOS/Dados/version.txt', 'r').readline().replace('\n', '')    
             output_json_path_version = '/tmp/version-json-apps.txt'
-            url = 'http://horizon-os.org/dados/loja/application-list-version/version.txt'
+            url = 'http://loja.horizon-os.org/dados/application-list-version/version.txt'
             r = requests.get(url)
             with open(output_json_path_version, 'wb') as f:
                 f.write(r.content)                         
@@ -1092,11 +1097,14 @@ class AppView(WebKit2.WebView):
             if self.json_path_version < self.new_json_path_version:
                 app.update_page('#detect_new_update', 'show')
             
-            url = 'http://horizon-os.org/dados/loja/noticias/Noticias-da-Loja.json'
+
+            url = 'http://loja.horizon-os.org/dados/noticias/Noticias-da-Loja.json'
             r = requests.get(url)
             output_news = local_home_user + '/.config/loja-horizon-os/Noticias-da-Loja.json'
             with open(output_news, 'wb') as f:
                 f.write(r.content)
+
+          
         else:
             app.update_page('.offline', 'show')
             app.update_page('.online', 'hide')
@@ -1110,6 +1118,8 @@ class AppView(WebKit2.WebView):
             app.update_page('#footer-left', 'fadeIn')
             app.update_page('#navigation-right', 'hide')
             app.update_page('#navigation-right', 'fadeIn')
+            app.update_page('header', 'hide')
+            app.update_page('header', 'fadeIn')
             app.update_page('#navigation-topo', 'hide')
             app.update_page('#navigation-topo', 'fadeIn')
             app.update_page('#queue-cards-base', 'hide')
@@ -1133,8 +1143,10 @@ class AppView(WebKit2.WebView):
         ### Software Page ###
         if app.current_page == 'index.html':
             dynamicapps.toggle_non_free()
+            dynamicapps.toggle_non_checking()
             self.do_smooth_footer = True
             app.update_page('#navigation-right', 'addClass', 'always-hidden')
+            app.update_page('header', 'addClass', 'always-hidden')
             app.update_page('#navigation-topo', 'addClass', 'always-hidden')
             app.update_page('#queue-cards-base', 'addClass', 'always-hidden')
             
@@ -1194,17 +1206,24 @@ class AppView(WebKit2.WebView):
                 app.update_page('#boutique-loading', 'jAnimate', 'fadeOut')
                 app.update_page('#category-tabs', 'show')
                 app.update_page('#category-tabs', 'jAnimate', 'fadeInDown')
+                app.update_page('header', 'jAnimate', 'fadeInDown')
+                app.update_page('header',  'show')
                 if arg.url_app:
                     app_id = arg.url_app
                     app.webkit.run_js("setTimeout(function(){ switchCategory('#boutique-loading', '" + string.loja + "', true); changeCategoryTab('#AppsInfo');changeCategoryTab('#"+ app_id +"');}, 500);")
                     dbg.stdout("Loja Horizon OS", app_id, 0, 0)
+                elif arg.install_app:
+                    install_id = arg.install_app
+                    app.webkit.run_js("setTimeout(function(){ switchCategory('#boutique-loading', '" + string.loja + "', true); cmd(\'install-appid?" + install_id + "\'); showQueue('Lista de Espera');startQueue();}, 900);")                                                                                                           
+                    dbg.stdout("Adicionado para instalação", install_id, 0, 0)
                 else:
                     app.webkit.run_js("setTimeout(function(){ switchCategory('#boutique-loading', '#News', '" + string.loja + "', true); showNews(); }, 500);")
                 app.webkit.run_js("showSlides(slideIndex); setInterval(function() { plusSlides(1); }, 6000);")
                 app.update_page('#navigation-right', 'removeClass', 'always-hidden')
+                app.update_page('header', 'removeClass', 'always-hidden')
                 app.update_page('#queue-cards-base', 'removeClass', 'always-hidden')
                 app.update_page('#navigation-topo', 'removeClass', 'always-hidden')
-                app.update_page('#menuprincipal', 'removeClass', 'always-hidden')
+                
                 app.webkit.run_js(category_update)
                 
 
@@ -1331,6 +1350,13 @@ class AppView(WebKit2.WebView):
                 dynamicapps.apply_filter(self, filter_name, True)
             else:
                 dynamicapps.apply_filter(self, filter_name)
+        elif cmd.startswith('filter-apps-checked?'):
+            filter_name = cmd.split('?')[1]
+            nonchecked_toggle = cmd.split('?')[2]
+            if nonchecked_toggle == 'toggle':
+                dynamicapps.apply_filter_checked(self, filter_name, True)
+            else:
+                dynamicapps.apply_filter_checked(self, filter_name)
         elif cmd.startswith('app-info-show?'):
             appid = cmd.split('?')[1]
             app.update_page('.info-show-'+appid, 'hide')
@@ -1387,6 +1413,14 @@ class AppView(WebKit2.WebView):
             app.update_page('#show-install-command-' + installation_command + '', 'show')
             app.update_page('#hide-install-command-' + installation_command + '', 'hide')
             app.update_page('#show-install-command-' + installation_command + '-list', 'hide')
+        elif cmd.startswith('previous-gallery?'):
+            previous_gallery = cmd.split('?')[1]
+            self.run_js('var leftPos1 = $(".screenshot-content-'+ previous_gallery +'").scrollLeft();$(".screenshot-content-'+ previous_gallery +'").animate({scrollLeft: leftPos1 - 250}, 600);')
+            
+        elif cmd.startswith('next-gallery?'):
+            next_gallery = cmd.split('?')[1]
+            self.run_js('var leftPos2 = $(".screenshot-content-'+ next_gallery +'").scrollLeft();$(".screenshot-content-'+ next_gallery +'").animate({scrollLeft: leftPos2 + 250}, 600);')
+
         elif cmd == 'quit':
             goodbye()
         elif cmd == 'update':
@@ -1732,9 +1766,10 @@ class DynamicApps(object):
         self.reload_index()
 
         # Variables to remember common details.
-        self.all_categories = ['Accessories','Education', 'Games', 'Graphics', 'Internet', 'Office', 'Programming', 'Media', 'SysTools', 'UnivAccess', 'Servers', 'MoreApps','StoreUpdates']
+        self.all_categories = ['Accessories','Education', 'Games', 'Graphics', 'Internet', 'Office', 'Programming', 'Media', 'SysTools', 'Servers', 'MoreApps','StoreUpdates']
         self.hide_non_free = pref.get('hide_non_free', False)
-
+        self.hide_non_checking = pref.get('hide_non_checking', False)
+        
         # Indicate that operations are in progress.
         self.operations_busy = False
 
@@ -1758,6 +1793,7 @@ class DynamicApps(object):
 
     def set_app_info(self, category, program_id):
         self.app_name = self.index[category][program_id]['name']
+        self.app_img_numbers = self.index[category][program_id]['img-numbers']
         self.app_img = self.index[category][program_id]['img']
         self.app_img_paralax = self.index[category][program_id]['img-paralax']
         self.app_main_package = self.index[category][program_id]['main-package']
@@ -1779,6 +1815,7 @@ class DynamicApps(object):
         self.app_alternate_to = self.index[category][program_id]['alternate-to']
         self.app_subcategory = self.index[category][program_id]['subcategory']
         self.app_open_source = self.index[category][program_id]['open-source']
+        self.app_checked = self.index[category][program_id]['checking']
         self.app_url_info = self.index[category][program_id]['url-info']
         self.app_url_android = self.index[category][program_id]['url-android']
         self.app_description_get_info = self.index[category][program_id]['description-get-info']
@@ -1876,6 +1913,27 @@ class DynamicApps(object):
 
         url_img_paralax = data_path + '/img/applications/wallpaper/'+ str(self.app_img_paralax)
         
+        
+
+        if os.path.isfile(url_img_paralax):
+            html_apps += '<img class="paralax-apps-img" src="'+ url_img_paralax +'" width="100%">'
+        else:
+            if not self.app_img_paralax == None:
+                html_apps += '<img class="paralax-apps-img" src="'+ self.app_img_paralax +'" width="100%">'
+            else:
+                html_apps += '<img class="paralax-apps-img" src="' + trans.res_dir + 'img/applications/wallpaper/none.jpg" width="100%">'
+            
+        
+        if self.app_checked:
+            checking_string = _('<div style="color: blue;" class="fa fa-check-circle"></div> Verificado')
+        else:
+            checking_string = _('<div style="color: red;" class="fa fa-exclamation-circle"></div> Não Verificado')
+
+        html_apps += '<div class="box-apps-info">'
+        html_apps +=' \
+        <img class="loja-img-logo" src="' + trans.res_dir + 'img/applications/' + self.app_img + '.png" width="50px" height="50px"> \
+        <h4 class="loja-texto-nome ">' + self.app_name + '</h4> <h8 style="margin-left: 90px;">'+ checking_string +'</h8>'
+        
         #Botões de gerenciamentos de programas "Instalar/Desinstalar/Remover/Reparar"
         html_apps += '<div class="loja-botoes-de-status">\
             <button class="' + css_class + '-undo button-status button-info button-undo" onclick="cmd(\'queue-drop?' + program_id + '\')" style="display:none"><span class="fa fa-undo"></span> ' + string.undo + '</button>\
@@ -1896,58 +1954,36 @@ class DynamicApps(object):
         else:
             html_apps += '<button style="display: none;" class="' + css_class + '-launch button-status button-info button-no-start" data-toggle="tooltip" data-placement="bottom" title="' + string.no_launch + '"><div class="fa fa-ban"></div> ' + string.launch + '&nbsp; </button>&nbsp;</div>'
 
+        # html_apps += '<object data="https://loja.horizon-os.org/category/'+ gross_category +'/' + program_id + '" type="text/plain"\
+        #                width="100%" style="height: 100%"></object>'
 
-        if os.path.isfile(url_img_paralax):
-            html_apps += '<img class="paralax-apps-img" src="'+ url_img_paralax +'" width="100%">'
-        else:
-            if not self.app_img_paralax == None:
-                html_apps += '<img class="paralax-apps-img" src="'+ self.app_img_paralax +'" width="100%">'
-            else:
-                html_apps += '<img class="paralax-apps-img" src="' + trans.res_dir + 'img/applications/wallpaper/none.jpg" width="100%">'
-            
-        
-
-        html_apps += '<object data="https://horizon-os.org/loja/category/'+ gross_category +'/' + program_id + '" type="text/plain"\
-                        width="100%" style="height: 100%"></object>'
-
-        
-
-        html_apps += '<div class="box-apps-info">'
-        html_apps +=' \
-        <img class="loja-img-logo" src="' + trans.res_dir + 'img/applications/' + self.app_img + '.png" width="50px" height="50px"> \
-        <h4 class="loja-texto-nome ">' + self.app_name + '</h4> '
-        
-        
-    
-        html_apps += '<div style="display: block;">'
-
+        # Aqui são desovados as imagens da galeria dos apps
+        html_apps += '<div  class="screenshot-content screenshot-content-'+program_id+'" style="display: block;">'
         screenshots = 1
-        screenshots_end = False
+        numbers_img = float(self.app_img_numbers)
         screenshot_buffer = ''
-        while not screenshots_end:
+        while(screenshots < numbers_img):
             screenshot_img = 'img/applications/screenshots/' + self.app_img + '-' + str(screenshots) + '.jpg'
-            screenshot_path = os.path.join(data_path, screenshot_img)
-            if os.path.exists(screenshot_path):
-                screenshot_buffer = screenshot_buffer + '\
-                <a class="lightbox" href="#' + self.app_img + str(screenshots) + '">\
-                <img src="' + trans.res_dir + screenshot_img + '" class="screenshot"/></a>'
-
-                screenshot_full = '<div class="lightbox-target lightbox-close" id="' + self.app_img + str(screenshots) + '">\
-                <img src="' + trans.res_dir + screenshot_img + '" />\
-                <a class="lightbox-close" alt="Fechar" href="#"></a></div>'
-                
-                app.update_page('#imagespawn', 'append', screenshot_full)
-                
-                screenshots = screenshots + 1
-            else:
-                screenshots_end = True
-
-        if not screenshots == 1:
-            html_apps += '<tr><td>' + screenshot_buffer + '</td></tr>'
+            screenshot_path = loja_site+screenshot_img
             
+            screenshot_buffer = screenshot_buffer + '\
+            <a class="lightbox" href="#' + self.app_img + str(screenshots) + '">\
+            <img src="' + screenshot_path + '" class="screenshot"/></a>'
+
+            screenshot_full = '<div class="lightbox-target lightbox-close" id="' + self.app_img + str(screenshots) + '">\
+            <img src="' + screenshot_path + '" />\
+            <a class="lightbox-close" alt="Fechar" href="#"></a></div>'
+            
+            app.update_page('#imagespawn', 'append', screenshot_full)
+            
+            screenshots = screenshots + 1
+
+        
+        html_apps += '<tr><td>' + screenshot_buffer + '</td></tr>'
 
         html_apps += '</div>'
-
+        html_apps += '<button class="button-screenshot button-next-screenshot" onclick="cmd(\'next-gallery?' + program_id + '\')">&#8250;</button>'
+        html_apps += '<button class="button-screenshot button-previous-screenshot" onclick="cmd(\'previous-gallery?' + program_id + '\')">&#8249;</button>'
         html_apps += '<span class="loja-texto-descricao "><div class="text-info-apps">' + self.app_description + '</div>'
         
         html_apps += '<p class="text-right">'
@@ -1961,6 +1997,8 @@ class DynamicApps(object):
             license_string = _('Código aberto')
         else:
             license_string = _('Proprietário')
+
+        
 
         ## Determinar plataformas suportadas
         platform_string = ''
@@ -2113,10 +2151,14 @@ class DynamicApps(object):
 
        #
        # Pacotes "normais" que podem ser instalados / removidos pelo usuário.
-        if self.app_open_source:
-            html_buffer += '<div onclick="changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#'+ program_id +'' '\');" class="tema-item-select app-entry ' + css_class + ' filter-' + css_subcategory + '">'
-        else:
-            html_buffer += '<div onclick="changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#'+ program_id +'' '\');" class="tema-item-select app-entry ' + css_class + ' filter-' + css_subcategory + ' proprietary">'
+        if self.app_open_source and self.app_checked:
+            html_buffer += '<div onclick="changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#'+ program_id +'' '\');" class="tema-item-select app-entry ' + css_class + ' filter-' + css_subcategory + ' checked">'
+        elif self.app_open_source and not self.app_checked:
+            html_buffer += '<div onclick="changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#'+ program_id +'' '\');" class="tema-item-select app-entry ' + css_class + ' filter-' + css_subcategory + ' not-checked">'
+        elif not self.app_open_source and self.app_checked:
+            html_buffer += '<div onclick="changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#'+ program_id +'' '\');" class="tema-item-select app-entry ' + css_class + ' filter-' + css_subcategory + ' checked proprietary">'
+        elif not self.app_open_source and not self.app_checked:
+            html_buffer += '<div onclick="changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#'+ program_id +'' '\');" class="tema-item-select app-entry ' + css_class + ' filter-' + css_subcategory + ' not-checked proprietary">'
         html_buffer += '<div class="">'
         html_buffer += '<div class="center-inside">'
         html_buffer += '<img class="icon-program-select"  src="' + trans.res_dir + 'img/applications/' + self.app_img + '.png">'
@@ -2141,6 +2183,7 @@ class DynamicApps(object):
             except:
                 pass
         
+        app.update_page('.profile-picture-header', 'append', html_buffer)
         app.update_page(target_element, 'append', html_buffer)
         app.update_page('.info-hide-'+css_class, 'hide')
         
@@ -2187,8 +2230,6 @@ class DynamicApps(object):
                 return string.media
             elif category == "SysTools":
                 return string.systools
-            elif category == "UnivAccess":
-                return string.univaccess
             elif category == "Servers":
                 return string.servers
             else:
@@ -2281,7 +2322,7 @@ class DynamicApps(object):
                                     </div>'
                         else:
                             news_buffer_gallery += '<div class="mySlides ">'
-                            news_buffer_gallery += '<img src="' + trans.res_dir + 'img/applications/gallery-news/none.png" class="icon-program-select-gallery"/>\
+                            news_buffer_gallery += '<img src="file:///Programas/Loja-HorizonOS/Arquivos/img/applications/gallery-news/none.png" class="icon-program-select-gallery"/>\
                                     <div class="box-gallery-info-comment tema-item-select"> ' + comment + '</div>\
                                     <div onclick="changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#'+ item_id +'' '\');" class="box-gallery-info-no-img-gallery tema-item-select">\
                                     <div class="center-inside"><img src="' + trans.res_dir + 'img/applications/' + item_img + '.png" class="icon center"/></div>\
@@ -2291,7 +2332,7 @@ class DynamicApps(object):
                                     <div class="fa fa-times-circle not-installed-check ' + css_class + '-install" hidden> Não Instalado</div>\
                                     </div>\
                                     </div>'
-
+                                    
                     
                               
                     except Exception as e:
@@ -2329,7 +2370,8 @@ class DynamicApps(object):
 
     def populate_categories(self, webkit):
         ''' List all of the applications supported on the current architecture. '''
-        str_nothing_here = _("Desculpe, a Loja Horizon OS não pode apresentar nenhum software para esta categoria que seja compatível com este sistema.")
+        codename = subprocess.run(['lsb_release','-cs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+        str_nothing_here = _("Desculpe, a Loja Horizon OS não pode apresentar nenhum software desta categoria que seja compatível para este sistema com o 'codename " + codename +"'")
         total_added = 0
         total_skipped = 0
         total_unsupported = 0
@@ -2356,9 +2398,9 @@ class DynamicApps(object):
             # Enumerate each program in this category.
             for program_id in category_items:
                 self.set_app_info(category, program_id)
-                return_code = self.append_app_listing(category, program_id, '#'+category)
                 return_code = self.append_app_listing_full(category, program_id, '#AppsInfo')
                 return_code = self.append_app_listing_installed(category, program_id, '#AppsInfoInstalledSpawn')
+                return_code = self.append_app_listing(category, program_id, '#'+category)
                 dynamicapps.populate_news(self)
 
                 # Successfully added application
@@ -2573,8 +2615,63 @@ class DynamicApps(object):
             for element in ['#nonFreeCheckBox', '#pref-non-free']:
                 app.update_page(element, 'addClass', 'fa-square')
                 app.update_page(element, 'removeClass', 'fa-check-square')
+    def toggle_non_checking(self):
+        # Toggles visibility of non-checking software.
+     
+        if self.hide_non_checking:
+            for element in ['.pref-non-checking']:
+                app.update_page(element, 'removeClass', 'fa-square')
+                app.update_page(element, 'addClass', 'fa-check-square')
+                app.update_page('#info-checking', 'show')
+        else:
+            for element in ['.pref-non-checking']:
+                app.update_page(element, 'addClass', 'fa-square')
+                app.update_page(element, 'removeClass', 'fa-check-square')
+                app.update_page('#info-checking', 'hide')
+    
 
-    def apply_filter(self, webkit, filter_value, nonfree_toggle=False):
+    def apply_filter_checked(self, webkit, filter_value, nonchecked_toggle=False):
+        sub_css_class = 'filter-' + filter_value
+
+    
+        if nonchecked_toggle:
+            # Toggle the option on/off
+            if self.hide_non_checking:
+                self.hide_non_checking = False
+                pref.set('hide_non_checking', False)
+            else:
+                self.hide_non_checking = True
+                pref.set('hide_non_checking', True)
+            self.toggle_non_checking()
+
+        if filter_value == 'none':
+            dbg.stdout('Apps', 'Filter reset.', 1, 4)
+            app.update_page('.app-entry', 'show')
+            if self.hide_non_checking:
+                dbg.stdout('Apps', 'Hiding all proprietary software.', 1, 4)
+                app.update_page('.not-checked', 'hide')
+            return
+        else:
+            dbg.stdout('Apps', 'Applying filter: ' + filter_value, 1, 4)
+            app.update_page('.app-entry', 'hide')
+
+            for category in self.all_categories:
+                category_items = list(self.index[category].keys())
+                for program_id in category_items:
+                    app_checked = self.index[category][program_id]['checking']
+                    
+                    # If the application is closed source and we're told to hide it.
+                    if not app_checked and self.hide_non_checking:
+                        app.update_page('.' + program_id.replace('.','-'), 'hide')
+                        continue
+                    
+                    if app_subcategory.replace(' ','-') == filter_value:
+                        app.update_page('.' + program_id.replace('.','-'), 'show')
+
+                    # Only show if subcategory matches.
+               
+
+    def apply_filter(self, webkit, filter_value, nonfree_toggle=False, nonchecked_toggle=False):
         sub_css_class = 'filter-' + filter_value
 
         if nonfree_toggle:
@@ -2586,6 +2683,16 @@ class DynamicApps(object):
                 self.hide_non_free = True
                 pref.set('hide_non_free', True)
             self.toggle_non_free()
+        
+        if nonchecked_toggle:
+            # Toggle the option on/off
+            if self.hide_non_checking:
+                self.hide_non_checking = False
+                pref.set('hide_non_checking', False)
+            else:
+                self.hide_non_checking = True
+                pref.set('hide_non_checking', True)
+            self.toggle_non_checking()
 
         if filter_value == 'none':
             dbg.stdout('Apps', 'Filter reset.', 1, 4)
@@ -2593,6 +2700,9 @@ class DynamicApps(object):
             if self.hide_non_free:
                 dbg.stdout('Apps', 'Hiding all proprietary software.', 1, 4)
                 app.update_page('.proprietary', 'hide')
+            if self.hide_non_checking:
+                dbg.stdout('Apps', 'Hiding all proprietary software.', 1, 4)
+                app.update_page('.not-checked', 'hide')
             return
         else:
             dbg.stdout('Apps', 'Applying filter: ' + filter_value, 1, 4)
@@ -2603,9 +2713,14 @@ class DynamicApps(object):
                 for program_id in category_items:
                     app_subcategory = self.index[category][program_id]['subcategory'].replace(' ','-')
                     app_open_source = self.index[category][program_id]['open-source']
-
+                    app_checked = self.index[category][program_id]['checking']
+                    
                     # If the application is closed source and we're told to hide it.
-                    if not app_open_source and self.hide_non_free:
+                    if not app_open_source and self.hide_non_free and self.hide_non_checking:
+                        app.update_page('.' + program_id.replace('.','-'), 'hide')
+                        continue
+                    
+                    if app_open_source and not self.hide_non_free and self.hide_non_checking:
                         app.update_page('.' + program_id.replace('.','-'), 'hide')
                         continue
 
@@ -2639,6 +2754,7 @@ class DynamicApps(object):
         app.update_page('#search-results', 'html', ' ')
         total_results = 0
         hidden_results = 0
+        hidden_checking_results = 0
         for category in self.all_categories:
             app_id = list(self.index[category].keys())
             app_id.sort()
@@ -2670,9 +2786,10 @@ class DynamicApps(object):
                 if app_matched:
                     # Skip this if user doesn't want non-free software.
                     oss = self.index[category][program_id]['open-source']
-                    if self.hide_non_free and not oss:
+                    if self.hide_non_free and self.hide_non_checking and not oss:
                         hidden_results += 1
                         continue
+                    
 
                     # Display result to user, if it works on the system (return code 0)
                     self.set_app_info(category, program_id)
@@ -2687,6 +2804,8 @@ class DynamicApps(object):
                 app.update_page('#search-retry-nonfree', 'show')
             else:
                 app.update_page('#search-retry-nonfree', 'hide')
+            
+            
         else:
             app.update_page('#search-results', 'fadeIn')
             app.update_page('#search-total', 'fadeIn')
@@ -2695,7 +2814,8 @@ class DynamicApps(object):
             # If non-free filtering is enabled, inform of how many apps were hidden.
             if self.hide_non_free and hidden_results > 0:
                 app.update_page('#search-total', 'append', '&nbsp;<button onclick="searchAgainNonFree()">' + str(hidden_results) + ' ' + _("proprietary applications are hidden.") + '</button>')
-
+            if self.hide_non_checking and hidden_results > 0:
+                app.update_page('#search-total', 'append', '&nbsp;<button onclick="searchAgainNonFree()">' + str(hidden_results) + ' ' + _("proprietary applications are hidden.") + '</button>')
     def populate_repos(self):
         app.webkit.run_js('switchCategory("#Preferences", "#PrettyRepos", "' + _("Software Sources") + '", true)')
         app.update_page('#repo-table', 'hide')
@@ -2965,10 +3085,11 @@ class ChangesQueue(object):
 
         # Desbloquear/Restaurar a interface do usuário, se aplicável
         app.update_page('#navigation-right', 'removeClass', 'disabled')
+        app.update_page('header', 'removeClass', 'disabled')
         app.update_page('#navigation-topo', 'removeClass', 'disabled')
         app.update_page('#queue-cards-base', 'removeClass', 'disabled')
         app.update_page('#category-tabs', 'removeClass', 'disabled')
-        app.update_page('#menuprincipal', 'fadeIn')
+        app.update_page('header', 'fadeIn')
         
         app.update_page('#queue-btn-reset', 'fadeOut')
         app.update_page('#queue-error', 'fadeOut')
@@ -2979,7 +3100,7 @@ class ChangesQueue(object):
         # "Hello, would you like a bag?"
         #
         # Priority:     Remove first -->  Install
-        dbg.stdout('Queue', 'Applying changes...', 0, 3)
+        dbg.stdout('Loja Horizon OS', 'Aplicando alterações ...', 0, 3)
 
         # Function to check whether an application's change was successful.
         self.bulk_all_good = True
@@ -2994,7 +3115,7 @@ class ChangesQueue(object):
 
             if installed and check_for_state == 'install':
                 self.ui_update_card(program_id, '<span class="fa fa-check"></span> ' + string.install_success, 'success')
-                notify_send( name + ' ' + _('Installed'), _("The application is now ready to use."), img_path)
+                notify_send( name + ' ' + _('Instalado'), _("O aplicativo agora está pronto para uso."), img_path)
 
             elif not installed and check_for_state == 'install':
                 self.ui_update_card(program_id, '<span class="fa fa-warning"></span> ' + string.install_fail, 'error')
@@ -3003,11 +3124,11 @@ class ChangesQueue(object):
 
             elif not installed and check_for_state == 'remove':
                 self.ui_update_card(program_id, '<span class="fa fa-check"></span> ' + string.remove_success, 'success')
-                notify_send( name + ' ' + _('Removed'), _("The application has been uninstalled."), img_path)
+                notify_send( name + ' ' + _('Removido'), _("O aplicativo foi desinstalado."), img_path)
 
             elif installed and check_for_state == 'remove':
                 self.ui_update_card(program_id, '<span class="fa fa-warning"></span> ' + string.remove_fail, 'error')
-                notify_send( name + ' ' + _('failed to remove'), _("A problem is preventing this application from being removed."), img_path)
+                notify_send( name + ' ' + _('falhou em remover'), _("Um problema está impedindo que este aplicativo seja removido."), img_path)
                 self.bulk_all_good = False
 
         # Uninstall applications first
@@ -3135,8 +3256,10 @@ class ChangesQueue(object):
         app.update_page('#navigation-queue-count', 'html', str(self.queue_count))
         if self.queue_count == 0:
             app.update_page('#navigation-queue-count', 'addClass', 'empty')
+            app.update_page('#waiting-list', 'removeClass', 'waiting-list')
         else:
             app.update_page('#navigation-queue-count', 'removeClass', 'empty')
+            app.update_page('#waiting-list', 'addClass', 'waiting-list')
 
     def is_enabled(self):
         enabled = pref.get('enable-queue', True)
@@ -3301,6 +3424,7 @@ class Arguments(object):
         self.font_dpi_override = None
         self.inspector = False
         self.url_app = None
+        self.install_app = None
         
 
         archs = ['i386', 'amd64', 'armhf', 'arm64', 'powerpc', 'ppc64el']
@@ -3380,12 +3504,16 @@ class Arguments(object):
               dbg.stdout('Debug', 'Forcing the application to think we\'re connected with an internet connection.', 0, 0)
               self.simulate_force_connection = True
 
-          
-          
           if arg.startswith('loja-horizon-os:url_app='):
               self.url_app = arg.split('loja-horizon-os:url_app=')[1]
               w = Gtk.Window()
               w.maximize()
+
+          if arg.startswith('-i:'):
+              self.install_app = arg.split('-i:')[1]
+          elif arg.startswith('-install:'):
+              self.install_app = arg.split('-install:')[1]
+              
 
           if arg == '--simulate-changes':
               dbg.stdout('Debug', 'Any changes to software will be simulated without modifying the actual system.', 0, 0)
@@ -3470,7 +3598,7 @@ def set_gconf_value(schema, key, value):
 if __name__ == "__main__":
 
     if proctitle_available:
-        setproctitle.setproctitle('loja-horizon-os')
+        setproctitle.setproctitle('LojaHorizonOS')
 
     distro = subprocess.run(['lsb_release','-is'], stdout=subprocess.PIPE).stdout.decode('utf-8').lower().strip('\n')
     os_version = subprocess.run(['lsb_release','-rs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')

@@ -40,7 +40,7 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
-    color: var(--text);
+    color: #000;
     /* Behave more like an application by
 * preventing text highlighting / dragging. */
     -webkit-user-select: none;
@@ -162,7 +162,7 @@ button:focus {
 .navigation-button {
     width: 39px;
     height: 30px;
-    color: var(--section_text);
+    color: #5a5033;
     display: inline-block;
     padding: 4px 12px;
     margin-bottom: 2px;
@@ -199,22 +199,7 @@ button:focus {
     width: auto;
 }
 
-.navigation-button-item:hover {
-    color: #330784;
-}
 
-.navigation-button-item:focus {
-    border-color: var(--selected_bg);
-}
-
-.navigation-button-item:active {
-    background-color: var(--selected_bg);
-    color: #fff;
-}
-
-.navigation-button-item.active {
-    background-color: var(--selected_bg);
-}
 
 #navigation-title {
     font-size: 18px;
@@ -232,13 +217,21 @@ button:focus {
 
 #navigation-right {
     position: relative;
-    top: 9.5px;
+    top: -3.5px;
     z-index: 1;
     float: right;
-    margin-right: 7px;
-    margin-bottom: 19px;
+    margin-right: 23px;
+    margin-bottom: -14px;
 }
 
+#category-tabs{
+    left: 0;
+    right: 16px;
+    /* top: 48px; */
+    z-index: 5;
+    margin-bottom: 2px;
+    padding-bottom: 0;
+}
 #navigation-right.disabled,
 #navigation-topo.disabled,
 #queue-cards-base.disabled,
@@ -262,9 +255,7 @@ button:focus {
     padding-bottom: 16px;
     overflow-x: none;
     overflow-y: auto;
-    /* position: fixed; */
     height: 100%;
-    width: auto;
 }
 
 .divider {
@@ -798,6 +789,7 @@ blockquote.terminal {
     height: 100px;
     margin: 4px;
     border: 2px solid white;
+    
 }
 
 .screenshot:hover,
@@ -809,6 +801,16 @@ blockquote.terminal {
     cursor: -webkit-zoom-in;
 }
 
+.screenshot-content {
+    width: auto;
+    height:210px;
+    
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    float: left;
+    width: 100%;
+}
 
 /* Software Only Mode Splash */
 
@@ -1381,13 +1383,14 @@ blockquote.terminal {
 /* Card Layout */
 
 .queue-card {
-    width: calc(100% - 32px);
+    width: calc(100% - 19px);
     background-color: white;
     border: 1px solid hsla(210, 20%, 2%, 0.226);
     margin: 8px;
     padding: 8px;
-    height: 100%;
+    height: auto;
     float: left;
+    margin-left: 1px;
 }
 
 .queue-card>.icon {
@@ -1828,10 +1831,8 @@ blockquote.terminal {
 }
 
 .category-buttons {
-    display: block;
-    margin-left: 13px;
-    margin-bottom: 14px;
-    cursor: pointer;
+    margin-left: -5px;
+    font-size: 26px;
 }
 
 .activate-button-search{

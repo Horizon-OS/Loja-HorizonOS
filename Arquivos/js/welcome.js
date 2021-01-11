@@ -223,7 +223,7 @@ if (current_page == 'index.html') {
         changeSubtitle(subtitle);
         $('#content').animate({ scrollTop: 0 }, 500)
 
-        // Remove any other current page highlights
+        // Remova quaisquer outros destaques da página atual
         $('#navigation-queue').removeClass('active');
         $('#navigation-search').removeClass('active');
         $('#navigation-news').removeClass('active');
@@ -231,6 +231,22 @@ if (current_page == 'index.html') {
         $('#navigation-font-list').removeClass('active');
         $('#navigation-installed').removeClass('active');
         $('#dropdown1').removeClass('active');
+        
+        //Ids das categoria a ser removidas dos destaques
+        $('#AccessoriesBtn').removeClass('active');
+        $('#EducationBtn').removeClass('active');
+        $('#GamesBtn').removeClass('active');
+        $('#GraphicsBtn').removeClass('active');
+        $('#InternetBtn').removeClass('active');
+        $('#OfficeBtn').removeClass('active');
+        $('#ProgrammingBtn').removeClass('active');
+        $('#MediaBtn').removeClass('active');
+        $('#SysToolsBtn').removeClass('active');
+        $('#ServersBtn').removeClass('active');
+        $('#MoreAppsBtn').removeClass('active');
+        $('#MiscBtn').removeClass('active');
+
+        
 
 
 
@@ -269,9 +285,12 @@ if (current_page == 'index.html') {
 
     // A category tab is clicked.
     function changeCategoryTab(id, humanText) {
-        switchCategory(currentCategory, id, humanText);
+        switchCategory(currentCategory, id, true);
+        resetNavTabs();
         $('#categoryHover').fadeOut(300)
+        $(id+'Btn').addClass('active');
     }
+
 
     function jumpOneClickServers(appno) {
         // Python passes 'server_string' variable to allow translation.
@@ -307,9 +326,13 @@ if (current_page == 'index.html') {
     function applyFilter() {
         cmd('filter-apps?' + selected_filter + '?');
     }
-
+    
     function toggleNonFree() {
         cmd('filter-apps?' + selected_filter + '?toggle');
+    }
+
+    function toggleNonChecked() {
+        cmd('filter-apps-checked?' + selected_filter + '?toggle');
     }
 
     // Featured Grid - Set classes to create a semi-circle fade effect.
@@ -396,6 +419,7 @@ if (current_page == 'index.html') {
         $('#navigation-news').addClass('active');
     }
 
+
     // Toggling to show the Search Page
     function showSearch(subtitle) {
         switchCategory(currentCategory, '#Search', subtitle, true)
@@ -417,6 +441,7 @@ if (current_page == 'index.html') {
     // Search again but include non-free matches.
     function searchAgainNonFree() {
         toggleNonFree()
+        toggleNonChecked()
         searchNow()
     }
 

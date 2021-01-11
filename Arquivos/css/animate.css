@@ -1635,3 +1635,15 @@ EDITED: Non-WebKit lines are filtered out.
 .slideOutUp {
   -webkit-animation-name: slideOutUp;
 }
+
+@-webkit-keyframes example {
+  0%   {margin-top: 0px;}
+  11%  {margin-top: 5px;}
+  22%  {margin-top: 8px;}
+  33%  {margin-top: 5px;}
+  44%  {margin-top: 0px;}
+  55%  {margin-top: -5px;}
+  66% {margin-top: -8px;}
+  77% {margin-top: -5px;}
+  100%   {margin-top: 0px;}
+}
