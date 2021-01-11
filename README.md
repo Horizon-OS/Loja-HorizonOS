@@ -10,6 +10,19 @@ Esta loja é uma das aplicações desenvolvidas para a distribuição Horizon OS
 
 # Atenção
 Este repositório será atualizado semanalmente e comentado com todas as mudanças que ocorreram.
+Para usar através deste repositório você deve ter os seguintes pacotes instalados em sua maquina Linux
+
+```bash
+         gir1.2-webkit2-4.0
+         python3-polib
+         zenity
+         python3-aptdaemon.gtk3widgets
+         python3-aptdaemon
+         python3-apt
+         python3
+         software-properties-gtk
+         update-manager
+```
 
 Para sua segurança, não use o código-fonte da loja para uso final ainda, pois pode haver muitos bugs não reconhecidos para a sua distribuição que podem resultar na quebra dos pacotes de instalação do seu sistema!
 
@@ -25,3 +38,4 @@ sudo apt-get install loja-horizon-os
 
 ## Licença
 [GPLv3+](https://www.gnu.org/licenses/gpl-3.0.pt-br.html)
+
