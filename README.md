@@ -9,6 +9,7 @@ Esta loja é uma das aplicações desenvolvidas para a distribuição Horizon OS
 
 
 
+
 # Atenção
 Este repositório será atualizado semanalmente e comentado com todas as mudanças que ocorreram.
 Para usar através deste repositório você deve ter os seguintes pacotes instalados em sua maquina Linux e também para funcionar deve instalar na pasta raiz do sistema da seguinte maneira /Programas/Loja-HorizonOS/
