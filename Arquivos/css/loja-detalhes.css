@@ -2,13 +2,12 @@
     cursor: cell;
     margin-top: 35px;
     margin-left: 15px;
-    
+    width: 93px;
 }
 
 .loja-texto-nome {
-    margin-left: 75px;
-    margin-top: -40px;
-    
+    margin-left: 120px;
+    margin-top: -89px;
     text-transform: uppercase;
 }
 
@@ -16,6 +15,7 @@
     float: left;
     margin-bottom: 22px;
     width: 100%;
+    transition: 0.2s ease;
 }
 
 .text-info-apps {
@@ -24,18 +24,14 @@
 }
 
 .loja-botoes-de-status {
-
     top: 3px;
-    margin-left: 85px;
-   
+    margin-left: 118px;
 }
-
 
 a.lightbox img {
     height: 150px;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, .3);
     margin: 24px 20px 20px 20px;
-    
 }
 
 
@@ -60,10 +56,20 @@ a.lightbox img {
 
 /* Styles the lightbox image, centers it vertically and horizontally, adds the zoom-in transition and makes it responsive using a combination of margin and absolute positioning */
 
+.lightbox-target-img-box {
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 90%;
+    height: 90%;
+    top: -30px;
+}
+
 .lightbox-target img {
     margin: auto;
     position: absolute;
-    top: 20px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -74,7 +80,6 @@ a.lightbox img {
     -moz-transition: .5s ease-in-out;
     -o-transition: .5s ease-in-out;
     transition: .5s ease-in-out;
-    width: 50%;
 }
 
 
@@ -167,10 +172,9 @@ a.lightbox-close:after {
 }
 
 .dropdown-filter {
-    margin-top: 20px;
-    right: 2%;
-    z-index: 50;
+    margin-top: -26px;
     position: fixed;
+    margin-left: 271px;
 }
 
 .dropdown-filter-button {
@@ -224,12 +228,10 @@ a.lightbox-close:after {
 }
 
 .noticias-titulos {
-    float: left;
     width: 100%;
 }
 
 .noticias-comentarios {
-    float: left;
     padding-bottom: 10px;
     width: 98%;
 }
@@ -282,8 +284,8 @@ a.lightbox-close:after {
     margin: 20px;
     text-align: center;
     /* Take careful when you use text-align center
-         Bacause this affects postion of gallery navigation! I recomend you use it
-         inside a container like this. */
+     Bacause this affects postion of gallery navigation! I recomend you use it
+     inside a container like this. */
 }
 
 @media (min-width: 800px) {
@@ -310,7 +312,7 @@ a.lightbox-close:after {
 
 
 /* Final page style
-     !!Below this line, Gallery's code starts!!*/
+ !!Below this line, Gallery's code starts!!*/
 
 
 /* Slideshow container */
@@ -466,7 +468,7 @@ a.lightbox-close:after {
 
 .button-info {
     border: none;
-    width: auto;
+    width: 184px;
     height: 30px;
     text-align: center;
     text-decoration: none;
@@ -476,21 +478,25 @@ a.lightbox-close:after {
     border-radius: 20px;
 }
 
+.button-info-gallery {
+    background-color: rgb(32, 47, 54);
+}
+
 .button-command-install {
-    border: none;
-    padding: 3px 16px;
+    /* border: none; */
+    padding: 4px 4px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    padding-left: 8px;
     margin: 4px 2px;
     cursor: pointer;
-    border-radius: 20px;
+    /* border-radius: 20px; */
     background-color: #3a636f;
     color: white;
-    margin-left: -27px;
-    border-style: solid;
-    
+    margin-left: -30px;
+    /* border-style: solid; */
 }
 
 .button-install {
@@ -508,15 +514,28 @@ a.lightbox-close:after {
     width: auto;
     height: 30px;
     padding-right: 34px;
-    
-    
     padding-left: 14px;
+}
+
+.button-install-gallery {
+    background-color: #1c87a8;
 }
 
 .button-start {
     background-color: #1c87a8;
     color: white;
     width: 118px;
+    cursor: pointer;
+}
+
+.button-start-gallery {
+    background-color: #1c87a8;
+}
+
+.button-start-snap {
+    background-color: #1c87a8;
+    color: white;
+    width: 188px;
     cursor: pointer;
 }
 
@@ -552,11 +571,21 @@ a.lightbox-close:after {
     cursor: pointer;
 }
 
-.button-status{
-    border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.575);
+.button-undo-gallery {
+    background-color: #130b0a;
 }
 
+.button-undo-snap {
+    background-color: #130b0a;
+    color: white;
+    width: 230px;
+    cursor: pointer;
+}
+
+.button-status {
+    border-radius: 8px;
+    /* background-color: rgb(103 83 152 / 47%); */
+}
 
 .button-screenshot {
     cursor: pointer;
@@ -570,22 +599,14 @@ a.lightbox-close:after {
     border-radius: 0 3px 3px 0;
     background-color: rgba(0, 0, 0, 0.637);
     z-index: 1;
-    
-    }
+}
 
-    
-.button-next-screenshot{
+.button-next-screenshot {
     float: right;
-    
 }
 
-.button-previous-screenshot{
+.button-previous-screenshot {
     float: left;
- 
-}
-
-.tema-item-select {
-    border-radius: 10px;
 }
 
 .paralax-apps-background {
@@ -597,7 +618,6 @@ a.lightbox-close:after {
 .paralax-apps-img {
     position: absolute;
     z-index: -1;
-    
 }
 
 .alert-info {
@@ -629,7 +649,7 @@ a.lightbox-close:after {
     counter-increment: gallery-cell;
 }
 
-#search-terms{
+#search-terms {
     position: fixed;
     left: 156px;
     transform: translate(-39%, 0);
@@ -641,7 +661,7 @@ a.lightbox-close:after {
     margin-top: -27px;
     /* width: 209px; */
     border-radius: 7px;
-    }
+}
 
 .button-select-filter {
     height: auto;
@@ -661,7 +681,7 @@ a.lightbox-close:after {
     border-right: hidden;
 }
 
-.list-filter{
+.list-filter {
     overflow: auto;
     max-height: 566px;
     min-height: 31px;
@@ -678,12 +698,223 @@ a.lightbox-close:after {
     width: calc(100% - 200px);
 }
 
-.dropdown-menu{
+.dropdown-menu {
     min-width: 280px;
 }
 
-.waiting-list{
+.waiting-list {
     animation-name: example;
     animation-duration: 0.5s;
     animation-iteration-count: infinite;
+}
+
+.app_checked {
+    margin-left: 119px;
+}
+
+.box-apps-info-box {
+    margin-top: 26px;
+    height: 163px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 35px rgba(0, 0, 0, 0.5);
+    transition: 0.7s ease;
+}
+
+.box-apps-info {
+    float: left;
+    height: 100%;
+    margin-left: 28px;
+    margin-right: 28px;
+}
+
+.no-screenshots-info {
+    text-align: center;
+    margin-top: 170px;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 0 3px 3px 0;
+}
+
+.no-screenshots-info-icon {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    font-size: 150px;
+    transition: 0.7s ease;
+}
+
+.parental-rating {
+    /* position: absolute; */
+    transition: 0.7s ease;
+    /* margin-top: -120px; */
+    float: right;
+    margin-top: 5px;
+    margin-right: 4px;
+}
+
+.parental-rating-text-description {
+    transition: 0.7s ease;
+    text-align: right;
+    padding-right: 80px;
+}
+
+.parental-rating-text-title {
+    transition: 0.7s ease;
+    text-align: center;
+    text-transform: uppercase;
+    /* width: 70px; */
+}
+
+.parental-rating-content {
+    float: right;
+    position: relative;
+    border-radius: 10px;
+    width: 306px;
+    margin-top: -128px;
+    margin-right: 20px;
+}
+
+.parental-rating-table {
+    width: 70px;
+    float: right;
+}
+
+
+/* CSS VARIABLES */
+
+:root {
+    --primary: #141414;
+    --light: #F3F3F3;
+    --dark: #686868;
+}
+
+.imagem-app {
+    max-width: 100%;
+}
+
+.imagem-app-not-scaled-icon {
+    margin-top: -45%;
+    margin-left: 35%;
+}
+
+.tema-item-select {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* HEADER */
+
+
+/* MAIN CONTIANER */
+
+.apps-container {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.apps-box {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(5, minmax(100px, 1fr));
+}
+
+.apps-box a {
+    transition: transform .3s;
+}
+
+.apps-box a:hover {
+    transition: transform .3s;
+    transform: scale(1.1);
+}
+
+.apps-box img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+
+/* LINKS */
+
+
+/* MEDIA QUERIES */
+
+@media(max-width: 900px) {
+    .apps-box {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(4, minmax(100px, 1fr));
+    }
+}
+
+@media(max-width: 700px) {
+    .apps-box {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(3, minmax(100px, 1fr));
+    }
+}
+
+@media(max-width: 500px) {
+    .tema-item-select {
+        font-size: 15px;
+    }
+    .apps-box {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(1, 1fr);
+        text-align: center;
+    }
+    .apps-box a:hover {
+        transition: transform .3s;
+        transform: scale(1.1);
+    }
+}
+
+.main-move {
+    align-items: flex-start;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    height: 25em;
+    justify-content: center;
+    padding-left: 84px;
+}
+
+.main-move .container-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 400px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    background-color: rgba(0, 0, 0, 0.411);
+}
+
+.apps-title {
+    font-size: 2.5em;
+    width: 390px;
+    color: white;
+}
+
+.apps-sinopse {
+    margin: 1.25em 0 2.5em 0;
+    color: white;
+    width: 390px;
+}
+
+.apps-buttons button {
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 15px 30px;
+    margin-right: 15px;
+    text-transform: uppercase;
+    transition: .3s ease all;
 }

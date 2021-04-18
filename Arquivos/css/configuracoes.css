@@ -142,7 +142,7 @@ body {
 }
 
 #myInput {
-    background-image: url('../img/welcome/searchicon.png');
+    background-image: url('../img/definitions/searchicon.png');
     background-position: 8px 5px;
     background-repeat: no-repeat;
     width: 100%;
@@ -177,4 +177,12 @@ body {
 
 #myUL li a:hover:not(.header) {
     background-color: #eee;
+}
+
+.showButtomCategoryFilter {
+    display: block;
+}
+
+.hideButtomCategoryFilter {
+    display: none;
 }

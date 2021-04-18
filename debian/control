@@ -1,0 +1,24 @@
+Source: loja-horizon-os
+Section: x11
+Priority: optional
+Homepage:http://horizon-os.org/loja
+Maintainer: Horizon Operating System <contato@horizon-os.org>
+Build-Depends: debhelper (>= 9), gettext, libglib2.0-bin
+Standards-Version: 1.0
+
+Package: loja-horizon-os
+Architecture: all
+Depends: loja-horizon-os-dados,
+         gir1.2-webkit2-4.0,
+         python3-polib,
+         zenity,
+         python3-aptdaemon.gtk3widgets,
+         python3-aptdaemon,
+         python3-apt,
+         python3,
+         software-properties-gtk,
+         update-manager,
+         ${misc:Depends}
+Description: Este pacote contém a Loja do Horizon OS!
+
+

@@ -1,12 +1,8 @@
 #search-terms {
-    background-image: url('../img/welcome/searchicon-white.png');
+    background-image: url("../img/definitions/searchicon-white.png");
     background-position: 5px 4px;
     background-repeat: no-repeat;
-    border: 1px solid #b9b0b0;
-}
-
-.tema-item-select {
-    background-color: white;
+    border: 1px solid rgb(185, 176, 176);
 }
 
 .tema-topo {
@@ -18,19 +14,16 @@
 }
 
 .tema-categoria {
-    background-color: #ecdbdb;
+    background-color: rgb(236, 219, 219);
 }
-
 
 .queue-card {
-
     background-color: white;
-    border: 1px solid hsla(210, 20%, 2%, 0.226);
-
+    border: 1px solid rgba(4, 5, 6, 0.227);
 }
 
-.table-striped tbody>tr:nth-child(odd)>td,
-.table-striped tbody>tr:nth-child(odd)>th {
+.table-striped tbody>tr:nth-child(2n+1)>td,
+.table-striped tbody>tr:nth-child(2n+1)>th {
     background-color: rgb(235, 224, 222);
 }
 
@@ -44,16 +37,13 @@
     background-color: var( --selected_bg);
 }
 
-
 .dropdown-menu {
-    
-    background-color: #f1f1f1;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    
+    background-color: rgb(241, 241, 241);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 16px 0px;
 }
 
 .navigation-button:hover {
-    color: #330784;
+    color: rgb(51, 7, 132);
 }
 
 .navigation-button:focus {
@@ -63,7 +53,7 @@
 
 .navigation-button:active {
     background-color: var(--selected_bg);
-    color: #fff;
+    color: rgb(255, 255, 255);
     border-radius: 32px;
 }
 
@@ -78,27 +68,29 @@
 }
 
 .installed-check {
-    color: #07a028;
+    color: rgb(7, 160, 40);
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
     text-align: center;
     margin-top: -5px;
+    margin-bottom: 5px;
 }
 
 .not-installed-check {
-    color: #6e7971;
+    color: rgb(110, 121, 113);
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
     text-align: center;
     margin-top: -5px;
+    margin-bottom: 5px;
 }
 
 .install-check {
-    color: #615ac2;
+    color: rgb(97, 90, 194);
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -108,18 +100,15 @@
 }
 
 .box-apps-info {
-    float: left;
-    background-color: rgb(202, 191, 191);
-    height: 100%;
-    width: 100%;
+    background-color: rgb(32 27 49 / 0%);
 }
 
 .button-command-install {
-    border-color: rgb(202, 191, 191);
+    /* border-color: rgb(202, 191, 191); */
 }
 
 .queue-card>.status {
-    color: #0f6332;
+    color: rgb(15, 99, 50);
 }
 
 .queue-card>.status>.drop {
@@ -136,38 +125,38 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #cdb5b5;
+    background: rgb(205, 181, 181);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #826b6b;
+    background: rgb(130, 107, 107);
 }
 
 .dropdown-filter-button {
-    background-color: #d3bbbbc7;
+    background-color: rgba(211, 187, 187, 0.78);
 }
 
-.button-select-filter{
-    border-color: #395a43;
+.button-select-filter {
+    border-color: rgb(57, 90, 67);
     color: rgb(58, 48, 48);
 }
 
-header { 
-background: #fff;
-box-shadow: 0px -8px 25px #6d6d6d;
+header {
+    background: rgb(255, 255, 255);
+    box-shadow: rgb(109, 109, 109) 0px -8px 25px;
 }
 
 aside ul li:hover {
-    background: #806969;
-    box-shadow: inset 0px 0px 77px #dedede;
-  }
+    background: rgb(128, 105, 105);
+    box-shadow: rgb(222, 222, 222) 0px 0px 77px inset;
+}
 
-aside{
-    background-color: #fff;
+aside {
+    background-color: rgb(255, 255, 255);
 }
 
 aside ul li.active {
-    background-color: #b1b992;
+    background-color: rgb(177, 185, 146);
 }
 
 .navigation-button-item {
@@ -175,7 +164,7 @@ aside ul li.active {
 }
 
 .navigation-button-item:hover {
-    color: #330784;
+    color: rgb(51, 7, 132);
 }
 
 .navigation-button-item:focus {
@@ -184,15 +173,39 @@ aside ul li.active {
 
 .navigation-button-item:active {
     background-color: var(--selected_bg);
-    color: #fff;
+    color: rgb(255, 255, 255);
 }
 
 .navigation-button-item.active {
     background-color: var(--selected_bg);
 }
 
-.screenshot-content {
-
-    
+.screenshot-content,
+.no-screenshot-content {
     background-color: rgb(165, 165, 167);
+    transition: 0.6s ease;
+}
+
+.loja-texto-descricao {
+    background-color: aliceblue;
+}
+
+.box-apps-info-box {
+    background-color: #d4b8b8bf;
+}
+
+.no-screenshots-info {
+    color: rgb(41, 34, 34);
+}
+
+.parental-rating-content {
+    background-color: #0000007a;
+}
+
+.parental-rating-text-description {
+    color: rgb(255, 255, 255);
+}
+
+.parental-rating-text-title {
+    color: #ffffff;
 }

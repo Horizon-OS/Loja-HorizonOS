@@ -1,5 +1,5 @@
 .tema-item {
-    background-color: #31353d00;
+    background-color: rgba(49, 53, 61, 0);
 }
 
 .tema-topo {
@@ -7,16 +7,12 @@
 }
 
 #search-terms {
-    background-image: url('../img/welcome/searchicon-dark.png');
+    background-image: url("../img/definitions/searchicon-dark.png");
     background-position: 5px 4px;
     background-repeat: no-repeat;
-    background-color: rgb(255 255 255 / 16%);
-    border: 1px solid #211F07;
+    background-color: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgb(33, 31, 7);
     color: darkgrey;
-}
-
-.tema-item-select {
-    background-color: #2e1a1a;
 }
 
 .category-tabs-select {
@@ -32,18 +28,16 @@
 }
 
 .tema-categoria {
-    background-color: rgb(31 26 26);
+    background-color: rgb(31, 26, 26);
 }
-
-
 
 .queue-card {
     background-color: rgb(41, 18, 18);
-    border: 1px solid hsla(210, 20%, 2%, 0.226);
+    border: 1px solid rgba(4, 5, 6, 0.227);
 }
 
-.table-striped tbody>tr:nth-child(odd)>td,
-.table-striped tbody>tr:nth-child(odd)>th {
+.table-striped tbody>tr:nth-child(2n+1)>td,
+.table-striped tbody>tr:nth-child(2n+1)>th {
     background-color: rgb(80, 82, 75);
 }
 
@@ -54,33 +48,30 @@
 .nav-pills>.active>button:hover,
 .nav-pills>.active>button:focus {
     color: var( --selected_text);
-    background-color: #1c6de1;
+    background-color: rgb(28, 109, 225);
     border-color: rgb(255, 255, 255);
 }
 
 .dropdown-menu {
-    background-color: #42434e;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    background-color: rgb(66, 67, 78);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 16px 0px;
 }
 
-
 .navigation-button:hover {
-    color: #c5c2c2;
+    color: rgb(197, 194, 194);
 }
 
 .navigation-button:focus {
     border-color: rgb(255, 255, 255);
-    /* border-radius: 32px; */
 }
 
 .navigation-button:active {
-    background-color: #1d2127;
-    /*border-radius: 32px; */
-    color: #fff;
+    background-color: rgb(29, 33, 39);
+    color: rgb(255, 255, 255);
 }
 
 .navigation-button.active {
-    background-color: #1c6de1;
+    background-color: rgb(28, 109, 225);
     border-radius: 32px;
 }
 
@@ -90,44 +81,33 @@
 }
 
 .installed-check {
-    color: #62af74;
+    color: rgb(98, 175, 116);
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
     text-align: center;
     margin-top: -5px;
+    margin-bottom: 5px;
 }
 
 .not-installed-check {
-    color: #746a6a;
+    color: rgb(116, 106, 106);
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
     text-align: center;
     margin-top: -5px;
+    margin-bottom: 5px;
 }
 
 .install-check {
-    color: #615ac2;
+    color: rgb(97, 90, 194);
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
     text-align: center;
     margin-top: -5px;
 }
 
 .box-apps-info {
-    float: left;
-    background-color: rgb(32, 27, 49);
-    height: 100%;
-    width: 100%;
+    background-color: rgb(32 27 49 / 0%);
     background-repeat: no-repeat;
-    background-attachment: fixed; 
+    background-attachment: fixed;
     background-size: 100% 100%;
-    
     background-blend-mode: overlay;
 }
 
@@ -136,7 +116,7 @@
 }
 
 .queue-card>.status {
-    color: #8ec2a4;
+    color: rgb(142, 194, 164);
 }
 
 .queue-card>.status>.drop {
@@ -153,55 +133,54 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #5c5252;
+    background: rgb(92, 82, 82);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #d3d3d3;
+    background: rgb(211, 211, 211);
 }
 
 .dropdown-filter-button {
-    background-color: #000000c7;
+    background-color: rgba(0, 0, 0, 0.78);
 }
 
-.button-select-filter{
-    border-color: #8ea093;
+.button-select-filter {
+    border-color: rgb(142, 160, 147);
     color: rgb(194, 175, 175);
 }
 
 header {
-    box-shadow: 0px -8px 25px #000000;
-    background: #2c2d38;
-    }
-
-    .menu {
-        color: #a9b7d2;
-    }
-
-    .material-icons{
-        color: #d8b8b8;
-    }
-
-    aside ul li a {
-    color: #cdbdbd;
-  }
-
-aside ul li:hover {
-    background: #806969;
-    box-shadow: inset 0px 0px 77px #1f1818;
-  }
-
-  aside{
-    background-color: #424244;
-    
+    box-shadow: rgb(0, 0, 0) 0px -8px 25px;
+    background: rgb(44, 45, 56);
 }
 
-.category-buttons{
-    color: #d8b8b8;
+.menu {
+    color: rgb(169, 183, 210);
+}
+
+.material-icons {
+    color: rgb(216, 184, 184);
+}
+
+aside ul li a {
+    color: rgb(205, 189, 189);
+}
+
+aside ul li:hover {
+    background: rgb(128, 105, 105);
+    box-shadow: rgb(31, 24, 24) 0px 0px 77px inset;
+}
+
+aside {
+    background-color: rgb(66, 66, 68);
+}
+
+.category-buttons {
+    color: rgb(216, 184, 184);
 }
 
 aside ul li.active {
-    background-color: #806969;
+    background-color: rgb(128, 105, 105);
 }
 
 .navigation-button-item {
@@ -209,7 +188,7 @@ aside ul li.active {
 }
 
 .navigation-button-item:hover {
-    color: #aea7b9;
+    color: rgb(174, 167, 185);
 }
 
 .navigation-button-item:focus {
@@ -218,16 +197,39 @@ aside ul li.active {
 
 .navigation-button-item:active {
     background-color: rgb(59, 56, 56);
-    color: #fff;
+    color: rgb(255, 255, 255);
 }
-
 
 .navigation-button-item.active {
     background-color: rgb(59, 56, 56);
 }
 
-.screenshot-content {
-
-    
+.screenshot-content,
+.no-screenshot-content {
     background-color: rgb(44, 39, 63);
+    transition: 0.6s ease;
+}
+
+.loja-texto-descricao {
+    background-color: rgb(32 27 49);
+}
+
+.box-apps-info-box {
+    background-color: #000000bf;
+}
+
+.no-screenshots-info {
+    color: rgb(178, 198, 224);
+}
+
+.parental-rating-content {
+    background-color: #b9c2cc2b;
+}
+
+.parental-rating-text-description {
+    color: white;
+}
+
+.parental-rating-text-title {
+    color: white;
 }

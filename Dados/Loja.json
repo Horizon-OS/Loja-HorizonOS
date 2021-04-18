@@ -1,14 +1,59 @@
 {
 
 
-
+    "SnapInstall": {
+        "blender_snap": {
+            "name": "Blender SNAP",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "blender.png",
+            "img-paralax": "blender.jpg",
+            "main-package": "blender-snap",
+            "launch-command": "env BAMF_DESKTOP_FILE_HINT=/var/lib/snapd/desktop/applications/blender_blender.desktop /snap/bin/blender",
+            "install-packages": "blender-snap",
+            "remove-packages": "blender-snap",
+            "description": [
+                "Uma suíte 3D integrada para modelagem",
+                "animação, renderização, pós-produção, criação interativa",
+                "e reprodução (jogos). O Blender possui um usuário específico",
+                "interface, que é implementada inteiramente no OpenGL e",
+                "projetado com velocidade em mente. Ligações Python estão disponíveis",
+                "para scripts; recursos de importação / exportação para arquivos populares",
+                "formatos como o 3D Studio e o Wavefront Obj são implementados como",
+                "scripts da comunidade. Fotos, animações, modelos para",
+                "jogos ou outros mecanismos de terceiros e conteúdo interativo",
+                "a forma de um binário independente é um produto comum de",
+                "Uso do liquidificador."
+            ],
+            "alternate-to": "Adobe&reg; After Effects, Autodesk 3ds Max",
+            "subcategory": "3D Modelling",
+            "open-source": true,
+            "checking": true,
+            "description-get-info": "Uma suíte 3D integrada para modelagem",
+            "url-info": "https://www.blender.org/",
+            "url-android": null,
+            "url-ios": null,
+            "snap-install": false,
+            "arch": "i386,amd64",
+            "releases": "bionic,focal",
+            "pre-install": {
+                "all": {
+                    "method": "ppa",
+                    "enable-ppa": "ppa:horizon-os/loja",
+                    "source-file": "horizon-os-loja-CODENAME"
+                }
+            },
+            "working": true
+        }
+    },
     "Accessories": {
 
 
         "horizon_os_wallpaper": {
             "name": "Wallpaper do Horizon OS",
-            "img-numbers": "5",
-            "img": "logo_horizon",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "logo_horizon.png",
             "img-paralax": null,
             "main-package": "horizon-os-wallpaper",
             "install-packages": "horizon-os-wallpaper",
@@ -25,6 +70,7 @@
             "url-info": "http://horizon-os.org/info/wallpapers",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -37,10 +83,56 @@
             "working": true
         },
 
+        "cubic": {
+            "name": "Cubic",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "cubic.png",
+            "img-paralax": null,
+            "main-package": "cubic",
+            "install-packages": "cubic",
+            "remove-packages": "cubic",
+            "launch-command": "cubic",
+            "description": [
+                "O Cubic permite a navegação sem esforço pelas etapas de",
+                "personalização ISO e apresenta um ambiente de linha de ",
+                "comando virtual integrado para personalizar o sistema de ",
+                "arquivos Linux. Você pode criar novos projetos de personalização",
+                "ou modificar projetos existentes. Parâmetros importantes são",
+                "preenchidos dinamicamente com padrões inteligentes para simplificar ",
+                "o processo de personalização."
+            ],
+            "alternate-to": "Pinguy Builder",
+            "subcategory": "Criador de ISO",
+            "open-source": true,
+            "checking": true,
+            "description-get-info": "Cubic (Custom Ubuntu ISO Creator) é um assistente de GUI para criar uma imagem ISO personalizada do Ubuntu Live.",
+            "url-info": "https://launchpad.net/cubic",
+            "url-android": null,
+            "url-ios": null,
+            "snap-install": false,
+            "arch": "i386,amd64",
+            "releases": "xenial,bionic,focal",
+            "pre-install": {
+                "xenial,trusty": {
+                    "method": "ppa",
+                    "enable-ppa": "ppa:cubic-wizard/classic",
+                    "source-file": "cubic-wizard-ubuntu-classic-CODENAME"
+                },
+                "all": {
+                    "method": "ppa",
+                    "enable-ppa": "ppa:cubic-wizard/release",
+                    "source-file": "cubic-wizard-ubuntu-release-CODENAME"
+                }
+            },
+            "working": true
+        },
+
         "caffeine": {
             "name": "Caffeine",
-            "img-numbers": "5",
-            "img": "caffeine",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "caffeine.png",
             "img-paralax": null,
             "main-package": "caffeine",
             "install-packages": "caffeine",
@@ -60,6 +152,7 @@
             "url-info": "https://launchpad.net/caffeine",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -76,8 +169,9 @@
         },
         "convertall": {
             "name": "ConvertAll",
-            "img-numbers": "5",
-            "img": "convertall",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "convertall.png",
             "img-paralax": null,
             "main-package": "convertall",
             "install-packages": "convertall",
@@ -97,6 +191,7 @@
             "url-info": "http://convertall.bellz.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -108,8 +203,9 @@
         },
         "diodon": {
             "name": "Diodon",
-            "img-numbers": "5",
-            "img": "diodon",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "diodon.png",
             "img-paralax": null,
             "main-package": "diodon",
             "launch-command": "diodon",
@@ -131,6 +227,7 @@
             "url-info": "https://wiki.ubuntu.com/Diodon",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -142,8 +239,9 @@
         },
         "gip": {
             "name": "Gip",
-            "img-numbers": "5",
-            "img": "gip",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gip.png",
             "img-paralax": null,
             "main-package": "gip",
             "install-packages": "gip",
@@ -167,6 +265,7 @@
             "url-info": "https://code.google.com/archive/p/gip/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -178,8 +277,9 @@
         },
         "gnote": {
             "name": "Gnote",
-            "img-numbers": "5",
-            "img": "gnote",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gnote.png",
             "img-paralax": null,
             "main-package": "gnote",
             "install-packages": "gnote",
@@ -198,6 +298,7 @@
             "url-info": "https://wiki.gnome.org/Apps/Gnote",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -209,8 +310,9 @@
         },
         "gparted": {
             "name": "GParted",
-            "img-numbers": "5",
-            "img": "gparted",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gparted.png",
             "img-paralax": null,
             "main-package": "gparted",
             "launch-command": "pkexec gparted",
@@ -230,6 +332,7 @@
             "url-info": "http://gparted.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -241,8 +344,9 @@
         },
         "etcher": {
             "name": "Etcher",
-            "img-numbers": "5",
-            "img": "etcher",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "etcher.png",
             "img-paralax": null,
             "main-package": "balena-etcher-electron",
             "launch-command": "/opt/balenaEtcher/balena-etcher-electron %U",
@@ -261,6 +365,7 @@
             "url-info": "https://etcher.io/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -280,8 +385,9 @@
         },
         "keepassxc": {
             "name": "KeePassXC",
-            "img-numbers": "5",
-            "img": "keepassxc",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "keepassxc.png",
             "img-paralax": null,
             "main-package": "keepassxc",
             "launch-command": "keepassxc",
@@ -303,6 +409,7 @@
             "url-info": "https://www.keepassxc.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -314,8 +421,9 @@
         },
         "redshift": {
             "name": "Redshift",
-            "img-numbers": "5",
-            "img": "redshift",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "redshift.png",
             "img-paralax": null,
             "main-package": "redshift-gtk",
             "launch-command": "redshift-gtk",
@@ -343,6 +451,7 @@
             "url-info": "http://jonls.dk/redshift/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -354,8 +463,9 @@
         },
         "subsurface": {
             "name": "Subsurface",
-            "img-numbers": "5",
-            "img": "subsurface",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "subsurface.png",
             "img-paralax": null,
             "main-package": "subsurface",
             "launch-command": "subsurface",
@@ -379,6 +489,7 @@
             "url-info": "https://subsurface-divelog.org/",
             "url-android": "https://play.google.com/store/apps/details?id=org.subsurfacedivelog.mobile",
             "url-ios": "https://itunes.apple.com/gb/app/subsurface/id907870605?mt=8",
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -392,8 +503,9 @@
         },
         "variety": {
             "name": "Variety",
-            "img-numbers": "5",
-            "img": "variety",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "variety.png",
             "img-paralax": null,
             "main-package": "variety",
             "launch-command": "variety",
@@ -415,6 +527,7 @@
             "url-info": "http://peterlevi.com/variety/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -426,8 +539,9 @@
         },
         "veracrypt": {
             "name": "VeraCrypt",
-            "img-numbers": "5",
-            "img": "veracrypt",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "veracrypt.png",
             "img-paralax": null,
             "main-package": "veracrypt",
             "launch-command": "veracrypt",
@@ -448,6 +562,7 @@
             "url-info": "https://veracrypt.codeplex.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -463,8 +578,9 @@
     "Education": {
         "gcompris": {
             "name": "GCompris",
-            "img-numbers": "5",
-            "img": "gcompris",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gcompris.png",
             "img-paralax": null,
             "main-package": "gcompris",
             "launch-command": "gcompris",
@@ -488,6 +604,7 @@
             "url-info": "http://gcompris.net/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -499,8 +616,9 @@
         },
         "gcompris_qt": {
             "name": "GCompris Qt",
-            "img-numbers": "5",
-            "img": "gcompris",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gcompris.png",
             "img-paralax": null,
             "main-package": "gcompris-qt",
             "launch-command": "gcompris-qt",
@@ -524,6 +642,7 @@
             "url-info": "http://gcompris.net/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -535,8 +654,9 @@
         },
         "gelemental": {
             "name": "gElemental",
-            "img-numbers": "5",
-            "img": "gelemental",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gelemental.png",
             "img-paralax": null,
             "main-package": "gelemental",
             "launch-command": "gelemental",
@@ -558,6 +678,7 @@
             "url-info": "http://freecode.com/projects/gelemental",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -569,8 +690,9 @@
         },
         "libreoffice_math": {
             "name": "LibreOffice Math",
-            "img-numbers": "5",
-            "img": "libreoffice_math",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "libreoffice_math.png",
             "img-paralax": null,
             "main-package": "libreoffice-math",
             "launch-command": "libreoffice --math",
@@ -594,6 +716,7 @@
             "url-info": "https://www.libreoffice.org/discover/math/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -605,8 +728,9 @@
         },
         "stellarium": {
             "name": "Stellarium",
-            "img-numbers": "4",
-            "img": "stellarium",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "stellarium.png",
             "img-paralax": null,
             "main-package": "stellarium",
             "launch-command": "stellarium",
@@ -635,11 +759,12 @@
             "alternate-to": null,
             "subcategory": "Ciência",
             "open-source": true,
-            "checking": false,
+            "checking": true,
             "description-get-info": "Stellarium é um software livre de astronomia para visualização do céu nos moldes de um planetário...",
             "url-info": "http://www.stellarium.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -653,8 +778,9 @@
         },
         "tuxpaint": {
             "name": "Tux Paint",
-            "img-numbers": "5",
-            "img": "tuxpaint",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "tuxpaint.png",
             "img-paralax": null,
             "main-package": "tuxpaint",
             "launch-command": "tuxpaint",
@@ -674,6 +800,7 @@
             "url-info": "http://www.tuxpaint.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -688,8 +815,9 @@
 
         "0ad": {
             "name": "0 A.D",
-            "img-numbers": "5",
-            "img": "0ad",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "0ad.png",
             "img-paralax": null,
             "main-package": "0ad",
             "launch-command": "0ad",
@@ -713,6 +841,7 @@
             "url-info": "http://play0ad.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -730,8 +859,9 @@
 
         "dino_storm": {
             "name": "Dino Storm",
-            "img-numbers": "5",
-            "img": "dino_storm",
+            "parental-rating": "12 Anos",
+            "parental-rating-description": "Violência, Usuários Interagem, Compras digitais",
+            "img": "dino_storm.png",
             "img-paralax": "dino_storm.png",
             "main-package": "dino-storm",
             "launch-command": "dino-storm-horizon-os",
@@ -752,6 +882,7 @@
             "url-info": "https://dinostorm.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -765,8 +896,9 @@
         },
         "chromium_bsu": {
             "name": "Chromium B.S.U",
-            "img-numbers": "5",
-            "img": "chromium_bsu",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "chromium_bsu.png",
             "img-paralax": null,
             "main-package": "chromium-bsu",
             "launch-command": "chromium-bsu",
@@ -788,6 +920,7 @@
             "url-info": "http://chromium-bsu.sourceforge.net/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -799,8 +932,9 @@
         },
         "extremetuxracer": {
             "name": "Extreme Tux Racer",
-            "img-numbers": "5",
-            "img": "extremetuxracer",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "extremetuxracer.png",
             "img-paralax": null,
             "main-package": "extremetuxracer",
             "launch-command": "extremetuxracer",
@@ -822,6 +956,7 @@
             "url-info": "http://sourceforge.net/projects/extremetuxracer/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -833,8 +968,9 @@
         },
         "flightgear": {
             "name": "Flightgear",
-            "img-numbers": "5",
-            "img": "flightgear",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "flightgear.png",
             "img-paralax": null,
             "main-package": "flightgear",
             "launch-command": "flightgear",
@@ -856,6 +992,7 @@
             "url-info": "http://www.flightgear.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -867,8 +1004,9 @@
         },
         "freeciv": {
             "name": "Freeciv",
-            "img-numbers": "5",
-            "img": "freeciv",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "freeciv.png",
             "img-paralax": null,
             "main-package": "freeciv",
             "launch-command": "freeciv",
@@ -888,6 +1026,7 @@
             "url-info": "http://www.freeciv.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -899,8 +1038,9 @@
         },
         "frozenbubble": {
             "name": "Frozen-Bubble",
-            "img-numbers": "5",
-            "img": "frozen_bubble",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "frozen_bubble.png",
             "img-paralax": null,
             "main-package": "frozen-bubble",
             "launch-command": "frozen-bubble",
@@ -926,6 +1066,7 @@
             "url-info": "http://frozen-bubble.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -937,8 +1078,9 @@
         },
         "aisleriot": {
             "name": "Desktop Games",
-            "img-numbers": "5",
-            "img": "aisleriot",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "aisleriot.png",
             "img-paralax": null,
             "main-package": "gnome-cards-data",
             "launch-command": null,
@@ -955,6 +1097,7 @@
             "url-info": "https://wiki.gnome.org/action/show/Attic/Games",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -966,8 +1109,9 @@
         },
         "hedgewars": {
             "name": "Hedgewars",
-            "img-numbers": "5",
-            "img": "hedgewars",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "hedgewars.png",
             "img-paralax": null,
             "main-package": "hedgewars",
             "launch-command": "hedgewars",
@@ -994,6 +1138,7 @@
             "url-info": "http://www.hedgewars.org",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1006,8 +1151,9 @@
         },
         "lutris": {
             "name": "Lutris",
-            "img-numbers": "5",
-            "img": "lutris",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "lutris.png",
             "img-paralax": null,
             "main-package": "lutris",
             "launch-command": "lutris",
@@ -1025,6 +1171,7 @@
             "url-info": "http://lutris.net",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1039,8 +1186,9 @@
         },
         "minecraft": {
             "name": "Minecraft",
-            "img-numbers": "5",
-            "img": "minecraft",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "minecraft.png",
             "img-paralax": null,
             "main-package": "minecraft-installer",
             "launch-command": "minecraft",
@@ -1065,6 +1213,7 @@
             "url-info": "https://minecraft.net",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1078,8 +1227,9 @@
         },
         "neverball": {
             "name": "Neverball",
-            "img-numbers": "5",
-            "img": "neverball",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "neverball.png",
             "img-paralax": null,
             "main-package": "neverball",
             "launch-command": "neverball",
@@ -1101,6 +1251,7 @@
             "url-info": "http://neverball.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1112,8 +1263,9 @@
         },
         "neverputt": {
             "name": "Neverputt",
-            "img-numbers": "5",
-            "img": "neverputt",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "neverputt.png",
             "img-paralax": null,
             "main-package": "neverputt",
             "launch-command": "neverputt",
@@ -1135,6 +1287,7 @@
             "url-info": "https://apps.ubuntu.com/cat/applications/neverputt/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1146,8 +1299,9 @@
         },
         "nexuiz": {
             "name": "Nexuiz Classic",
-            "img-numbers": "5",
-            "img": "nexuiz",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "nexuiz.png",
             "img-paralax": null,
             "main-package": "nexuiz",
             "launch-command": "nexuiz",
@@ -1172,6 +1326,7 @@
             "url-info": "http://www.alientrap.org/games/nexuiz",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1183,8 +1338,9 @@
         },
         "playonlinux": {
             "name": "PlayOnLinux",
-            "img-numbers": "5",
-            "img": "playonlinux",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "playonlinux.png",
             "img-paralax": null,
             "main-package": "playonlinux",
             "launch-command": "playonlinux",
@@ -1203,6 +1359,7 @@
             "url-info": "https://www.playonlinux.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1223,8 +1380,9 @@
         },
         "pysolfc": {
             "name": "PySolFC",
-            "img-numbers": "5",
-            "img": "pysolfc",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "pysolfc.png",
             "img-paralax": null,
             "main-package": "pysolfc",
             "launch-command": "pysolfc",
@@ -1250,6 +1408,7 @@
             "url-info": "http://pysolfc.sourceforge.net/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1261,8 +1420,9 @@
         },
         "redeclipse": {
             "name": "Red Eclipse",
-            "img-numbers": "5",
-            "img": "redeclipse",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "redeclipse.png",
             "img-paralax": null,
             "main-package": "redeclipse",
             "launch-command": "redeclipse",
@@ -1282,6 +1442,7 @@
             "url-info": "http://www.redeclipse.net/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1293,8 +1454,9 @@
         },
         "retroarch": {
             "name": "RetroArch",
-            "img-numbers": "5",
-            "img": "retroarch",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "retroarch.png",
             "img-paralax": null,
             "main-package": "retroarch",
             "launch-command": "retroarch",
@@ -1312,6 +1474,7 @@
             "url-info": "http://libretro.com",
             "url-android": "https://play.google.com/store/apps/details?id=com.retroarch",
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1328,13 +1491,14 @@
         },
         "steam": {
             "name": "Steam",
-            "img-numbers": "5",
-            "img": "steam",
+            "parental-rating": "14 Anos",
+            "parental-rating-description": "Usuários Interagem, Compras digitais",
+            "img": "steam.svg",
             "img-paralax": "steam.png",
-            "main-package": "steam:i386",
+            "main-package": "steam-launcher",
             "launch-command": "steam",
-            "install-packages": "steam:i386",
-            "remove-packages": "steam:i386",
+            "install-packages": "steam,steam-launcher",
+            "remove-packages": "steam, steam-launcher",
             "description": [
                 "A melhor plataforma de entretenimento. Play",
                 "jogos, conecte-se com amigos e até crie e compartilhe conteúdo de",
@@ -1348,10 +1512,11 @@
             "subcategory": "Game Management",
             "open-source": false,
             "checking": false,
-            "description-get-info": "Sem mini descrição!",
+            "description-get-info": "Steam é um software de gestão de direitos digitais criado pela Valve Corporation ou Valve L.L.C., de plataformas digitais como jogos e aplicativos de programação e fornece serviços facilitados como atualização automática de jogos, e preços acessíveis aos usuários.",
             "url-info": "http://store.steampowered.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.valvesoftware.android.steam.community&hl=en",
             "url-ios": "https://itunes.apple.com/gb/app/steam-mobile/id495369748",
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1364,8 +1529,9 @@
         },
         "steam_devices": {
             "name": "Steam Devices",
-            "img-numbers": "5",
-            "img": "steam",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "steam.svg",
             "img-paralax": null,
             "main-package": "steam-devices",
             "launch-command": "steam",
@@ -1384,10 +1550,11 @@
             "subcategory": "Gerenciador de Jogos",
             "open-source": false,
             "checking": false,
-            "description-get-info": "Sem mini descrição!",
+            "description-get-info": "Steam é um software de gestão de direitos digitais criado pela Valve Corporation ou Valve L.L.C., de plataformas digitais como jogos e aplicativos de programação e fornece serviços facilitados como atualização automática de jogos, e preços acessíveis aos usuários.",
             "url-info": "http://store.steampowered.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.valvesoftware.android.steam.community&hl=en",
             "url-ios": "https://itunes.apple.com/gb/app/steam-mobile/id495369748",
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1400,8 +1567,9 @@
         },
         "supertuxkart": {
             "name": "SuperTuxKart",
-            "img-numbers": "5",
-            "img": "supertuxkart",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "supertuxkart.png",
             "img-paralax": null,
             "main-package": "supertuxkart",
             "launch-command": "supertuxkart",
@@ -1430,6 +1598,7 @@
             "url-info": "http://supertuxkart.sourceforge.net/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1441,8 +1610,9 @@
         },
         "teeworlds": {
             "name": "Teeworlds",
-            "img-numbers": "5",
-            "img": "teeworlds",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "teeworlds.png",
             "img-paralax": null,
             "main-package": "teeworlds",
             "launch-command": "teeworlds",
@@ -1464,6 +1634,7 @@
             "url-info": "https://www.teeworlds.com",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1475,8 +1646,9 @@
         },
         "warzone2100": {
             "name": "Warzone 2100",
-            "img-numbers": "5",
-            "img": "warzone2100",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "warzone2100.png",
             "img-paralax": null,
             "main-package": "warzone2100",
             "launch-command": "warzone2100",
@@ -1501,6 +1673,7 @@
             "url-info": "https://wz2100.net/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1512,8 +1685,9 @@
         },
         "wesnoth": {
             "name": "The Battle for Wesnoth",
-            "img-numbers": "5",
-            "img": "wesnoth",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "wesnoth.png",
             "img-paralax": null,
             "main-package": "wesnoth",
             "launch-command": "wesnoth",
@@ -1537,6 +1711,7 @@
             "url-info": "http://wesnoth.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1550,8 +1725,9 @@
     "Graphics": {
         "blender": {
             "name": "Blender",
-            "img-numbers": "5",
-            "img": "blender",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "blender.png",
             "img-paralax": null,
             "main-package": "blender",
             "launch-command": "blender",
@@ -1578,6 +1754,7 @@
             "url-info": "https://www.blender.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": true,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1589,8 +1766,9 @@
         },
         "dia": {
             "name": "Dia",
-            "img-numbers": "5",
-            "img": "dia",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "dia.png",
             "img-paralax": null,
             "main-package": "dia-gnome",
             "launch-command": "dia-gnome",
@@ -1611,6 +1789,7 @@
             "url-info": "https://wiki.gnome.org/action/show/Apps/Dia",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1622,8 +1801,9 @@
         },
         "displaycal": {
             "name": "DisplayCAL",
-            "img-numbers": "5",
-            "img": "displaycal",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "displaycal.png",
             "img-paralax": null,
             "main-package": "dispcalgui",
             "launch-command": "displaycal",
@@ -1648,6 +1828,7 @@
             "url-info": "https://displaycal.net",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1659,8 +1840,9 @@
         },
         "darktable": {
             "name": "Darktable",
-            "img-numbers": "5",
-            "img": "darktable",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "darktable.png",
             "img-paralax": null,
             "main-package": "darktable",
             "launch-command": "darktable",
@@ -1694,6 +1876,7 @@
             "url-info": "http://www.darktable.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "amd64,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1705,8 +1888,9 @@
         },
         "entangle": {
             "name": "Entangle",
-            "img-numbers": "5",
-            "img": "entangle",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "entangle.png",
             "img-paralax": null,
             "main-package": "entangle",
             "launch-command": "entangle",
@@ -1731,6 +1915,7 @@
             "url-info": "https://entangle-photo.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,arm64,armhf",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1742,8 +1927,9 @@
         },
         "shotwell": {
             "name": "Shotwell",
-            "img-numbers": "5",
-            "img": "shotwell",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "shotwell.png",
             "img-paralax": null,
             "main-package": "shotwell",
             "launch-command": "shotwell",
@@ -1764,6 +1950,7 @@
             "url-info": "https://wiki.gnome.org/Apps/Shotwell",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1775,8 +1962,9 @@
         },
         "gimp": {
             "name": "GIMP",
-            "img-numbers": "5",
-            "img": "gimp",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gimp.svg",
             "img-paralax": "gimp.png",
             "main-package": "gimp",
             "launch-command": "gimp",
@@ -1803,6 +1991,7 @@
             "url-info": "http://www.gimp.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1814,8 +2003,9 @@
         },
         "gpick": {
             "name": "Gpick",
-            "img-numbers": "5",
-            "img": "gpick",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gpick.png",
             "img-paralax": null,
             "main-package": "gpick",
             "launch-command": "gpick",
@@ -1835,6 +2025,7 @@
             "url-info": "https://github.com/thezbyg/gpick",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1846,8 +2037,9 @@
         },
         "inkscape": {
             "name": "Inkscape",
-            "img-numbers": "5",
-            "img": "inkscape",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "inkscape.png",
             "img-paralax": null,
             "main-package": "inkscape",
             "launch-command": "inkscape",
@@ -1875,6 +2067,7 @@
             "url-info": "https://inkscape.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1886,8 +2079,9 @@
         },
         "luminance_hdr": {
             "name": "Luminance HDR",
-            "img-numbers": "5",
-            "img": "luminance_hdr",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "luminance_hdr.png",
             "img-paralax": null,
             "main-package": "luminance-hdr",
             "launch-command": "luminance-hdr",
@@ -1915,6 +2109,7 @@
             "url-info": "http://qtpfsgui.sourceforge.net/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1926,8 +2121,9 @@
         },
         "mypaint": {
             "name": "MyPaint",
-            "img-numbers": "5",
-            "img": "mypaint",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "mypaint.png",
             "img-paralax": null,
             "main-package": "mypaint",
             "launch-command": "mypaint",
@@ -1949,6 +2145,7 @@
             "url-info": "http://mypaint.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1960,8 +2157,9 @@
         },
         "rapid_photo_downloader": {
             "name": "Rapid Photo Downloader",
-            "img-numbers": "5",
-            "img": "rapid_photo_downloader",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "rapid_photo_downloader.png",
             "img-paralax": null,
             "main-package": "rapid-photo-downloader",
             "launch-command": "rapid-photo-downloader",
@@ -1982,6 +2180,7 @@
             "url-info": "http://www.damonlynch.net/rapid/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -1993,8 +2192,9 @@
         },
         "scribus": {
             "name": "Scribus",
-            "img-numbers": "5",
-            "img": "scribus",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "scribus.png",
             "img-paralax": null,
             "main-package": "scribus",
             "launch-command": "scribus",
@@ -2019,6 +2219,7 @@
             "url-info": "http://www.scribus.net/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2030,8 +2231,9 @@
         },
         "sweethome3d": {
             "name": "Sweet Home 3D",
-            "img-numbers": "5",
-            "img": "sweethome3d",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "sweethome3d.png",
             "img-paralax": null,
             "main-package": "sweethome3d",
             "launch-command": "sweethome3d",
@@ -2050,6 +2252,7 @@
             "url-info": "http://www.sweethome3d.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2063,8 +2266,9 @@
     "Internet": {
         "adobeflash": {
             "name": "Adobe&reg; Flash&reg; Player",
-            "img-numbers": "5",
-            "img": "adobeflash",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "adobeflash.png",
             "img-paralax": null,
             "main-package": "flashplugin-installer",
             "launch-command": null,
@@ -2084,6 +2288,7 @@
             "url-info": "http://www.adobe.com/products/flashplayer.html",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2095,9 +2300,10 @@
         },
         "brave": {
             "name": "Brave",
-            "img-numbers": "7",
-            "img": "brave",
-            "img-paralax": null,
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "brave.png",
+            "img-paralax": "brave.png",
             "main-package": "brave-browser",
             "launch-command": "brave-browser",
             "install-packages": "brave-browser",
@@ -2118,6 +2324,7 @@
             "url-info": "https://brave.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.brave.browser",
             "url-ios": "https://itunes.apple.com/us/app/brave-web-browser-fast-with-built-in-adblock/id1052879175",
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2134,8 +2341,9 @@
         },
         "chromium": {
             "name": "Chromium",
-            "img-numbers": "5",
-            "img": "chromium",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "chromium.png",
             "img-paralax": null,
             "main-package": "chromium-browser",
             "launch-command": "chromium-browser",
@@ -2154,6 +2362,7 @@
             "url-info": "https://www.chromium.org/Home",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,arm64,armhf",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2165,8 +2374,9 @@
         },
         "caja_dropbox": {
             "name": "Caja Dropbox",
-            "img-numbers": "5",
-            "img": "dropbox",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "dropbox.png",
             "img-paralax": null,
             "main-package": "caja-dropbox",
             "launch-command": "caja-dropbox",
@@ -2185,6 +2395,7 @@
             "url-info": "https://www.dropbox.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.dropbox.android",
             "url-ios": "https://itunes.apple.com/us/app/dropbox/id327630330",
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2196,8 +2407,9 @@
         },
         "filezilla": {
             "name": "FileZilla",
-            "img-numbers": "5",
-            "img": "filezilla",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "filezilla.png",
             "img-paralax": null,
             "main-package": "filezilla",
             "launch-command": "filezilla",
@@ -2224,6 +2436,7 @@
             "url-info": "https://filezilla-project.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2235,8 +2448,9 @@
         },
         "firefox": {
             "name": "Firefox",
-            "img-numbers": "5",
-            "img": "firefox",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "firefox.png",
             "img-paralax": null,
             "main-package": "firefox",
             "launch-command": "firefox",
@@ -2257,6 +2471,7 @@
             "url-info": "https://www.mozilla.org/firefox",
             "url-android": "https://play.google.com/store/apps/details?id=org.mozilla.firefox",
             "url-ios": "https://itunes.apple.com/us/app/firefox-web-browser/id989804926",
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2268,8 +2483,9 @@
         },
         "gajim": {
             "name": "Gajim",
-            "img-numbers": "5",
-            "img": "gajim",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gajim.png",
             "img-paralax": null,
             "main-package": "gajim",
             "launch-command": "gajim",
@@ -2289,6 +2505,7 @@
             "url-info": "https://gajim.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2300,8 +2517,9 @@
         },
         "gobby": {
             "name": "Gobby",
-            "img-numbers": "5",
-            "img": "gobby",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gobby.png",
             "img-paralax": null,
             "main-package": "gobby",
             "launch-command": "gobby",
@@ -2323,6 +2541,7 @@
             "url-info": "https://gobby.github.io",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2334,8 +2553,9 @@
         },
         "google_chrome": {
             "name": "Google Chrome",
-            "img-numbers": "5",
-            "img": "google_chrome",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "google_chrome.png",
             "img-paralax": null,
             "main-package": "google-chrome-stable",
             "launch-command": "google-chrome-stable",
@@ -2356,6 +2576,7 @@
             "url-info": "http://www.google.com/chrome/",
             "url-android": "https://play.google.com/store/apps/details?id=com.android.chrome",
             "url-ios": "https://itunes.apple.com/gb/app/chrome-web-browser-by-google/id535886823",
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2372,8 +2593,9 @@
         },
         "google_earth": {
             "name": "Google Earth",
-            "img-numbers": "5",
-            "img": "google_earth",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "google_earth.png",
             "img-paralax": null,
             "main-package": "google-earth-pro-stable",
             "launch-command": "google-earth-pro",
@@ -2393,6 +2615,7 @@
             "url-info": "https://www.google.com/earth/",
             "url-android": "https://play.google.com/store/apps/details?id=com.google.earth",
             "url-ios": "https://itunes.apple.com/gb/app/google-earth/id293622097",
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2407,50 +2630,12 @@
             },
             "working": true
         },
-        "google_musicmanager": {
-            "name": "Google Music Manager",
-            "img-numbers": "5",
-            "img": "google_musicmanager",
-            "img-paralax": null,
-            "main-package": "google-musicmanager-beta",
-            "launch-command": "google-musicmanager",
-            "install-packages": "google-musicmanager-beta",
-            "remove-packages": "google-musicmanager-beta",
-            "description": [
-                "A simple application for",
-                "adding the music files on your computer to ",
-                "<a onclick=\"cmd('link?http://music.google.com')\">Google Play Music</a>.",
-                "Use Music Manager to upload your favorite songs from your",
-                "computer to your Google Play library. You can upload up to",
-                "50,000 songs and listen on your mobile device, computer, or",
-                "Chromecast."
-            ],
-            "alternate-to": "Apple iTunes",
-            "subcategory": "Cloud and Sync",
-            "open-source": false,
-            "checking": false,
-            "description-get-info": "Sem mini descrição!",
-            "url-info": "https://music.google.com/music/listen?#manager_pl",
-            "url-android": "https://play.google.com/store/apps/details?id=com.google.android.music",
-            "url-ios": "https://itunes.apple.com/gb/app/google-play-music/id691797987",
-            "arch": "amd64",
-            "releases": "bionic,focal",
-            "pre-install": {
-                "all": {
-                    "method": "manual",
-                    "source-file": "google-musicmanager",
-                    "apt-key-url": "https://dl-ssl.google.com/linux/linux_signing_key.pub",
-                    "apt-sources": [
-                        "deb [arch=amd64] http://dl.google.com/linux/musicmanager/deb/ stable main"
-                    ]
-                }
-            },
-            "working": true
-        },
+
         "hexchat": {
             "name": "Hexchat",
-            "img-numbers": "5",
-            "img": "hexchat",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "hexchat.png",
             "img-paralax": null,
             "main-package": "hexchat",
             "launch-command": "hexchat",
@@ -2470,6 +2655,7 @@
             "url-info": "https://hexchat.github.io/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2481,8 +2667,9 @@
         },
         "insync": {
             "name": "Insync",
-            "img-numbers": "5",
-            "img": "insync",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "insync.png",
             "img-paralax": null,
             "main-package": "insync",
             "launch-command": "insync",
@@ -2507,6 +2694,7 @@
             "url-info": "https://www.insynchq.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.google.android.apps.docs",
             "url-ios": "https://itunes.apple.com/gb/app/google-drive-free-online-storage/id507874739",
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2521,14 +2709,15 @@
                         "deb http://apt.insync.io/ubuntu CODENAME non-free contrib"
                     ]
                 }
-                
+
             },
             "working": true
         },
         "liferea": {
             "name": "Liferea",
-            "img-numbers": "5",
-            "img": "liferea",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "liferea.png",
             "img-paralax": null,
             "main-package": "liferea",
             "launch-command": "liferea",
@@ -2556,6 +2745,7 @@
             "url-info": "https://lzone.de/liferea/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2567,8 +2757,9 @@
         },
         "mumble": {
             "name": "Mumble",
-            "img-numbers": "5",
-            "img": "mumble",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "mumble.png",
             "img-paralax": null,
             "main-package": "mumble",
             "launch-command": "mumble",
@@ -2594,6 +2785,7 @@
             "url-info": "http://wiki.mumble.info/wiki/Main_Page",
             "url-android": "https://play.google.com/store/apps/details?id=com.morlunk.mumbleclient.free",
             "url-ios": "http://itunes.apple.com/us/app/mumble/id443472808",
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2610,8 +2802,9 @@
         },
         "opera_browser": {
             "name": "Opera",
-            "img-numbers": "5",
-            "img": "opera",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "opera.png",
             "img-paralax": null,
             "main-package": "opera-stable",
             "launch-command": "opera",
@@ -2631,6 +2824,7 @@
             "url-info": "http://www.opera.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.opera.browser",
             "url-ios": "https://itunes.apple.com/gb/app/opera-mini-web-browser/id363729560",
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2647,8 +2841,9 @@
         },
         "nextcloud_client": {
             "name": "Nextcloud Client",
-            "img-numbers": "5",
-            "img": "nextcloud",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "nextcloud.png",
             "img-paralax": null,
             "main-package": "nextcloud-client",
             "launch-command": "nextcloud",
@@ -2666,6 +2861,7 @@
             "url-info": "https://nextcloud.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.nextcloud.client",
             "url-ios": "https://itunes.apple.com/gb/app/nextcloud/id1125420102",
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2679,8 +2875,9 @@
         },
         "owncloud_client": {
             "name": "ownCloud Client",
-            "img-numbers": "5",
-            "img": "owncloud",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "owncloud.png",
             "img-paralax": null,
             "main-package": "owncloud-client-caja",
             "launch-command": "owncloud",
@@ -2698,6 +2895,7 @@
             "url-info": "https://owncloud.org/",
             "url-android": "https://play.google.com/store/apps/details?id=com.owncloud.android",
             "url-ios": "https://itunes.apple.com/gb/app/owncloud/id543672169",
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2714,8 +2912,9 @@
         },
         "pidgin": {
             "name": "Pidgin",
-            "img-numbers": "5",
-            "img": "pidgin",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "pidgin.png",
             "img-paralax": null,
             "main-package": "pidgin",
             "launch-command": "pidgin",
@@ -2735,6 +2934,7 @@
             "url-info": "https://pidgin.im/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2746,8 +2946,9 @@
         },
         "remmina": {
             "name": "Remmina",
-            "img-numbers": "5",
-            "img": "remmina",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "remmina.png",
             "img-paralax": null,
             "main-package": "remmina",
             "launch-command": "remmina",
@@ -2768,6 +2969,7 @@
             "url-info": "http://remmina.sourceforge.net/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2779,8 +2981,9 @@
         },
         "skypeforlinux": {
             "name": "Skype",
-            "img-numbers": "5",
-            "img": "skypeforlinux",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "skypeforlinux.png",
             "img-paralax": null,
             "main-package": "skypeforlinux",
             "launch-command": "skypeforlinux",
@@ -2802,6 +3005,7 @@
             "url-info": "http://www.skype.com",
             "url-android": "https://play.google.com/store/apps/details?id=com.skype.raider",
             "url-ios": "https://itunes.apple.com/gb/app/skype-for-iphone/id304878510",
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2818,8 +3022,9 @@
         },
         "sparkleshare": {
             "name": "SparkleShare",
-            "img-numbers": "5",
-            "img": "sparkleshare",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "sparkleshare.png",
             "img-paralax": null,
             "main-package": "sparkleshare",
             "launch-command": "sparkleshare open",
@@ -2850,6 +3055,7 @@
             "url-info": "http://sparkleshare.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2861,8 +3067,9 @@
         },
         "spideroakone": {
             "name": "SpiderOakONE",
-            "img-numbers": "5",
-            "img": "spideroakone",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "spideroakone.png",
             "img-paralax": null,
             "main-package": "spideroakone",
             "launch-command": "SpiderOakONE",
@@ -2885,6 +3092,7 @@
             "url-info": "https://spideroak.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.spideroak.android",
             "url-ios": "https://itunes.apple.com/gb/app/spideroak/id360584371",
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2902,8 +3110,9 @@
         },
         "slack": {
             "name": "Slack",
-            "img-numbers": "5",
-            "img": "slack",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "slack.png",
             "img-paralax": null,
             "main-package": "slack-desktop",
             "launch-command": "slack-desktop",
@@ -2924,6 +3133,7 @@
             "url-info": "https://slack.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.Slack&hl=en",
             "url-ios": "https://itunes.apple.com/gb/app/slack/id803453959?mt=12",
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2940,8 +3150,9 @@
         },
         "syncthing": {
             "name": "Syncthing",
-            "img-numbers": "5",
-            "img": "syncthing",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "syncthing.png",
             "img-paralax": null,
             "main-package": "syncthing",
             "launch-command": "syncthing",
@@ -2962,6 +3173,7 @@
             "url-info": "https://syncthing.net/",
             "url-android": "https://play.google.com/store/apps/details?id=com.nutomic.syncthingandroid",
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf",
             "releases": "bionic,focal",
             "pre-install": {
@@ -2979,8 +3191,9 @@
         },
         "telegram": {
             "name": "Telegram",
-            "img-numbers": "5",
-            "img": "telegram",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "telegram.png",
             "img-paralax": null,
             "main-package": "telegram-desktop",
             "launch-command": "/usr/bin/telegram-desktop",
@@ -3006,6 +3219,7 @@
             "url-info": "https://telegram.org/",
             "url-android": "https://play.google.com/store/apps/details?id=org.telegram.messenger",
             "url-ios": "https://itunes.apple.com/gb/app/telegram-messenger/id686449807",
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3017,8 +3231,9 @@
         },
         "thunderbird": {
             "name": "Thunderbird",
-            "img-numbers": "5",
-            "img": "thunderbird",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "thunderbird.png",
             "img-paralax": null,
             "main-package": "thunderbird",
             "launch-command": "thunderbird",
@@ -3042,6 +3257,7 @@
             "url-info": "https://www.mozilla.org/en-US/thunderbird/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3053,8 +3269,9 @@
         },
         "torbrowser_launcher": {
             "name": "Tor Browser",
-            "img-numbers": "5",
-            "img": "torbrowser_launcher",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "torbrowser_launcher.png",
             "img-paralax": null,
             "main-package": "torbrowser-launcher",
             "launch-command": "torbrowser-launcher",
@@ -3079,6 +3296,7 @@
             "url-info": "https://www.torproject.org/projects/torbrowser.html",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3090,8 +3308,9 @@
         },
         "transmission": {
             "name": "Transmission",
-            "img-numbers": "5",
-            "img": "transmission",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "transmission.png",
             "img-paralax": null,
             "main-package": "transmission-gtk",
             "launch-command": "transmission-gtk",
@@ -3111,6 +3330,7 @@
             "url-info": "https://transmissionbt.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3122,8 +3342,9 @@
         },
         "uget": {
             "name": "uGet",
-            "img-numbers": "5",
-            "img": "uget",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "uget.png",
             "img-paralax": null,
             "main-package": "uget",
             "launch-command": "uget-gtk",
@@ -3144,6 +3365,7 @@
             "url-info": "http://ugetdm.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3160,8 +3382,9 @@
         },
         "vivaldi": {
             "name": "Vivaldi",
-            "img-numbers": "5",
-            "img": "vivaldi",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "vivaldi.png",
             "img-paralax": null,
             "main-package": "vivaldi-stable",
             "launch-command": "vivaldi",
@@ -3178,6 +3401,7 @@
             "url-info": "https://vivaldi.net",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3192,8 +3416,9 @@
         },
         "wavebox": {
             "name": "Wavebox",
-            "img-numbers": "5",
-            "img": "wavebox",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "wavebox.png",
             "img-paralax": null,
             "main-package": "wavebox",
             "launch-command": "/opt/wavebox/Wavebox",
@@ -3212,6 +3437,7 @@
             "url-info": "https://wavebox.io",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3228,8 +3454,9 @@
         },
         "wire_desktop": {
             "name": "Wire",
-            "img-numbers": "5",
-            "img": "wire_desktop",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "wire_desktop.png",
             "img-paralax": null,
             "main-package": "wire-desktop",
             "launch-command": "/opt/wire-desktop/wire-desktop",
@@ -3249,6 +3476,7 @@
             "url-info": "https://wire.com/",
             "url-android": "https://play.google.com/store/apps/details?id=com.wire",
             "url-ios": "https://itunes.apple.com/gb/app/wire-private-messenger/id930944768",
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3263,8 +3491,9 @@
         },
         "wireshark": {
             "name": "Wireshark",
-            "img-numbers": "5",
-            "img": "wireshark",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "wireshark.png",
             "img-paralax": null,
             "main-package": "wireshark-gtk",
             "launch-command": "wireshark-gtk",
@@ -3285,6 +3514,7 @@
             "url-info": "https://www.wireshark.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3301,8 +3531,9 @@
         },
         "x2goclient": {
             "name": "X2Go Client",
-            "img-numbers": "5",
-            "img": "x2go",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "x2go.png",
             "img-paralax": null,
             "main-package": "x2goclient",
             "launch-command": "x2goclient",
@@ -3322,6 +3553,7 @@
             "url-info": "http://wiki.x2go.org/doku.php",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3333,8 +3565,9 @@
         },
         "zenmap": {
             "name": "Zenmap",
-            "img-numbers": "5",
-            "img": "zenmap",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "zenmap.png",
             "img-paralax": null,
             "main-package": "zenmap",
             "launch-command": "zenmap",
@@ -3354,6 +3587,7 @@
             "url-info": "https://nmap.org/zenmap/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3367,8 +3601,9 @@
     "Office": {
         "calibre": {
             "name": "Calibre",
-            "img-numbers": "5",
-            "img": "calibre",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "calibre.png",
             "img-paralax": null,
             "main-package": "calibre",
             "launch-command": "calibre",
@@ -3398,6 +3633,7 @@
             "url-info": "http://calibre-ebook.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3409,8 +3645,9 @@
         },
         "evolution": {
             "name": "Evolution",
-            "img-numbers": "5",
-            "img": "evolution",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "evolution.png",
             "img-paralax": null,
             "main-package": "evolution",
             "launch-command": "evolution",
@@ -3429,6 +3666,7 @@
             "url-info": "https://wiki.gnome.org/Apps/Evolution",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3440,8 +3678,9 @@
         },
         "focuswriter": {
             "name": "FocusWriter",
-            "img-numbers": "5",
-            "img": "focuswriter",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "focuswriter.png",
             "img-paralax": null,
             "main-package": "focuswriter",
             "launch-command": "focuswriter",
@@ -3466,6 +3705,7 @@
             "url-info": "http://gottcode.org/focuswriter/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3477,8 +3717,9 @@
         },
         "glabels": {
             "name": "gLabels",
-            "img-numbers": "5",
-            "img": "glabels",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "glabels.png",
             "img-paralax": null,
             "main-package": "glabels",
             "launch-command": "glabels-3",
@@ -3500,6 +3741,7 @@
             "url-info": "http://glabels.org",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3511,8 +3753,9 @@
         },
         "gnucash": {
             "name": "Gnucash",
-            "img-numbers": "5",
-            "img": "gnucash",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gnucash.png",
             "img-paralax": null,
             "main-package": "gnucash",
             "launch-command": "gnucash",
@@ -3539,6 +3782,7 @@
             "url-info": "http://www.gnucash.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3550,8 +3794,9 @@
         },
         "gramps": {
             "name": "gramps",
-            "img-numbers": "5",
-            "img": "gramps",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gramps.png",
             "img-paralax": null,
             "main-package": "gramps",
             "launch-command": "gramps",
@@ -3574,6 +3819,7 @@
             "url-info": "https://gramps-project.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3586,8 +3832,9 @@
 
         "libreoffice": {
             "name": "LibreOffice",
-            "img-numbers": "5",
-            "img": "libreoffice",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "libreoffice.png",
             "img-paralax": null,
             "main-package": "libreoffice-core",
             "launch-command": "libreoffice",
@@ -3606,6 +3853,7 @@
             "url-info": "https://www.libreoffice.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3617,8 +3865,9 @@
         },
         "libreoffice_base": {
             "name": "LibreOffice Base",
-            "img-numbers": "5",
-            "img": "libreoffice_base",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "libreoffice_base.png",
             "img-paralax": null,
             "main-package": "libreoffice-base",
             "launch-command": "libreoffice --base",
@@ -3638,6 +3887,7 @@
             "url-info": "https://www.libreoffice.org/discover/base/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3649,8 +3899,9 @@
         },
         "texworks": {
             "name": "TexWorks",
-            "img-numbers": "5",
-            "img": "texworks",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "texworks.png",
             "img-paralax": null,
             "main-package": "texworks",
             "launch-command": "texworks",
@@ -3674,6 +3925,7 @@
             "url-info": "http://www.tug.org/texworks",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3690,8 +3942,9 @@
         },
         "planner": {
             "name": "Planner",
-            "img-numbers": "5",
-            "img": "planner",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "planner.png",
             "img-paralax": null,
             "main-package": "planner",
             "launch-command": "planner",
@@ -3714,6 +3967,7 @@
             "url-info": "http://www.simpleprojectmanagement.com/planner/home.html",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3726,8 +3980,9 @@
 
         "retext": {
             "name": "ReText",
-            "img-numbers": "5",
-            "img": "retext",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "retext.png",
             "img-paralax": null,
             "main-package": "retext",
             "launch-command": "retext",
@@ -3748,6 +4003,7 @@
             "url-info": "https://github.com/retext-project/retext",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3761,8 +4017,9 @@
     "Programming": {
         "atom": {
             "name": "Atom",
-            "img-numbers": "5",
-            "img": "atom",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "atom.png",
             "img-paralax": null,
             "main-package": "atom",
             "launch-command": "atom",
@@ -3783,6 +4040,7 @@
             "url-info": "http://atom.io/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3799,8 +4057,9 @@
         },
         "d_feet": {
             "name": "d-feet",
-            "img-numbers": "5",
-            "img": "d_feet",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "d_feet.png",
             "img-paralax": null,
             "main-package": "d-feet",
             "launch-command": "d-feet",
@@ -3821,6 +4080,7 @@
             "url-info": "https://wiki.gnome.org/Apps/DFeet",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3832,8 +4092,9 @@
         },
         "geany": {
             "name": "Geany",
-            "img-numbers": "5",
-            "img": "geany",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "geany.png",
             "img-paralax": null,
             "main-package": "geany",
             "launch-command": "geany",
@@ -3857,6 +4118,7 @@
             "url-info": "http://www.geany.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3868,8 +4130,9 @@
         },
         "glade": {
             "name": "Glade",
-            "img-numbers": "5",
-            "img": "glade",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "glade.png",
             "img-paralax": null,
             "main-package": "glade",
             "launch-command": "glade",
@@ -3889,6 +4152,7 @@
             "url-info": "https://glade.gnome.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3900,8 +4164,9 @@
         },
         "meld": {
             "name": "Meld",
-            "img-numbers": "5",
-            "img": "meld",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "meld.png",
             "img-paralax": null,
             "main-package": "meld",
             "launch-command": "meld",
@@ -3923,6 +4188,7 @@
             "url-info": "http://meldmerge.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3934,8 +4200,9 @@
         },
         "sublime_text": {
             "name": "Sublime Text",
-            "img-numbers": "5",
-            "img": "sublime_text",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "sublime_text.png",
             "img-paralax": null,
             "main-package": "sublime-text",
             "launch-command": "subl",
@@ -3955,6 +4222,7 @@
             "url-info": "https://www.sublimetext.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "amd64,i386",
             "releases": "bionic,focal",
             "pre-install": {
@@ -3971,8 +4239,9 @@
         },
         "sublime_merge": {
             "name": "Sublime Merge",
-            "img-numbers": "5",
-            "img": "sublime_merge",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "sublime_merge.png",
             "img-paralax": null,
             "main-package": "sublime-merge",
             "launch-command": "smerge",
@@ -3990,6 +4259,7 @@
             "url-info": "https://www.sublimemerge.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "amd64,i386",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4006,8 +4276,9 @@
         },
         "vscode": {
             "name": "Visual Studio Code",
-            "img-numbers": "5",
-            "img": "vscode",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "vscode.png",
             "img-paralax": null,
             "main-package": "code",
             "launch-command": "code",
@@ -4030,6 +4301,7 @@
             "url-info": "https://code.visualstudio.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4046,8 +4318,9 @@
         },
         "pgadmin": {
             "name": "pgAdmin 4",
-            "img-numbers": "5",
-            "img": "pgadmin3",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "pgadmin3.png",
             "img-paralax": null,
             "main-package": "pgadmin4",
             "launch-command": "pgadmin4",
@@ -4072,6 +4345,7 @@
             "url-info": "http://www.pgadmin.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4088,8 +4362,9 @@
         },
         "poedit": {
             "name": "Poedit",
-            "img-numbers": "5",
-            "img": "poedit",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "poedit.png",
             "img-paralax": null,
             "main-package": "poedit",
             "launch-command": "poedit",
@@ -4112,6 +4387,7 @@
             "url-info": "https://poedit.net/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4126,8 +4402,9 @@
 
         "ardour": {
             "name": "Ardour",
-            "img-numbers": "5",
-            "img": "ardour",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "ardour.png",
             "img-paralax": null,
             "main-package": "ardour",
             "launch-command": "ardour4",
@@ -4154,6 +4431,7 @@
             "url-info": "https://ardour.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4165,8 +4443,9 @@
         },
         "asunder": {
             "name": "Asunder",
-            "img-numbers": "5",
-            "img": "asunder",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "asunder.png",
             "img-paralax": null,
             "main-package": "asunder",
             "launch-command": "asunder",
@@ -4188,6 +4467,7 @@
             "url-info": "http://www.littlesvr.ca/asunder/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4199,8 +4479,9 @@
         },
         "flacon": {
             "name": "Flacon",
-            "img-numbers": "5",
-            "img": "flacon",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "flacon.png",
             "img-paralax": null,
             "main-package": "flacon",
             "launch-command": "flacon",
@@ -4218,6 +4499,7 @@
             "url-info": "https://flacon.github.io",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4231,8 +4513,9 @@
         },
         "audacity": {
             "name": "Audacity",
-            "img-numbers": "5",
-            "img": "audacity",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "audacity.png",
             "img-paralax": null,
             "main-package": "audacity",
             "launch-command": "audacity",
@@ -4253,6 +4536,7 @@
             "url-info": "http://audacityteam.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4264,8 +4548,9 @@
         },
         "cheese": {
             "name": "Cheese",
-            "img-numbers": "5",
-            "img": "cheese",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "cheese.png",
             "img-paralax": null,
             "main-package": "cheese",
             "launch-command": "cheese",
@@ -4284,6 +4569,7 @@
             "url-info": "https://wiki.gnome.org/Apps/Cheese",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4295,8 +4581,9 @@
         },
         "clementine": {
             "name": "Clementine",
-            "img-numbers": "5",
-            "img": "clementine",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "clementine.png",
             "img-paralax": null,
             "main-package": "clementine",
             "launch-command": "clementine",
@@ -4315,6 +4602,7 @@
             "url-info": "http://www.clementine-player.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4331,8 +4619,9 @@
         },
         "musescore": {
             "name": "MuseScore",
-            "img-numbers": "5",
-            "img": "musescore",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "musescore.png",
             "img-paralax": null,
             "main-package": "musescore",
             "launch-command": "musescore",
@@ -4357,6 +4646,7 @@
             "url-info": "https://musescore.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4373,8 +4663,9 @@
         },
         "audio_recorder": {
             "name": "Audio Recorder",
-            "img-numbers": "5",
-            "img": "audio_recorder",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "audio_recorder.png",
             "img-paralax": null,
             "main-package": "audio-recorder",
             "launch-command": "audio-recorder",
@@ -4399,6 +4690,7 @@
             "url-info": "https://launchpad.net/~audio-recorder",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4412,8 +4704,9 @@
         },
         "gnome_mpv": {
             "name": "GNOME MPV",
-            "img-numbers": "5",
-            "img": "celluloid",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "celluloid.png",
             "img-paralax": null,
             "main-package": "gnome-mpv",
             "launch-command": "gnome-mpv",
@@ -4433,6 +4726,7 @@
             "url-info": "https://celluloid-player.github.io/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4444,8 +4738,9 @@
         },
         "celluloid": {
             "name": "Celluloid",
-            "img-numbers": "5",
-            "img": "celluloid",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "celluloid.png",
             "img-paralax": null,
             "main-package": "celluloid",
             "launch-command": "celluloid",
@@ -4465,6 +4760,7 @@
             "url-info": "https://celluloid-player.github.io/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4476,8 +4772,9 @@
         },
         "codecs": {
             "name": "Codecs Pack",
-            "img-numbers": "5",
-            "img": "codecs",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "codecs.png",
             "img-paralax": null,
             "main-package": "gstreamer1.0-plugins-ugly",
             "launch-command": null,
@@ -4498,6 +4795,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4509,8 +4807,9 @@
         },
         "easytag": {
             "name": "EasyTAG",
-            "img-numbers": "5",
-            "img": "easytag",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "easytag.png",
             "img-paralax": null,
             "main-package": "easytag",
             "launch-command": "easytag",
@@ -4532,6 +4831,7 @@
             "url-info": "https://wiki.gnome.org/Apps/EasyTAG",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4541,48 +4841,12 @@
             },
             "working": true
         },
-        "google_play_music_desktop_player": {
-            "name": "Google Play Music Desktop Player",
-            "img-numbers": "5",
-            "img": "google_play_music_desktop_player",
-            "img-paralax": null,
-            "main-package": "google-play-music-desktop-player",
-            "launch-command": "google-play-music-desktop-player",
-            "install-packages": "google-play-music-desktop-player",
-            "remove-packages": "google-play-music-desktop-player",
-            "description": [
-                "A beautiful cross platform Desktop Player for Google Play Music.",
-                "You can change your theme, customize the colors, send your play",
-                "history straight to last.fm, and it even has a built-in equalizer.",
-                "From advanced audio controls to simple song change notifications,",
-                "this desktop player literally does it all."
-            ],
-            "alternate-to": "Apple iTunes",
-            "subcategory": "Reprodução de mídia",
-            "open-source": true,
-            "checking": false,
-            "description-get-info": "Sem mini descrição!",
-            "url-info": "https://www.googleplaymusicdesktopplayer.com/",
-            "url-android": "https://play.google.com/store/apps/details?id=com.google.android.music",
-            "url-ios": "https://itunes.apple.com/gb/app/google-play-music/id691797987",
-            "arch": "i386,amd64",
-            "releases": "bionic,focal",
-            "pre-install": {
-                "all": {
-                    "method": "manual",
-                    "source-file": "gpmdp",
-                    "apt-key-url": "http://gpmdp.xyz/bintray-public.key.asc",
-                    "apt-sources": [
-                        "deb https://dl.bintray.com/marshallofsound/deb trusty main"
-                    ]
-                }
-            },
-            "working": true
-        },
+
         "handbrake": {
             "name": "Handbrake",
-            "img-numbers": "5",
-            "img": "handbrake",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "handbrake.png",
             "img-paralax": null,
             "main-package": "handbrake",
             "launch-command": "handbrake",
@@ -4602,6 +4866,7 @@
             "url-info": "https://handbrake.fr",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4613,8 +4878,9 @@
         },
         "kdenlive": {
             "name": "kdenlive",
-            "img-numbers": "5",
-            "img": "kdenlive",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "kdenlive.png",
             "img-paralax": null,
             "main-package": "kdenlive",
             "launch-command": "kdenlive",
@@ -4638,6 +4904,7 @@
             "url-info": "http://www.kdenlive.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4649,8 +4916,9 @@
         },
         "kodi": {
             "name": "Kodi",
-            "img-numbers": "5",
-            "img": "kodi",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "kodi.png",
             "img-paralax": null,
             "main-package": "kodi",
             "launch-command": "kodi",
@@ -4673,6 +4941,7 @@
             "url-info": "https://kodi.tv/",
             "url-android": "https://play.google.com/store/apps/details?id=org.xbmc.kodi",
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4689,8 +4958,9 @@
         },
         "makemkv": {
             "name": "MakeMKV",
-            "img-numbers": "5",
-            "img": "makemkv",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "makemkv.png",
             "img-paralax": null,
             "main-package": "makemkv-bin",
             "launch-command": "makemkv",
@@ -4720,6 +4990,7 @@
             "url-info": "http://www.makemkv.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4733,8 +5004,9 @@
         },
         "obs_studio": {
             "name": "OBS Studio",
-            "img-numbers": "5",
-            "img": "obs_studio",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "obs_studio.png",
             "img-paralax": null,
             "main-package": "obs-studio",
             "launch-command": "obs",
@@ -4759,6 +5031,7 @@
             "url-info": "https://obsproject.com",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4770,8 +5043,9 @@
         },
         "pithos": {
             "name": "Pithos",
-            "img-numbers": "5",
-            "img": "pithos",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "pithos.png",
             "img-paralax": null,
             "main-package": "pithos",
             "launch-command": "pithos",
@@ -4793,6 +5067,7 @@
             "url-info": "http://pithos.github.io/",
             "url-android": "https://play.google.com/store/apps/details?id=com.pandora.android",
             "url-ios": "https://itunes.apple.com/en/app/pandora-radio/id284035177",
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4804,8 +5079,9 @@
         },
         "pauvcontrol": {
             "name": "PulseAudio Volume Control",
-            "img-numbers": "5",
-            "img": "pavucontrol",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "pavucontrol.png",
             "img-paralax": null,
             "main-package": "pavucontrol",
             "launch-command": "pavucontrol",
@@ -4826,6 +5102,7 @@
             "url-info": "http://freedesktop.org/software/pulseaudio/pavucontrol/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4837,8 +5114,9 @@
         },
         "peek": {
             "name": "Peek",
-            "img-numbers": "5",
-            "img": "peek",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "peek.png",
             "img-paralax": null,
             "main-package": "peek",
             "launch-command": "peek",
@@ -4860,6 +5138,7 @@
             "url-info": "https://github.com/phw/peek",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4873,8 +5152,9 @@
         },
         "kazam": {
             "name": "Kazam",
-            "img-numbers": "5",
-            "img": "kazam",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "kazam.png",
             "img-paralax": null,
             "main-package": "kazam",
             "launch-command": "kazam",
@@ -4894,6 +5174,7 @@
             "url-info": "https://launchpad.net/kazam",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4905,8 +5186,9 @@
         },
         "rhythmbox": {
             "name": "Rhythmbox",
-            "img-numbers": "5",
-            "img": "rhythmbox",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "rhythmbox.png",
             "img-paralax": null,
             "main-package": "rhythmbox",
             "launch-command": "rhythmbox",
@@ -4929,6 +5211,7 @@
             "url-info": "https://wiki.gnome.org/Apps/Rhythmbox",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,arm64,armhf",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4940,8 +5223,9 @@
         },
         "simplescreenrecorder": {
             "name": "SimpleScreenRecorder",
-            "img-numbers": "5",
-            "img": "simplescreenrecorder",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "simplescreenrecorder.png",
             "img-paralax": null,
             "main-package": "simplescreenrecorder",
             "launch-command": "simplescreenrecorder",
@@ -4962,6 +5246,7 @@
             "url-info": "http://www.maartenbaert.be/simplescreenrecorder/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -4978,8 +5263,9 @@
         },
         "soundconverter": {
             "name": "Sound Converter",
-            "img-numbers": "5",
-            "img": "soundconverter",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "soundconverter.png",
             "img-paralax": null,
             "main-package": "soundconverter",
             "launch-command": "soundconverter",
@@ -4999,6 +5285,7 @@
             "url-info": "http://soundconverter.org",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,arm64,armhf",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5010,8 +5297,9 @@
         },
         "spotify": {
             "name": "Spotify",
-            "img-numbers": "5",
-            "img": "spotify",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "spotify.svg",
             "img-paralax": null,
             "main-package": "spotify-client",
             "launch-command": "spotify",
@@ -5029,6 +5317,7 @@
             "url-info": "https://www.spotify.com",
             "url-android": "https://play.google.com/store/apps/details?id=com.spotify.music",
             "url-ios": "https://itunes.apple.com/gb/app/spotify-music/id324684580",
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5045,8 +5334,9 @@
         },
         "vlc": {
             "name": "VLC",
-            "img-numbers": "5",
-            "img": "vlc",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "vlc.png",
             "img-paralax": null,
             "main-package": "vlc",
             "launch-command": "vlc",
@@ -5065,6 +5355,7 @@
             "url-info": "http://www.videolan.org/",
             "url-android": "https://play.google.com/store/apps/details?id=org.videolan.vlc",
             "url-ios": "https://itunes.apple.com/gb/app/vlc-for-mobile/id650377962",
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5078,10 +5369,54 @@
     },
     "SysTools": {
 
+        "stacer": {
+            "name": "Stacer",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "stacer.png",
+            "img-paralax": null,
+            "main-package": "stacer",
+            "launch-command": "stacer",
+            "install-packages": "stacer",
+            "remove-packages": "stacer",
+            "description": [
+                "Stacer é um otimizador de sistema de ",
+                "código aberto e monitor de aplicativo ",
+                "que ajuda os usuários a gerenciar todo",
+                " o sistema com diferentes aspectos, é um",
+                " utilitário de sistema tudo em um."
+            ],
+            "alternate-to": "GNOME System Monitor, KSysGuard, Xfce Task Manager",
+            "subcategory": "Otimizador",
+            "open-source": true,
+            "checking": true,
+            "description-get-info": "Stacer é um utilitário de monitoramento, otimização e limpeza de sistema, que permite melhorar o desempenho do Linux.",
+            "url-info": "https://oguzhaninan.github.io/Stacer-Web/",
+            "url-android": null,
+            "url-ios": null,
+            "snap-install": false,
+            "arch": "i386,amd64",
+            "releases": "bionic,focal,stretch,buster",
+            "pre-install": {
+                "all": {
+                    "method": "ppa",
+                    "enable-ppa": "ppa:oguzhaninan/stacer",
+                    "source-file": "oguzhaninan-stacer-CODENAME"
+                },
+
+                "focal,stretch,buster": {
+                    "method": "skip"
+                }
+            },
+            "enable_i386": true,
+            "working": true
+        },
+
         "wine": {
             "name": "Wine",
-            "img-numbers": "5",
-            "img": "wine",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "wine.png",
             "img-paralax": null,
             "main-package": "wine",
             "launch-command": "winecfg",
@@ -5102,6 +5437,7 @@
             "url-info": "https://www.winehq.org/",
             "url-android": "https://dl.winehq.org/wine-builds/android/",
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5115,8 +5451,9 @@
 
         "horizon_settings_desktop": {
             "name": "Configurações do Horizon OS",
-            "img-numbers": "5",
-            "img": "logo_horizon",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "logo_horizon.png",
             "img-paralax": null,
             "main-package": "horizon-settings-desktop",
             "install-packages": "horizon-settings-desktop",
@@ -5134,6 +5471,7 @@
             "url-info": null,
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5145,13 +5483,11 @@
             },
             "working": true
         },
-
-
-
         "bleachbit": {
             "name": "BleachBit",
-            "img-numbers": "5",
-            "img": "bleachbit",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "bleachbit.png",
             "img-paralax": null,
             "main-package": "bleachbit",
             "launch-command": "bleachbit",
@@ -5175,6 +5511,7 @@
             "url-info": "http://bleachbit.sourceforge.net",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5186,8 +5523,9 @@
         },
         "brasero": {
             "name": "Brasero",
-            "img-numbers": "5",
-            "img": "brasero",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "brasero.png",
             "img-paralax": null,
             "main-package": "brasero",
             "launch-command": "brasero",
@@ -5210,6 +5548,7 @@
             "url-info": "https://wiki.gnome.org/Apps/Brasero",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,arm64,armhf",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5221,8 +5560,9 @@
         },
         "deja_dup": {
             "name": "Déjà Dup",
-            "img-numbers": "5",
-            "img": "deja_dup",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "deja_dup.png",
             "img-paralax": null,
             "main-package": "deja-dup",
             "launch-command": "deja-dup",
@@ -5241,6 +5581,7 @@
             "url-info": "https://launchpad.net/deja-dup",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,arm64,armhf",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5252,8 +5593,9 @@
         },
         "dconf_editor": {
             "name": "dconf-editor",
-            "img-numbers": "5",
-            "img": "dconf_editor",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "dconf_editor.png",
             "img-paralax": null,
             "main-package": "dconf-editor",
             "launch-command": "dconf-editor",
@@ -5272,6 +5614,7 @@
             "url-info": "https://wiki.gnome.org/Projects/dconf",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5283,8 +5626,9 @@
         },
         "hardinfo": {
             "name": "System Profiler and Benchmark",
-            "img-numbers": "5",
-            "img": "hardinfo",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "hardinfo.png",
             "img-paralax": null,
             "main-package": "hardinfo",
             "launch-command": "hardinfo",
@@ -5304,6 +5648,7 @@
             "url-info": "http://hardinfo.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5315,8 +5660,9 @@
         },
         "kdeconnect": {
             "name": "KDE Connect Indicator",
-            "img-numbers": "5",
-            "img": "kdeconnect",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "kdeconnect.png",
             "img-paralax": null,
             "main-package": "indicator-kdeconnect",
             "launch-command": null,
@@ -5335,6 +5681,7 @@
             "url-info": "https://github.com/Bajoja/indicator-kdeconnect",
             "url-android": "https://play.google.com/store/apps/details?id=org.kde.kdeconnect_tp",
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5348,8 +5695,9 @@
         },
         "psensor": {
             "name": "Psensor",
-            "img-numbers": "5",
-            "img": "psensor",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "psensor.png",
             "img-paralax": null,
             "main-package": "psensor",
             "launch-command": "psensor",
@@ -5367,6 +5715,7 @@
             "url-info": "http://wpitchoune.net/blog/psensor/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5378,8 +5727,9 @@
         },
         "terminator": {
             "name": "Terminator",
-            "img-numbers": "5",
-            "img": "terminator",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "terminator.png",
             "img-paralax": null,
             "main-package": "terminator",
             "launch-command": "terminator",
@@ -5399,6 +5749,7 @@
             "url-info": "http://gnometerminator.blogspot.co.uk/p/introduction.html",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5415,8 +5766,9 @@
         },
         "virtualbox": {
             "name": "VirtualBox",
-            "img-numbers": "5",
-            "img": "virtualbox",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "virtualbox.png",
             "img-paralax": null,
             "main-package": "virtualbox-qt",
             "launch-command": "virtualbox",
@@ -5438,6 +5790,7 @@
             "url-info": "https://www.virtualbox.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5448,12 +5801,13 @@
             "working": true
         }
     },
-    
+
     "Servers": {
         "caja_share": {
             "name": "Caja Share",
-            "img-numbers": "5",
-            "img": "caja_share",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "caja_share.png",
             "img-paralax": null,
             "main-package": "caja-share",
             "launch-command": null,
@@ -5472,6 +5826,7 @@
             "url-info": "https://www.samba.org/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5483,8 +5838,9 @@
         },
         "jellyfin": {
             "name": "Jellyfin",
-            "img-numbers": "5",
-            "img": "jellyfin",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "jellyfin.png",
             "img-paralax": null,
             "main-package": "jellyfin",
             "launch-command": null,
@@ -5508,6 +5864,7 @@
             "url-info": "https://jellyfin.github.io/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "amd64,armhf",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5524,8 +5881,9 @@
         },
         "minecraft_server": {
             "name": "Minecraft Server",
-            "img-numbers": "5",
-            "img": "minecraft",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "minecraft.png",
             "img-paralax": null,
             "main-package": "minecraft-server-installer",
             "launch-command": null,
@@ -5545,6 +5903,7 @@
             "url-info": "http://minecraft.gamepedia.com/Setting_up_a_server",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5558,8 +5917,9 @@
         },
         "murmur": {
             "name": "Murmur",
-            "img-numbers": "5",
-            "img": "mumble",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "mumble.png",
             "img-paralax": null,
             "main-package": "mumble-server",
             "launch-command": null,
@@ -5579,6 +5939,7 @@
             "url-info": "http://wiki.mumble.info/wiki/Main_Page",
             "url-android": "https://play.google.com/store/apps/details?id=com.morlunk.mumbleclient.free",
             "url-ios": "http://itunes.apple.com/us/app/mumble/id443472808",
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5595,8 +5956,9 @@
         },
         "openssh_server": {
             "name": "OpenSSH",
-            "img-numbers": "5",
-            "img": "openssh",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "openssh.png",
             "img-paralax": null,
             "main-package": "ssh",
             "launch-command": null,
@@ -5618,6 +5980,7 @@
             "url-info": "https://www.openssh.com/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5629,8 +5992,9 @@
         },
         "x2go_server": {
             "name": "X2Go Server",
-            "img-numbers": "5",
-            "img": "x2go",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "x2go.png",
             "img-paralax": null,
             "main-package": "x2goserver",
             "launch-command": null,
@@ -5650,6 +6014,7 @@
             "url-info": "http://wiki.x2go.org/doku.php",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5663,15 +6028,19 @@
     "MoreApps": {
         "loja_horizon_os": {
             "name": "Loja Horizon OS",
-            "img-numbers": "5",
-            "img": "loja-horizon",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "loja-horizon.png",
             "img-paralax": null,
             "main-package": "loja-horizon-os",
             "launch-command": "loja-horizon-os",
             "install-packages": "loja-horizon-os",
             "remove-packages": "loja-horizon-os",
             "description": [
-                "Loja Horizon OS"
+                "Loja Horizon OS em si é uma loja e gerenciador",
+                " de aplicativos/programas para sitemas linux no",
+                "qual o gerenciamento de instalação funciona desde que a",
+                " loja o tenha mapeado em seu banco de dados!"
             ],
             "alternate-to": null,
             "subcategory": "Centro de Software",
@@ -5681,6 +6050,7 @@
             "url-info": "http://horizon-os.org/loja",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5694,8 +6064,9 @@
         },
         "software": {
             "name": "Software",
-            "img-numbers": "5",
-            "img": "gnome_software",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gnome_software.png",
             "img-paralax": null,
             "main-package": "gnome-software",
             "launch-command": "gnome-software",
@@ -5712,6 +6083,7 @@
             "url-info": "https://wiki.gnome.org/Apps/Software",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5723,8 +6095,9 @@
         },
         "synaptic": {
             "name": "Synaptic Package Manager",
-            "img-numbers": "5",
-            "img": "synaptic",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "synaptic.png",
             "img-paralax": null,
             "main-package": "synaptic",
             "launch-command": "pkexec synaptic",
@@ -5747,6 +6120,7 @@
             "url-info": "http://www.nongnu.org/synaptic/index.html",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5760,8 +6134,9 @@
     "Unlisted": {
         "horizon_os": {
             "name": "Repositório da Interface KDE do Horizon OS",
-            "img-numbers": "5",
-            "img": "logo_horizon",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "logo_horizon.png",
             "img-paralax": null,
             "main-package": null,
             "install-packages": null,
@@ -5777,6 +6152,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5790,8 +6166,9 @@
         },
         "horizon_os_base": {
             "name": "Repositório da Base do Horizon OS",
-            "img-numbers": "5",
-            "img": "logo_horizon",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "logo_horizon.png",
             "img-paralax": null,
             "main-package": null,
             "install-packages": null,
@@ -5807,6 +6184,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5820,8 +6198,9 @@
         },
         "horizon_os_loja": {
             "name": "Repositório da Loja do Horizon OS",
-            "img-numbers": "5",
-            "img": "logo-horizon",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "logo-horizon.png",
             "img-paralax": null,
             "main-package": "central-horizon-os",
             "install-packages": "central-horizon-os",
@@ -5837,6 +6216,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5850,8 +6230,9 @@
         },
         "ubuntu_standard": {
             "name": "Ubuntu Standard Updates",
-            "img-numbers": "5",
-            "img": "system",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "system.png",
             "img-paralax": null,
             "main-package": "ubuntu-standard",
             "launch-command": null,
@@ -5868,6 +6249,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5879,8 +6261,9 @@
         },
         "boot_repair": {
             "name": "Boot-Repair",
-            "img-numbers": "5",
-            "img": "unknown",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "unknown.png",
             "img-paralax": null,
             "main-package": "boot-repair",
             "launch-command": null,
@@ -5895,6 +6278,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5908,8 +6292,9 @@
         },
         "firmware": {
             "name": "Firmware Drivers",
-            "img-numbers": "5",
-            "img": "additional-drivers",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "additional-drivers.png",
             "img-paralax": null,
             "main-package": "firmware-b43-installer",
             "launch-command": null,
@@ -5924,6 +6309,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5935,8 +6321,9 @@
         },
         "hp_printer": {
             "name": "HP Printing and Imaging System",
-            "img-numbers": "5",
-            "img": "hplip",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "hplip.png",
             "img-paralax": null,
             "main-package": "hplip-gui",
             "launch-command": "hp-toolbox",
@@ -5951,6 +6338,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5962,8 +6350,9 @@
         },
         "solaar": {
             "name": "Solaar for Logitech Unifying Receivers",
-            "img-numbers": "5",
-            "img": "solaar",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "solaar.png",
             "img-paralax": null,
             "main-package": "solaar",
             "launch-command": "solaar",
@@ -5978,6 +6367,7 @@
             "url-info": "http://pwr.github.io/Solaar/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -5989,8 +6379,9 @@
         },
         "keyboard_chinese": {
             "name": "Chinese Keyboard Layout",
-            "img-numbers": "5",
-            "img": "keyboard",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "keyboard.png",
             "img-paralax": null,
             "main-package": "fcitx-sunpinyin",
             "launch-command": null,
@@ -6005,6 +6396,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -6016,8 +6408,9 @@
         },
         "keyboard_japanese": {
             "name": "Japanese Keyboard Layout",
-            "img-numbers": "5",
-            "img": "keyboard",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "keyboard.png",
             "img-paralax": null,
             "main-package": "fcitx-mozc",
             "launch-command": null,
@@ -6032,6 +6425,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf",
             "releases": "bionic,focal",
             "pre-install": {
@@ -6043,8 +6437,9 @@
         },
         "keyboard_korean": {
             "name": "Korean Keyboard Layout",
-            "img-numbers": "5",
-            "img": "keyboard",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "keyboard.png",
             "img-paralax": null,
             "main-package": "fcitx-hangul",
             "launch-command": null,
@@ -6059,6 +6454,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -6071,8 +6467,9 @@
 
         "gufw": {
             "name": "Firewall",
-            "img-numbers": "5",
-            "img": "gufw",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gufw.png",
             "img-paralax": null,
             "main-package": "gufw",
             "launch-command": "gufw",
@@ -6087,6 +6484,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -6098,8 +6496,9 @@
         },
         "gnome_disk_utility": {
             "name": "GNOME Disks",
-            "img-numbers": "5",
-            "img": "gnome-disk-utility",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "gnome-disk-utility.png",
             "img-paralax": null,
             "main-package": "gnome-disk-utility",
             "launch-command": "gnome-disks",
@@ -6114,6 +6513,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -6126,8 +6526,9 @@
 
         "libdvdcss2_old": {
             "name": "Blu-ray and DVD Playback Support",
-            "img-numbers": "5",
-            "img": "dvd",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "dvd.png",
             "img-paralax": null,
             "main-package": "libbluray-bdj",
             "launch-command": null,
@@ -6146,6 +6547,7 @@
             "url-info": "http://www.videolan.org/developers/libdvdcss.html",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -6157,8 +6559,9 @@
         },
         "libdvdcss2_new": {
             "name": "Blu-ray and DVD Playback Support",
-            "img-numbers": "5",
-            "img": "dvd",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "dvd.png",
             "img-paralax": null,
             "main-package": "libbluray-bdj",
             "launch-command": null,
@@ -6177,6 +6580,7 @@
             "url-info": "http://www.videolan.org/developers/libdvdcss.html",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -6188,8 +6592,9 @@
         },
         "xscreensaver": {
             "name": "Additional screensavers",
-            "img-numbers": "5",
-            "img": "xscreensaver",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "xscreensaver.png",
             "img-paralax": null,
             "main-package": "xscreensaver-gl",
             "launch-command": null,
@@ -6204,6 +6609,7 @@
             "url-info": "",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64,armhf,arm64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -6216,8 +6622,9 @@
 
         "openrazer": {
             "name": "OpenRazer",
-            "img-numbers": "5",
-            "img": "openrazer",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "openrazer.png",
             "img-paralax": null,
             "main-package": "openrazer-meta",
             "launch-command": null,
@@ -6232,6 +6639,7 @@
             "url-info": "https://openrazer.github.io/",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -6245,8 +6653,9 @@
         },
         "polychromatic": {
             "name": "Polychromatic",
-            "img-numbers": "5",
-            "img": "polychromatic",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "polychromatic.png",
             "img-paralax": null,
             "main-package": "polychromatic",
             "launch-command": "polychromatic-controller",
@@ -6261,6 +6670,7 @@
             "url-info": "https://github.com/polychromatic/polychromatic",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {
@@ -6276,13 +6686,13 @@
     },
     "KnownRepos": {
 
-
     },
     "StoreUpdates": {
         "dados_loja_horizon_os": {
             "name": "Dados da Loja Horizon OS ",
-            "img-numbers": "5",
-            "img": "loja-horizon",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "loja-horizon.png",
             "img-paralax": null,
             "main-package": "loja-horizon-os",
             "launch-command": null,
@@ -6299,6 +6709,7 @@
             "url-info": "http://horizon-os.org/loja",
             "url-android": null,
             "url-ios": null,
+            "snap-install": false,
             "arch": "i386,amd64",
             "releases": "bionic,focal",
             "pre-install": {

@@ -14,10 +14,11 @@
     },
 
     "Gallery": {
-        "Comment": "Alguns de nossa galeria personalizada! ",
+        "Comment": "Alguns de nossa galeria personalizada!Alguns de nossa galeria personalizada!Alguns de nossa galeria personalizada! ",
         "Apps_Galery": [
             "gimp",
-            "steam"
+            "steam",
+            "cubic"
         ]
 
     }

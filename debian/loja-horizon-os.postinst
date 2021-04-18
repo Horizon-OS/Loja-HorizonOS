@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+sudo xdg-desktop-menu install /usr/share/applications/loja-horizon-os.desktop
+sudo update-desktop-database
+sudo xdg-mime default /usr/share/applications/loja-horizon-os.desktop x-scheme-handler/loja-horizon-os
+
+exit 0

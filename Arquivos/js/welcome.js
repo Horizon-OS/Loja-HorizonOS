@@ -231,7 +231,7 @@ if (current_page == 'index.html') {
         $('#navigation-font-list').removeClass('active');
         $('#navigation-installed').removeClass('active');
         $('#dropdown1').removeClass('active');
-        
+
         //Ids das categoria a ser removidas dos destaques
         $('#AccessoriesBtn').removeClass('active');
         $('#EducationBtn').removeClass('active');
@@ -244,9 +244,10 @@ if (current_page == 'index.html') {
         $('#SysToolsBtn').removeClass('active');
         $('#ServersBtn').removeClass('active');
         $('#MoreAppsBtn').removeClass('active');
+        $('#SnapBtn').removeClass('active');
         $('#MiscBtn').removeClass('active');
 
-        
+
 
 
 
@@ -288,7 +289,7 @@ if (current_page == 'index.html') {
         switchCategory(currentCategory, id, true);
         resetNavTabs();
         $('#categoryHover').fadeOut(300)
-        $(id+'Btn').addClass('active');
+        $(id + 'Btn').addClass('active');
     }
 
 
@@ -326,7 +327,7 @@ if (current_page == 'index.html') {
     function applyFilter() {
         cmd('filter-apps?' + selected_filter + '?');
     }
-    
+
     function toggleNonFree() {
         cmd('filter-apps?' + selected_filter + '?toggle');
     }
@@ -419,6 +420,19 @@ if (current_page == 'index.html') {
         $('#navigation-news').addClass('active');
     }
 
+    function showButtomCategoryFilter(category_filter) {
+        $('.dropdown-filter').removeClass('showButtomCategoryFilter');
+        $('.dropdown-filter').addClass('hideButtomCategoryFilter');
+        $('#button-filter-' + category_filter).removeClass('hideButtomCategoryFilter');
+        $('#button-filter-' + category_filter).addClass('showButtomCategoryFilter');
+    }
+
+    function hideButtomCategoryFilter() {
+        $('.dropdown-filter').removeClass('showButtomCategoryFilter');
+        $('.dropdown-filter').addClass('hideButtomCategoryFilter');
+    }
+
+
 
     // Toggling to show the Search Page
     function showSearch(subtitle) {
@@ -438,6 +452,11 @@ if (current_page == 'index.html') {
         cmd('search?' + keywords)
     }
 
+    function LoginUserInput() {
+        input_email = $('#input-email').val();
+        input_password = $('#input-password').val();
+        cmd('LoginUser?' + input - email + '?' + input - password)
+    }
     // Search again but include non-free matches.
     function searchAgainNonFree() {
         toggleNonFree()
