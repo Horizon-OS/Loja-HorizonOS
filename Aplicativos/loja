@@ -71,8 +71,8 @@ except ImportError:
 
 loja_site = 'http://loja.horizon-os.org/'
 
-__VERSION__ = '4.2 Beta'
-__VERSION_WEB__ = '4.2Beta'
+__VERSION__ = '4.4 Beta'
+__VERSION_WEB__ = '4.4Beta'
 cabecalho = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\
     <meta name="viewport" content="width=device-width, initial-scale=1.0">\
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />\
