@@ -1,27 +1,45 @@
 {
 
-    "Para Você": {
-        "Comment": "Experimente uns destes!",
+    "Ferramentas produtivas": {
+        "Comment": " ",
         "Apps": [
-            "caffeine",
-            "etcher",
+            "blender",
+            "kdenlive",
+            "obs_studio",
+            "stellarium",
+            "google_chrome"
+            
+
+        ]
+
+    },
+    
+    "Quer utilidades?": {
+        "Comment": "Recomendamos o seguintes Aplicativos/Programas",
+        "Apps": [
+            "brave",
+            "telegram",
             "inkscape",
-            "luminance_hdr",
-            "rapid_photo_downloader"
+            "blender",
+            "gcompris",
+            "vscode",
+            "spotify",
+            "etcher"
 
         ]
 
     },
 
     "Gallery": {
-        "Comment": "Alguns de nossa galeria personalizada!Alguns de nossa galeria personalizada!Alguns de nossa galeria personalizada! ",
+        "Comment": "Alguns de nossa galeria personalizada! ",
         "Apps_Galery": [
             "gimp",
             "steam",
-            "cubic"
+            "github_desktop"
         ]
 
     }
 
 
 }
+

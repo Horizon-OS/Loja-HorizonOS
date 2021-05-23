@@ -1,7 +1,7 @@
 Source: loja-horizon-os
 Section: x11
 Priority: optional
-Homepage:http://horizon-os.org/loja
+Homepage:http://loja.horizon-os.org/
 Maintainer: Horizon Operating System <contato@horizon-os.org>
 Build-Depends: debhelper (>= 9), gettext, libglib2.0-bin
 Standards-Version: 1.0
@@ -20,5 +20,11 @@ Depends: loja-horizon-os-dados,
          update-manager,
          ${misc:Depends}
 Description: Este pacote contém a Loja do Horizon OS!
+
+Package: loja-horizon-os-dados
+Architecture: all
+Depends: loja-horizon-os,
+         ${misc:Depends}
+Description: Este pacote contém os dados da Loja do Horizon OS!
 
 

@@ -4015,6 +4015,45 @@
         }
     },
     "Programming": {
+        "github_desktop": {
+            "name": "Github Desktop",
+            "parental-rating": "Livre",
+            "parental-rating-description": "Classificação indicativa Livre",
+            "img": "github-desktop.png",
+            "img-paralax": "github-desktop.png",
+            "main-package": "github-desktop",
+            "launch-command": "github-desktop",
+            "install-packages": "github-desktop",
+            "remove-packages": "github-desktop",
+            "description": [
+                "Concentre-se no que importa em vez de ",
+                "lutar com o Git. Quer você seja novo no Git ",
+                "ou um usuário experiente, o GitHub Desktop ",
+                "simplifica seu fluxo de trabalho de desenvolvimento."
+            ],
+            "alternate-to": null,
+            "subcategory": "Gerenciador de Projetos",
+            "open-source": true,
+            "checking": true,
+            "description-get-info": "O GitHub Desktop amplia e simplifica o fluxo de trabalho no GitHub.com com uma interface visual, em vez de comandos de texto na linha de comando. ",
+            "url-info": "https://github.com/shiftkey/desktop",
+            "url-android": "https://play.google.com/store/apps/details?id=com.morlunk.mumbleclient.free",
+            "url-ios": "https://apps.apple.com/us/app/github/id1477376905",
+            "snap-install": false,
+            "arch": "amd64",
+            "releases": "bionic,focal",
+            "pre-install": {
+                "all": {
+                    "method": "manual",
+                    "source-file": "github-desktop",
+                    "apt-key-url": "https://packagecloud.io/shiftkey/desktop/gpgkey",
+                    "apt-sources": [
+                        "deb [arch=amd64] https://packagecloud.io/shiftkey/desktop/any/ any main"
+                    ]
+                }
+            },
+            "working": true
+        },
         "atom": {
             "name": "Atom",
             "parental-rating": "Livre",

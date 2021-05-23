@@ -433,10 +433,17 @@ if (current_page == 'index.html') {
     }
 
 
+    function searchNow() {
+        cmd('ativar-tema-dark')
+        keywords = $('#search-terms').val();
+        cmd('search?' + keywords)
 
+    }
     // Toggling to show the Search Page
     function showSearch(subtitle) {
+
         switchCategory(currentCategory, '#Search', subtitle, true)
+        searchNow();
         resetNavTabs();
         $('#navigation-search').addClass('active');
         $('#search-results').html('');
@@ -444,13 +451,12 @@ if (current_page == 'index.html') {
         $('#search-empty').hide();
         $('#search-total').hide();
         $('#search-terms').val('');
+
+
     }
 
     // Perform a search
-    function searchNow() {
-        keywords = $('#search-terms').val();
-        cmd('search?' + keywords)
-    }
+
 
     function LoginUserInput() {
         input_email = $('#input-email').val();
@@ -502,9 +508,15 @@ if (current_page == 'index.html') {
     // Start processing queue
     function startQueue() {
         $('#navigation-right').addClass('disabled');
+        $('header').addClass('disabled');
         $('#navigation-topo').addClass('disabled');
         $('#queue-cards-base').addClass('disabled');
         $('#category-tabs').addClass('disabled');
+        $('.menu').addClass('disabled');
+        $('#search-terms').addClass('disabled');
+        $('#profile-picture-header img').addClass('disabled');
+        $('.tema-categoria').addClass('disabled');
+
         smoothFade("#queue-options", "#queue-busy");
         $('#queue-error').fadeOut(300);
         $('.drop').hide();

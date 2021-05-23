@@ -42,24 +42,9 @@
     box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 16px 0px;
 }
 
-.navigation-button:hover {
-    color: rgb(51, 7, 132);
-}
-
-.navigation-button:focus {
-    border-color: var(--selected_bg);
-    border-radius: 32px;
-}
-
-.navigation-button:active {
-    background-color: var(--selected_bg);
-    color: rgb(255, 255, 255);
-    border-radius: 32px;
-}
-
 .navigation-button.active {
-    background-color: var(--selected_bg);
-    border-radius: 32px;
+    background-color: rgb(80, 69, 233);
+    color: white;
 }
 
 #pref-table>tbody>tr>td>button {
@@ -160,24 +145,11 @@ aside ul li.active {
 }
 
 .navigation-button-item {
-    color: black;
-}
-
-.navigation-button-item:hover {
-    color: rgb(51, 7, 132);
-}
-
-.navigation-button-item:focus {
-    border-color: var(--selected_bg);
-}
-
-.navigation-button-item:active {
-    background-color: var(--selected_bg);
-    color: rgb(255, 255, 255);
+    color: rgb(41, 39, 39);
 }
 
 .navigation-button-item.active {
-    background-color: var(--selected_bg);
+    color: rgb(11, 38, 80);
 }
 
 .screenshot-content,
@@ -208,4 +180,20 @@ aside ul li.active {
 
 .parental-rating-text-title {
     color: #ffffff;
+}
+
+.imagem-app-background {
+    background-color: rgb(212, 198, 198);
+}
+
+.app-entry {
+    background-color: rgb(226, 217, 217);
+}
+
+.text-program-select {
+    color: black;
+}
+
+.ApplyChanges {
+    background-color: blue;
 }

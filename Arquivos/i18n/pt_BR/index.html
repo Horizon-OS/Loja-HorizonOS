@@ -14,7 +14,7 @@
     <link href="../../css/tema-dark.css" rel="stylesheet">
     <link href="../../css/icon.css" rel="stylesheet">
     <link href="../../css/menu-style.css" rel="stylesheet">
-    <title>null</title>
+    <title>Update</title>
 </head>
 
 <body class="backdrop-simple tema-topo">
@@ -23,6 +23,7 @@
         <span id="Text2" class="tema-modo-texto"><b>Horizon OS</b></span>
         <img src="../../img/definitions/loading.svg">
     </div>
+
     <div id="imagespawn"></div>
     <style>
         /*the container must be positioned relative:*/
@@ -94,7 +95,7 @@
         <div class="_1-5zf" data-hook="bsm-main-container" style="height: 100vh;flex-direction: column;display: flex;">
             <header style="display: none;">
                 <span class="menu"><i class="material-icons">menu</i></span><span id="profile-picture-header" onclick="changeCategoryTab('#User-Profile', 'Perfil do Usuário');hideButtomCategoryFilter();" style="cursor: pointer;margin-left: 3px;"><img style="width: 26px;margin-top: -18px;border-radius: 15px;" src="../../img/logos/loja-horizon.png" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Perfil" ></span>
-                <input type="text" class="tema-topo-busca" id="search-terms" placeholder="Procurar por..." onchange="searchNow();showSearch();" style="display: block;">
+                <input type="text" class="tema-topo-busca" id="search-terms" placeholder="Procurar por..." onchange="showSearch();" style="display: block;">
                 <div style="position: fixed;">
                     <div class="dropdown-filter hideButtomCategoryFilter" id="button-filter-education">
                         <button id="dropdown1" class="dropdown-filter-button tema-modo-texto-topo navigation-button animated fadeIn fa fa-filter dropdown-toggle" type="button" data-toggle="dropdown"> Filtrar</button>
@@ -159,10 +160,12 @@
                 </div>
                 <div id="navigation-right" hidden style="display: none;">
                     <button id="detect_new_update" class="animated fadeIn" onclick="cmd('install-appid?dados_loja_horizon_os');$(detect_new_update).remove();showQueue('Atualização')" style="display:none">Nova Atualização Disponivel</button>
+                    <button id="navigation-queue" class="tema-modo-texto-topo navigation-button animated fadeIn " onclick="showQueue('Lista de Espera');hideButtomCategoryFilter()" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Lista de Espera">                  <span id="waiting-list" class=" no-waiting-list fa fa-clock-o"></span><div id="navigation-queue-count" class="empty">Aplicar 0 Mudanças</div></button>
+                    <button id="navigation-queue-disabled" class="tema-modo-texto-topo navigation-button animated fadeIn" data-toggle="tooltip" data-placement="bottom" title="" style="display:none" data-original-title="Lista de Espera Desabilitada">                         <span class="fa fa-clock-o" style="opacity:0.5"></span></button>
+
                     <button id="ativar-tema-dark" class="tema-modo-texto-topo navigation-button animated fadeIn" onclick="cmd('ativar-tema-dark')" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Ativar Modo Escuro">              <span class="fa fa-moon-o"></span></button>
                     <button id="desativar-tema-dark" class="tema-modo-texto-topo navigation-button animated fadeIn" onclick="cmd('desativar-tema-dark')" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Desativar Modo Escuro">              <span class="fa fa-sun-o"></span></button>
-                    <button id="navigation-queue" class="tema-modo-texto-topo navigation-button animated fadeIn" onclick="showQueue('Lista de Espera');hideButtomCategoryFilter()" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Lista de Espera">                  <span id="waiting-list" class="fa fa-clock-o"></span><div id="navigation-queue-count" class="empty">0</div></button>
-                    <button id="navigation-queue-disabled" class="tema-modo-texto-topo navigation-button animated fadeIn" data-toggle="tooltip" data-placement="bottom" title="" style="display:none" data-original-title="Lista de Espera Desabilitada">                         <span class="fa fa-clock-o" style="opacity:0.5"></span></button>
+
 
                     <div class="dropdown">
                         <button id="dropdown1" class="tema-modo-texto-topo navigation-button animated fadeIn fa fa-ellipsis-h dropdown-toggle" type="button" data-toggle="dropdown"></button>
@@ -186,7 +189,7 @@
             </header>
             <div style="overflow: hidden;height: 100%;">
                 <div class="left" style="height: 100%;/* overflow: hidden; */display: flex;flex-direction: column;float: left;">
-                    <div class="tema-categoria" style="overflow-y: auto;height: 100%;overflow-x: hidden;">
+                    <div class="tema-categoria" style="height: 100%;">
                         <div id="category-tabs" hidden>
 
                             <aside class="keep">
@@ -398,7 +401,13 @@
                                     </div>
                                 </div>
                                 <div id="Games" style="display: none;">
-
+                                    <img src="../../img/applications/banner/category-games.png" style="
+                                    position: absolute;
+                                    z-index: -1;
+                                    height: 333px;
+                                    width: 100%;
+                                    top: -81px;
+                                ">
                                     <div class="row-fluid">
                                         <div class="span12">
                                             <h2>Jogos</h2>
@@ -728,13 +737,15 @@
                                 </table>
                             </div>
                             <div class="container-fluid" id="Queue" style="display: none;">
+
                                 <h2>Lista de Espera</h2>
                                 <p>Decida qual software adicionar ou remover sem comprometer imediatamente. </p>
                                 <hr class="soften">
                                 <div id="queue-options" hidden="">
                                     <button id="queue-btn-apply" onclick="startQueue()" class="button-info button-installed"><span class="fa fa-check"></span> Aplicar Mudanças</button>
                                     <button id="queue-btn-clear" onclick="cmd('queue-clear')" class="button-info button-clear"><span class="fa fa-trash"></span> Limpar</button>
-                                    <button id="queue-btn-reset" onclick="cmd('queue-clear')" class="button-info button-undo" style="display:none"><span class="fa fa-check"></span> Finalizado</button>
+
+                                    <button style="z-index: 2000;" id="queue-btn-reset" onclick="cmd('queue-clear')" class="button-info button-undo" style="display:none"><span class="fa fa-check"></span> Finalizado</button>
                                 </div>
                                 <div id="queue-busy" class="alert alert-success" hidden="">
                                     <h5><img src="../../img/definitions/processing.svg"> <span id="queue-status">Preparando para iniciar...</span></h5>
@@ -811,7 +822,7 @@
         $(document).ready(function() {
             $(".menu").click(function() {
                 $(".keep").toggleClass("width");
-                $(".content-primary").toggleClass("width");
+
             });
         });
     </script>

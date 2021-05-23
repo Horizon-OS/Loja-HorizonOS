@@ -338,14 +338,14 @@ a.lightbox-close:after {
 .next {
     cursor: pointer;
     width: auto;
-    margin-top: -15%;
+    margin-top: -220px;
     padding: 16px;
     color: white;
     font-weight: bold;
     font-size: 18px;
     transition: 0.6s ease;
     border-radius: 0 3px 3px 0;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.623);
     z-index: 1;
 }
 
@@ -687,25 +687,21 @@ a.lightbox-close:after {
     min-height: 31px;
 }
 
-.content-primary {
-    width: calc(100% - 60px);
-    /* width: calc(100% - 67px); */
-    height: 100%;
-    float: left;
-}
-
-.content-primary.width {
-    width: calc(100% - 200px);
-}
+.content-primary {}
 
 .dropdown-menu {
     min-width: 280px;
 }
 
 .waiting-list {
-    animation-name: example;
-    animation-duration: 0.5s;
-    animation-iteration-count: infinite;
+    float: left;
+    margin-left: 2px;
+    margin-top: 3px;
+    color: white;
+}
+
+.no-waiting-list {
+    margin-top: 3px;
 }
 
 .app_checked {
@@ -790,6 +786,7 @@ a.lightbox-close:after {
     --dark: #686868;
 }
 
+.imagem-app-background,
 .imagem-app {
     max-width: 100%;
 }
@@ -888,7 +885,7 @@ a.lightbox-close:after {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 400px;
+    width: 440px;
     padding-bottom: 10px;
     padding-left: 10px;
     background-color: rgba(0, 0, 0, 0.411);
@@ -903,7 +900,7 @@ a.lightbox-close:after {
 .apps-sinopse {
     margin: 1.25em 0 2.5em 0;
     color: white;
-    width: 390px;
+    width: 400px;
 }
 
 .apps-buttons button {
@@ -917,4 +914,12 @@ a.lightbox-close:after {
     margin-right: 15px;
     text-transform: uppercase;
     transition: .3s ease all;
+}
+
+.ApplyChanges {
+    width: 211px;
+    border-top-right-radius: 157px;
+    border-top-left-radius: 39px;
+    border-bottom-left-radius: 100px;
+    transition: 0.2s ease;
 }

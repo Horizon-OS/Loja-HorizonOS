@@ -29,12 +29,8 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("Notify", "0.7")
 gi.require_version("WebKit2", "4.0")
 
-
-
-
-
 import apt
-
+import re
 import requests
 import colorsys
 import errno
@@ -53,9 +49,6 @@ import webbrowser
 from pathlib import Path
 local_home_user = str(Path.home())
 
-
-
-
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -63,9 +56,8 @@ from aptdaemon.client import AptClient
 from aptdaemon.gtk3widgets import AptErrorDialog, AptConfirmDialog, \
                                   AptProgressDialog
 import aptdaemon.errors
-
-from gi.repository import Notify
-from gi.repository import GLib, Gio, GObject, Gdk, Gtk, Notify, WebKit2
+from aptdaemon.enums import *
+from gi.repository import GLib, Gio, Gdk, Gtk, Notify, WebKit2
 from threading import Thread
 from shutil import which
 from subprocess import DEVNULL, PIPE
@@ -80,7 +72,7 @@ except ImportError:
 loja_site = 'http://loja.horizon-os.org/'
 
 __VERSION__ = '4.2 Beta'
-
+__VERSION_WEB__ = '4.2Beta'
 cabecalho = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\
     <meta name="viewport" content="width=device-width, initial-scale=1.0">\
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />\
@@ -142,10 +134,6 @@ def goodbye(a=None, b=None):
         # Be quite forceful, particularly those child screenshot windows.
         exit()
 
-def whereami():
-    """ Determine data source """
-    data_path = '/Programas/Loja-HorizonOS/Arquivos/'
-    return data_path
 
 def notify_send(title, description, icon_path):
     """
@@ -982,7 +970,7 @@ class DynamicApps(object):
 
         if self.app_upgrade_only:
             dbg.stdout('Apps', 'Upgrade: ' + self.app_name, 2, 4)
-            if not upgraded:
+            if not self.upgraded:
                 html_apps_installed += '<button class="' + css_class + '-upgrade btn btn-warning" onclick="cmd(\'upgrade-appid?' + program_id + '\')"><span class="fa fa-level-up"></span>&nbsp; ' + string.upgrade + '</button>&nbsp;'
                 
         html_apps_installed += '</div>'    
@@ -1332,14 +1320,19 @@ class DynamicApps(object):
             html_buffer += '<a id="View-'+program_id+'" onclick="cmd(\'view-specific-application?' + program_id + '?'+category+'\');hideButtomCategoryFilter();" class=" app-entry ' + css_class + ' filter-' + css_subcategory + ' not-checked proprietary">'
         
         
-        image_program_select = data_path + '/img/applications/banner/'+ str(self.app_img)
+        banner_image_program_select = data_path + '/img/applications/banner/'+ str(self.app_img)
+        icon_image_program_select = data_path + '/img/applications/icon/'+ str(self.app_img)
+        not_icon_image_program_select = data_path + '/img/definitions/not-image.svg'
         
-        if os.path.isfile(image_program_select):
-            html_buffer += '<img class="imagem-app"  src="' + image_program_select + '">'
+        if os.path.isfile(banner_image_program_select):
+            html_buffer += '<img class="imagem-app"  src="' + banner_image_program_select + '">'
+        elif os.path.isfile(icon_image_program_select):
+            html_buffer += '<img class="imagem-app-background"  src="' + data_path + 'img/applications/banner/not-scaled.png">'
+            html_buffer += '<img class="imagem-app-not-scaled-icon" width="30%" src="' + icon_image_program_select + '">'
         else:
-            html_buffer += '<img class="imagem-app"  src="' + data_path + 'img/applications/banner/not-scaled.png">'
-            html_buffer += '<img class="imagem-app-not-scaled-icon" width="30%" src="' + data_path + 'img/applications/icon/' + self.app_img + '">'
-        
+            html_buffer += '<img class="imagem-app-background"  src="' + data_path + 'img/applications/banner/not-scaled.png">'
+            html_buffer += '<img class="imagem-app-not-scaled-icon" width="30%" src="' + not_icon_image_program_select + '">'
+
         html_buffer += '<p><b class="' + css_class + '-text text-program-select">' + self.app_name + '</b></p>'
         html_buffer += '<span class="fa fa-check-circle installed-check ' + css_class + '-remove"> Instalado</span>'
         html_buffer += '<span class="fa fa-times-circle not-installed-check  ' + css_class + '-install"> Não Instalado</span>'
@@ -1349,13 +1342,13 @@ class DynamicApps(object):
 
         html_buffer += '</a>'
         # Verifique os pacotes "Upgrade" se o PPA já tiver sido adicionado.
-        upgraded = False
+        self.upgraded = False
         if self.app_upgrade_only:
             try:
                 listname = dynamicapps.index[category][program_id]['pre-install']['all']['source-file']
                 listname = listname.replace('OSVERSION',preinstallation.os_version).replace('CODENAME',preinstallation.codename)
                 if os.path.exists(os.path.join('/', 'etc', 'apt', 'sources.list.d', listname+'.list')):
-                    upgraded = True
+                    self.upgraded = True
                     html_buffer += '<h5 class="' + css_class + '-text"><span class="fa fa-check-circle"></span> ' + string.upgraded + '</h5>'
             except:
                 pass
@@ -1363,7 +1356,7 @@ class DynamicApps(object):
         
         app.update_page(target_element, 'append', html_buffer)
         app.update_page('.info-hide-'+css_class, 'hide')
-        #print(html_buffer)
+        ##print(html_buffer)
     
     def append_profile(self, webkit):
         profile_buffer = ''
@@ -1373,11 +1366,12 @@ class DynamicApps(object):
     
 
     def populate_news(self, webkit):
+        
         try:
             dbg.stdout('------------------------------------------------------------', '', 0)
             dbg.stdout('Noticias', ' Lendo as noticias...', 0, 3)
             
-            json_path=local_home_user + '/.config/loja-horizon-os/Noticias-da-Loja.json'
+            json_path=local_home_user + '/.config/loja-horizon-os/Dados/Noticias-da-Loja.json'
            
             with open(json_path) as data_file:
                 self.news = json.load(data_file)
@@ -1429,7 +1423,7 @@ class DynamicApps(object):
         news_buffer = '<div class="soften">'
         noticias = ''
         news_versions = list(self.news.keys())
-        print (news_versions)
+        
         for title in news_versions:
             
 
@@ -1450,7 +1444,7 @@ class DynamicApps(object):
                         item_img = str(self.get_attribute_for_app(item_id, 'img'))
                         item_category_raw = self.get_attribute_for_app(item_id, 'category')
                         item_category = get_category_string(item_category_raw)
-                        print (item_category_raw)
+                        
                         item_subcategory = str(self.get_attribute_for_app(item_id, 'subcategory'))
                         item_open_source = self.get_attribute_for_app(item_id, 'open-source')
                         
@@ -1467,7 +1461,7 @@ class DynamicApps(object):
                             news_buffer += '<img class="imagem-app"  src="' + image_program_select_news + '">'
                         else:
                             
-                            news_buffer += '<img class="imagem-app"  src="' + data_path + 'img/applications/banner/not-scaled.png">'
+                            news_buffer += '<img class="imagem-app-background"  src="' + data_path + 'img/applications/banner/not-scaled.png">'
                             news_buffer += '<img class="imagem-app-not-scaled-icon" width="30%" src="' + data_path + 'img/applications/icon/' + item_img + '">'
 
                         
@@ -1955,7 +1949,8 @@ class DynamicApps(object):
         app.update_page('#search-results', 'html', ' ')
         total_results = 0
         hidden_results = 0
-        hidden_checking_results = 0
+        matches = []
+        tag_regex = re.compile(r'<[^>]+>')
         for category in self.all_categories:
             app_id = list(self.index[category].keys())
             app_id.sort()
@@ -1963,41 +1958,61 @@ class DynamicApps(object):
             # Gather sources to search for each app in this category
             # Also search case insensitive
             for program_id in app_id:
-                name = self.index[category][program_id]['name']
-                name.lower()
+                name = self.index[category][program_id]['name'].lower()
                 desc = self.index[category][program_id]['description']
-                desc = ' '.join(desc)
-                desc.lower()
-                alto = str(self.index[category][program_id]['alternate-to'])
-                alto.lower()
+                desc = ' '.join(desc).lower()
+                desc = tag_regex.sub('', desc)
+                alto = str(self.index[category][program_id]['alternate-to']).lower()
+                program = {
+                    'id': program_id,
+                    'name': name,
+                    'description': desc,
+                    'alto': alto
+                }
 
-                # Any matches? List them!
+                rankings = {
+                    'name': 4,
+                    'description': 3,
+                    'id': 2,
+                    'alto': 1
+                }
+
+                rank = 0
                 app_matched = False
-                matched_results = []
-                for term in terms.split(' '):
-                    matched_results.append(program_id.find(term))
-                    matched_results.append(name.find(term))
-                    matched_results.append(desc.find(term))
-                    matched_results.append(alto.find(term))
+                for key, value in program.items():
+                    matched_results = []
+                    for term in terms.split(' '):
+                        matched_results.append(value.find(term))
+
                     for status in matched_results:
                         if status != -1:
                             app_matched = True
-                            break
+                            rank = rank + rankings.get(key, 1)
 
-                if app_matched:
-                    # Skip this if user doesn't want non-free software.
-                    oss = self.index[category][program_id]['open-source']
-                    if self.hide_non_free and self.hide_non_checking and not oss:
-                        hidden_results += 1
-                        continue
-                    
+                if (app_matched):
+                    matches.append({
+                        'category': category,
+                        'program_id': program_id,
+                        'rank': rank
+                    })
 
-                    # Display result to user, if it works on the system (return code 0)
-                    self.set_app_info(category, program_id)
-                    return_code = self.append_app_listing(category, program_id, '#search-results')
-                    if not return_code == 1 or return_code == 2:
-                        dynamicapps.update_app_status(self, program_id)
-                        total_results = total_results + 1
+        for match in (sorted(matches, key=lambda m: m['rank'], reverse=True)):
+            category = match['category']
+            program_id = match['program_id']
+
+            # Skip this if user doesn't want non-free software.
+            oss = self.index[category][program_id]['open-source']
+            if self.hide_non_free and not oss:
+                hidden_results += 1
+                continue
+
+            # Display result to user, if it works on the system (return code 0)
+            self.set_app_info(category, program_id)
+            return_code = self.append_app_listing(category, program_id, '#search-results')
+            if not return_code == 1 or return_code == 2:
+                dynamicapps.update_app_status(self, program_id)
+                total_results = total_results + 1
+
 
         if total_results == 0:
             app.update_page('#search-empty', 'fadeIn')
@@ -2005,8 +2020,6 @@ class DynamicApps(object):
                 app.update_page('#search-retry-nonfree', 'show')
             else:
                 app.update_page('#search-retry-nonfree', 'hide')
-            
-            
         else:
             app.update_page('#search-results', 'fadeIn')
             app.update_page('#search-total', 'fadeIn')
@@ -2136,7 +2149,7 @@ class DynamicApps(object):
             for url in source_urls:
                 # Initially presume this is outside of the Boutique.
                 software = string.repo_unknown
-                img = 'unknown'
+                img = 'unknown.png'
                 source = url
 
                 # Is there a match?
@@ -2222,24 +2235,31 @@ class AppView(WebKit2.WebView, object):
         if systemstate.is_online:
             app.update_page('.offline', 'hide')
             app.update_page('.online', 'show')
-            self.json_path_version = open('/Programas/Loja-HorizonOS/Dados/version.txt', 'r').readline().replace('\n', '')    
-            output_json_path_version = '/tmp/version-json-apps.txt'
-            url = 'http://loja.horizon-os.org/dados/application-list-version/version.txt'
-            r = requests.get(url)
-            with open(output_json_path_version, 'wb') as f:
-                f.write(r.content)                         
+        
+            
+            def download(url, localization):
+                browser_headers = {
+                'User-Agent': 'LojaHorizonOS/'+ __VERSION_WEB__+' (X11; Linux x86_64)',
+                
+                }
+                r = requests.get(url, headers=browser_headers)
+                l = localization
+                with open(l, 'wb') as f:
+                    f.write(r.content)
+            
+            output_json_path_version = local_home_user + '/.config/loja-horizon-os/Dados/application-list-version/version.txt'
+            
+            download(loja_site+'/dados/application-list-version/version.txt',\
+                output_json_path_version)
+
             self.new_json_path_version = open(output_json_path_version, 'r').readline().replace('\n', '')
-            if self.json_path_version < self.new_json_path_version:
+            if __VERSION__ < self.new_json_path_version:
                 app.update_page('#detect_new_update', 'show')
             
-
-            url = 'http://loja.horizon-os.org/dados/noticias/Noticias-da-Loja.json'
-            r = requests.get(url)
-            output_news = local_home_user + '/.config/loja-horizon-os/Noticias-da-Loja.json'
-            with open(output_news, 'wb') as f:
-                f.write(r.content)
-
-          
+            download(loja_site+'/dados/noticias/Noticias-da-Loja.json',\
+                local_home_user + '/.config/loja-horizon-os/Dados/Noticias-da-Loja.json')
+                
+            
         else:
             app.update_page('.offline', 'show')
             app.update_page('.online', 'hide')
@@ -2268,14 +2288,7 @@ class AppView(WebKit2.WebView, object):
             app.update_page('html', 'attr', 'dir', 'rtl')
             app.update_page('html', 'addClass', 'rtl')
 
-        # Individual Page Actions
-        ### Main Menu ###
-       
-        
 
-        ### Chat Page ###
-        
-        
         ### Software Page ###
         if app.current_page == 'index.html':
             dynamicapps.toggle_non_free()
@@ -2475,6 +2488,24 @@ class AppView(WebKit2.WebView, object):
         if cmd.startswith('install-appid?'):
             appid = cmd[14:]
             dynamicapps.modify_app(self, 'install', appid)
+            
+        elif cmd == 'update-data-path':
+            dbg.stdout('------------------------------------------------------------', '', 0)
+            dbg.stdout("Loja Horizon OS", "Atualizando a pasta de dados da loja", 0, 0)
+            if systemstate.is_online:
+                try:    
+                    
+                    subprocess.run(['svn','checkout','http://svn.horizon-os.org/p/horizon-os/loja/', local_home_user + '/.config/loja-horizon-os/'])
+                    dbg.stdout('Dados', ' Informações obtidas com sucesso com a internet!', 0, 3)
+                    
+                except Exception as e:
+                    dbg.stdout('Loja Horizon OS', ' Não foi possível atualizar a pasta de dados da loja', 0, 1)
+                    dbg.stdout('Loja Horizon OS', ' Verifique sua conexão com a internet', 0, 1)
+                    dbg.stdout('------------------------------------------------------------', '', 0)
+            else:
+                dbg.stdout('Loja Horizon OS', ' Verifique sua conexão com a internet', 0, 1)
+                dbg.stdout('------------------------------------------------------------', '', 0)
+
         
         # Função de alterar parametros e visualizár o aplicativo/programa novamente através de outra função mais direta
         elif cmd.startswith('view-specific-application?'):
@@ -2588,7 +2619,7 @@ class AppView(WebKit2.WebView, object):
             systemstate.apt_cache.close()
             systemstate.apt_cache = apt.Cache()
             self._push_config()
-        
+         
         # Ativa o modo escuro
         elif cmd == 'ativar-tema-dark':
             pref.set("tema-dark", True)
@@ -2665,9 +2696,10 @@ class AppView(WebKit2.WebView, object):
                 dbg.stdout('Loja Horizon OS', 'Failed - Loja Horizon OS PPA not detected!', 0, 1)
                 app.update_page('#update-subscribing', 'hide')
                 app.update_page('#update-notification', 'show')
-        elif cmd.startswith('search'):
+        elif cmd.startswith('search?'):
             keywords = cmd.split('?')[1]
             dynamicapps.perform_search(self, keywords)
+            
         elif cmd.startswith('set-pref'):
             key = cmd.split('?')[1]
             value = cmd.split('?')[2]
@@ -2748,7 +2780,8 @@ class Arguments(object):
               print('  -v, --verbose                Mostre mais detalhes ao stdout (para diagnósticos).')
               print('')
               exit()
-
+          
+          
           if arg == '--inspect':
               dbg.stdout('Debug', 'Inspector enabled.', 0, 0)
               self.inspector = True
@@ -2836,7 +2869,25 @@ class Arguments(object):
                   dbg.stdout('Debug', 'Invalid Override Font DPI specified. Ignoring.', 0, 1)
                   return
               dbg.stdout('Debug', 'Overriding font DPI to ' + str(self.font_dpi_override) + '.', 0, 0)
-
+    
+    def data_path_arg(self):
+        data_path = '/Programas/Loja-HorizonOS/Arquivos/'
+    
+        for arg in sys.argv:
+            
+            if arg.startswith('--data-path='):
+                data_path_argument = arg.split('--data-path=')[1]
+                if os.path.isfile(data_path_argument+'index.html'):
+                    data_path = data_path_argument
+                    print("Usando endereço indicado '" + data_path+"'")
+                elif os.path.isfile(data_path_argument+'/index.html'):
+                    data_path = data_path_argument+'/'
+                    print("Usando endereço indicado '" + data_path+"'")
+                else:
+                    print("Não foi possivel usar endereço caminho indicado, certifique-se de que o endereço esta correto")
+                
+        return data_path
+            
     def override_arch(self):
         if not self.simulate_arch == None:
             systemstate.arch = self.simulate_arch
@@ -2919,6 +2970,7 @@ class LojaHorizonOSApp(object):
         #uri = 'http://' + urllib.request.pathname2url(link_web)
         path = os.path.abspath(os.path.join(trans.pages_dir, load_file))
         uri = 'file://' + urllib.request.pathname2url(path)
+        
         self.webkit.load_uri(uri)
 
         # Build scrolled window widget and add our appview container
@@ -3053,17 +3105,17 @@ class SystemState(object):
     
     def check_internet_connection(self):
         url = "http://archive.ubuntu.com/"
-        dbg.stdout('Network Test', 'Establishing a connection test to "' + url + '"', 1, 3)
+        dbg.stdout('Teste de Rede', 'Establishing a connection test to "' + url + '"', 1, 3)
 
         if arg.simulate_no_connection:
-            dbg.stdout('Network Test', 'Simulation flag: Forcing no connection presence. Retrying will reset this.', 0, 1)
+            dbg.stdout('Teste de Rede', 'Simulation flag: Forcing no connection presence. Retrying will reset this.', 0, 1)
             arg.simulate_no_connection = False
             self.is_online = False
             return
 
         if arg.simulate_force_connection:
-            dbg.stdout('Network Test', 'Simulation flag: Forcing a connection presence.', 0, 2)
-            dbg.stdout('Network Test', 'WARNING: Do not attempt to install/remove software offline as this may cause problems!', 0, 1)
+            dbg.stdout('Teste de Rede', 'Sinalizador de simulação: Forçando uma presença de conexão.', 0, 2)
+            dbg.stdout('Teste de Rede', 'AVISO: Não tente intalar/remover softwares off-line, pois isso pode causar problemas!', 0, 1)
             arg.simulate_connection = False
             self.is_online = True
             return
@@ -3072,7 +3124,7 @@ class SystemState(object):
             response = urllib.request.urlopen(url, timeout=2).read().decode('utf-8')
         
         except socket.timeout:
-            dbg.stdout('Network Test', 'Failed. Socket timed out to URL: ' + url, 0, 1)
+            dbg.stdout('Teste de Rede', 'Failed. Socket timed out to URL: ' + url, 0, 1)
             self.is_online = False
         except:
             dbg.stdout('Loja Horizon OS', "Couldn't establish a connection: " + url, 0, 1)
@@ -3268,7 +3320,13 @@ class ChangesQueue(object):
         app.update_page('#navigation-topo', 'removeClass', 'disabled')
         app.update_page('#queue-cards-base', 'removeClass', 'disabled')
         app.update_page('#category-tabs', 'removeClass', 'disabled')
+        app.update_page('header', 'removeClass', 'disabled')
+        app.update_page('.tema-categoria', 'removeClass', 'disabled')
+        app.update_page('.menu', 'removeClass', 'disabled')
+        app.update_page('#profile-picture-header>img', 'removeClass', 'disabled')
+        app.update_page('#search-terms', 'removeClass', 'disabled')
         app.update_page('header', 'fadeIn')
+
         
         app.update_page('#queue-btn-reset', 'fadeOut')
         app.update_page('#queue-error', 'fadeOut')
@@ -3432,13 +3490,17 @@ class ChangesQueue(object):
         app.webkit.run_js('setTimeout(function(){ $("#card-old-' + program_id + '").remove(); }, 500);')
 
     def ui_update_count(self):
-        app.update_page('#navigation-queue-count', 'html', str(self.queue_count))
+        app.update_page('#navigation-queue-count', 'html', _("Aplicar ")+str(self.queue_count)+_(" Mudanças"))
         if self.queue_count == 0:
             app.update_page('#navigation-queue-count', 'addClass', 'empty')
+            app.update_page('#navigation-queue', 'removeClass', 'ApplyChanges')
             app.update_page('#waiting-list', 'removeClass', 'waiting-list')
+            
         else:
             app.update_page('#navigation-queue-count', 'removeClass', 'empty')
             app.update_page('#waiting-list', 'addClass', 'waiting-list')
+            
+            app.update_page('#navigation-queue', 'addClass', 'ApplyChanges')
 
     def is_enabled(self):
         enabled = pref.get('enable-queue', True)
@@ -3494,7 +3556,8 @@ class ScreenshotWindow(Gtk.Window):
 class Preferences(object):
     def __init__(self):
         self.folder = os.path.join(os.path.expanduser('~'), '.config/loja-horizon-os')
-        self.config = os.path.join(self.folder, 'Preferencias.json')
+        
+        self.config = os.path.join(self.folder, 'Dados/Preferencias.json')
         self.data = None
         self.load_prefs()
 
@@ -3510,7 +3573,10 @@ class Preferences(object):
         # Create configuration data if non-existent.
         if not os.path.exists(self.folder):
             dbg.stdout('Config', 'Config folder non-existent. Creating...', 1, 3)
-            os.makedirs(self.folder)
+            os.makedirs(self.folder+"/Dados")
+            os.makedirs(self.folder+"/Dados/application-list-version")
+            
+            
 
         if not os.path.exists(self.config) or os.path.getsize(self.config) < 2:
             dbg.stdout('Config', 'Preferences non-existent. Creating...', 1, 3)
@@ -3634,8 +3700,8 @@ if __name__ == "__main__":
     arg = Arguments()
     
 
-    data_path = whereami()
-
+    data_path = arg.data_path_arg()
+    
     # Set up translations and strings
     trans = Translations(data_path)
     string = Strings()

@@ -57,22 +57,8 @@
     box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 16px 0px;
 }
 
-.navigation-button:hover {
-    color: rgb(197, 194, 194);
-}
-
-.navigation-button:focus {
-    border-color: rgb(255, 255, 255);
-}
-
-.navigation-button:active {
-    background-color: rgb(29, 33, 39);
-    color: rgb(255, 255, 255);
-}
-
 .navigation-button.active {
-    background-color: rgb(28, 109, 225);
-    border-radius: 32px;
+    background-color: rgb(76, 71, 221);
 }
 
 #pref-table>tbody>tr>td>button {
@@ -187,21 +173,8 @@ aside ul li.active {
     color: rgb(216, 200, 200);
 }
 
-.navigation-button-item:hover {
-    color: rgb(174, 167, 185);
-}
-
-.navigation-button-item:focus {
-    border-color: var(--selected_bg);
-}
-
-.navigation-button-item:active {
-    background-color: rgb(59, 56, 56);
-    color: rgb(255, 255, 255);
-}
-
 .navigation-button-item.active {
-    background-color: rgb(59, 56, 56);
+    color: rgb(148, 182, 12);
 }
 
 .screenshot-content,
@@ -232,4 +205,20 @@ aside ul li.active {
 
 .parental-rating-text-title {
     color: white;
+}
+
+.imagem-app-background {
+    background-color: rgb(43, 39, 54);
+}
+
+.app-entry {
+    background-color: rgb(35, 32, 49);
+}
+
+.text-program-select {
+    color: white;
+}
+
+.ApplyChanges {
+    background-color: rgb(65, 65, 114);
 }

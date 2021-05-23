@@ -3,4 +3,13 @@ Loja-HorizonOS/Aplicativos/loja                          Programas/Loja-HorizonO
 Loja-HorizonOS/Aplicativos/loja-horizon-os.desktop       usr/share/applications/
 Loja-HorizonOS/Logo/*                                    usr/share/pixmaps/
 Loja-HorizonOS/Binário/*                                 usr/bin/
-Loja-HorizonOS/Arquivos/                                 Programas/Loja-HorizonOS/
+Loja-HorizonOS/Arquivos/css/                             Programas/Loja-HorizonOS/Arquivos/
+Loja-HorizonOS/Arquivos/fonts/                           Programas/Loja-HorizonOS/Arquivos/
+Loja-HorizonOS/Arquivos/i18n/                            Programas/Loja-HorizonOS/Arquivos/
+Loja-HorizonOS/Arquivos/js/                              Programas/Loja-HorizonOS/Arquivos/
+Loja-HorizonOS/Arquivos/css/                             Programas/Loja-HorizonOS/Arquivos/
+Loja-HorizonOS/Arquivos/index.html                       Programas/Loja-HorizonOS/Arquivos/
+Loja-HorizonOS/Arquivos/message.html                     Programas/Loja-HorizonOS/Arquivos/
+Loja-HorizonOS/Arquivos/software.html                    Programas/Loja-HorizonOS/Arquivos/
+Loja-HorizonOS/Arquivos/splash.html                      Programas/Loja-HorizonOS/Arquivos/
+Loja-HorizonOS/Arquivos/splash-boutique.html             Programas/Loja-HorizonOS/Arquivos/
