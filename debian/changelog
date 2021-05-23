@@ -1,4 +1,18 @@
-loja-horizon-os (1.4+Beta) focal; urgency=medium
+loja-horizon-os (1.4+Beta2) focal; urgency=medium
+
+  * Pré-lançamento 5
+  * Informações de pasta de compilação corrigidas teste 2
+  
+ -- Igor Pereira Formighieri <igorpereira1069@gmail.com>  Sun, 23 May 2021 03:45:57 -0400
+
+loja-horizon-os (1.4+Beta1) focal; urgency=medium
+
+  * Pré-lançamento 5 
+  * Informações de pasta de compilação corrigidas teste 1
+
+ -- Igor Pereira Formighieri <igorpereira1069@gmail.com>  Sun, 23 May 2021 03:38:09 -0400
+ 
+ loja-horizon-os (1.4+Beta) focal; urgency=medium
 
   * Pré-lançamento 5
 
