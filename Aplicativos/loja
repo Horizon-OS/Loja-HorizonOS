@@ -71,8 +71,8 @@ except ImportError:
 
 loja_site = 'http://loja.horizon-os.org/'
 
-__VERSION__ = '4.4 Beta'
-__VERSION_WEB__ = '4.4Beta'
+__VERSION__ = '4.5 Beta'
+__VERSION_WEB__ = '4.5Beta'
 cabecalho = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\
     <meta name="viewport" content="width=device-width, initial-scale=1.0">\
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />\
@@ -1860,7 +1860,7 @@ class DynamicApps(object):
                         app.update_page('.' + program_id.replace('.','-'), 'hide')
                         continue
                     
-                    if app_subcategory.replace(' ','-') == filter_value:
+                    if self.app_subcategory.replace(' ','-') == filter_value:
                         app.update_page('.' + program_id.replace('.','-'), 'show')
 
                     # Only show if subcategory matches.
