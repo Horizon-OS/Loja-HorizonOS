@@ -932,9 +932,9 @@ class DynamicApps(object):
         self.app_releases = self.index[category][program_id]['releases']
         self.app_working = self.index[category][program_id]['working']
 
-    def append_app_listing_installed(self, category, program_id, target_element, track_subcategories=False):
+    def append_app_listing_installed(self, category, program_id, target_element, total_softwares, track_subcategories=False):
         # Only list the program if it's working.
-        
+        total_software = total_softwares+1
 
         # If the app has made it this far, it can be added to the grid.
         # CSS breaks with dots (.), so any must become hyphens (-).
@@ -1423,13 +1423,15 @@ class DynamicApps(object):
         news_buffer = '<div class="soften">'
         noticias = ''
         news_versions = list(self.news.keys())
-        
+        itens_total = 0
         for title in news_versions:
             
 
             # Create "Added" list.
             try:
                 
+                
+            
                 list_add = self.news[title]['Apps']
                 comment = str(self.news[title]['Comment'])
                 list_add.sort()
@@ -1440,6 +1442,7 @@ class DynamicApps(object):
                     css_class = item_id.replace('.','-')
                     # Extract it's attributes.
                     try:
+                        
                         item_name = str(self.get_attribute_for_app(item_id, 'name'))
                         item_img = str(self.get_attribute_for_app(item_id, 'img'))
                         item_category_raw = self.get_attribute_for_app(item_id, 'category')
@@ -1470,11 +1473,12 @@ class DynamicApps(object):
                                     <span class="fa fa-check-circle installed-check ' + css_class + '-remove"> Instalado</span>\
                                     <div class="fa fa-clock-o install-check ' + css_class + '-wait" hidden"> </div>\
                                     <div class="fa fa-times-circle not-installed-check ' + css_class + '-install" hidden> Não Instalado</div></a>'
-                              
+                        itens_total = itens_total +1
                     except Exception as e:
                         dbg.stdout('Apps', 'Failed to process news item: ' + item_id, 0, 1)
                         dbg.stdout('Apps', 'Exception: ' + str(e), 2, 1)
                 news_buffer += '</div>'
+                
             except:
                 pass
 
@@ -1508,6 +1512,7 @@ class DynamicApps(object):
                         image_location =  data_path + 'img/applications/gallery-news/' + item_img 
                         #print(image_location)
                         if os.path.isfile(image_location):
+                            itens_total = itens_total + 1
                             news_buffer_gallery += '<div id="View-'+item_id+'-news-gallery"  class="mySlides ">'
                             news_buffer_gallery += '<section class="main-move" style="background: linear-gradient(rgba(0, 0, 0, .0), rgba(0, 0, 0, .0)100%), url(' + data_path + 'img/applications/gallery-news/' + item_img + ');">\
                             <div class="container-text">\
@@ -1530,11 +1535,12 @@ class DynamicApps(object):
                         dbg.stdout('Apps', 'Exception: ' + str(e), 2, 1)
                 news_buffer_gallery += '<div class="prev" onclick="plusSlides(-1)">◀</div>\
                                         <div class="next" onclick="plusSlides(1)">▶</div>'
+               
             except:
                 pass
 
             news_buffer += '</div>'
-        
+        app.update_page('#navigation-news  .notif', 'html', str(itens_total))
         app.update_page('#News-Content', 'html', news_buffer)
         app.update_page('#populate', 'html', noticias)
         app.update_page('#gallery-spawn', 'html', news_buffer_gallery)
@@ -1569,20 +1575,21 @@ class DynamicApps(object):
         total_added = 0
         total_skipped = 0
         total_unsupported = 0
+        total_softwares = 0
 
         # Don't attempt to continue if the index is missing/incorrectly parsed.
         if not self.index:
             dbg.stdout('Apps', 'Índice do aplicativo não carregado. Não é possível preencher categorias.', 0, 1)
             return
-
+        
         # Get the app data from each category and list them.
         for category in self.all_categories:
             dbg.stdout('Apps', ' ------ Processing: ' + category + ' ------', 2, 0)
-
+            category_total = 0
             # Convert to a list to work with. Sort alphabetically.
             category_items = list(self.index[category].keys())
             category_items.sort()
-
+            
             # Keep a count of apps in case there are none to list.
             apps_here = 0
 
@@ -1592,9 +1599,10 @@ class DynamicApps(object):
             # Enumerate each program in this category.
             
             for program_id in category_items:
+                
                 self.set_app_info(category, program_id)
                 ##return_code = self.append_app_listing_full(category, program_id, '#AppsInfo')
-                return_code = self.append_app_listing_installed(category, program_id, '#AppsInfoInstalledSpawn')
+                return_code = self.append_app_listing_installed(category, program_id, '#AppsInfoInstalledSpawn', total_softwares)
                 return_code = self.append_app_listing(category, program_id, '#Apps'+category)
                 
 
@@ -1603,12 +1611,15 @@ class DynamicApps(object):
                     total_unsupported = total_unsupported + 1
                 elif return_code == 2:
                     total_skipped = total_skipped + 1
+                    
                 else:
                     # Keep track of how many apps added.
                     apps_here = apps_here + 1
                     total_added = total_added + 1
                     # Add to filters.
                     self.subcategories.append(self.app_subcategory)
+                    category_total = category_total + 1
+            
 
             # Display a message if there is nothing for this category.
             if apps_here == 0:
@@ -1624,10 +1635,12 @@ class DynamicApps(object):
             for string in filters:
                 css_subcategory = string.replace(' ','-')
                 app.update_page('#Filter-'+category, 'append', '<button class="button-select-filter" onclick="cmd(\'filter-apps?' + css_subcategory + '?\');">' + string + '</button>')
-                                                                
+            print(category_total)
+            app.update_page('#'+category+'Btn  .notif', 'html', str(category_total))                                                      
 
         # "Stats for nerds"
         total_apps = total_added + total_skipped + total_unsupported
+        print(category_total)
         dbg.stdout('Apps', '----------------------------------------', 1, 4)
         dbg.stdout('Apps', 'Applications added: ' + str(total_added), 1, 4)
         dbg.stdout('Apps', 'Applications unsupported on this architecture: ' + str(total_unsupported), 1, 4)
