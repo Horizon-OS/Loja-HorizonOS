@@ -1,0 +1,34 @@
+#! /bin/bash
+
+set -e
+root_folder=$(readlink -f $(dirname "$0"))
+rm -rf $root_folder/build && mkdir -p $root_folder/build/bin
+
+
+echo "Compilando arquivo primário!"
+
+cp -r $root_folder/{Arquivos,Dados,debian,License,Logo,loja-horizon-os.desktop} $root_folder/build
+
+shc -f $root_folder/bin/run -o $root_folder/build/bin/run &&\
+shc -f $root_folder/bin/name_profile -o $root_folder/build/bin/name_profile
+
+if [ $? -eq 0 ];then 
+   echo "Arquivo primário compilado!"
+else
+   echo "Arquivo primário não compilado!"
+   exit
+fi
+
+build_python() {
+
+  python3 -m nuitka --follow-imports $3 --output-dir=$1 $2
+
+}
+
+build_python $root_folder/build/bin $root_folder/bin/loja && \
+build_python $root_folder/build/bin $root_folder/bin/repository_installer  && \
+mv $root_folder/build/bin/loja.bin $root_folder/build/bin/loja && \
+mv $root_folder/build/bin/repository_installer.bin $root_folder/build/bin/repository_installer && \
+rm -r $root_folder/build/bin/*.build
+
+

@@ -1,9 +1,6 @@
-./Aplicativos/instalador-de-repositorios    Programas/Loja-HorizonOS/Aplicativos/
-./Aplicativos/loja                          Programas/Loja-HorizonOS/Aplicativos/
-./Aplicativos/loja-horizon-os.desktop       usr/share/applications/
+./bin/*                                     Programas/Loja-HorizonOS/bin/
+./loja-horizon-os.desktop                   usr/share/applications/
 ./Logo/*                                    usr/share/pixmaps/
-./Binário/*                                 usr/bin/
-./Arquivos/css/                             Programas/Loja-HorizonOS/Arquivos/
 ./Arquivos/fonts/                           Programas/Loja-HorizonOS/Arquivos/
 ./Arquivos/i18n/                            Programas/Loja-HorizonOS/Arquivos/
 ./Arquivos/js/                              Programas/Loja-HorizonOS/Arquivos/
@@ -13,3 +10,4 @@
 ./Arquivos/software.html                    Programas/Loja-HorizonOS/Arquivos/
 ./Arquivos/splash.html                      Programas/Loja-HorizonOS/Arquivos/
 ./Arquivos/splash-boutique.html             Programas/Loja-HorizonOS/Arquivos/
+./Arquivos/first-login/                     Programas/Loja-HorizonOS/Arquivos/

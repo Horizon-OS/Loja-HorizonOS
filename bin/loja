@@ -1,0 +1,3743 @@
+#! /usr/bin/python3
+# -*- coding:utf-8 -*-
+
+
+#                            Loja Horizon OS
+
+#    Copyright (C) 2021  Igor Pereira Formighieri <igorpereira1069@gmail.com>
+#    Copyright (C) 2021  Horizon Operating System <contato@horizon-os.org>
+
+#    Este programa é um software livre: você pode redistribuí-lo e/ou
+#    modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+#    publicado pela Free Software Foundation, seja a versão 3 da Licença
+#    ou (a seu critério) qualquer versão posterior.
+
+#    Este programa é distribuído na esperança de que seja útil,
+#    mas SEM QUALQUER GARANTIA; sem a garantia implícita de
+#    COMERCIALIZAÇÃO OU ADEQUAÇÃO A UM DETERMINADO PROPÓSITO. Veja a
+#    Licença Pública Geral GNU para obter mais detalhes.
+
+#    Você deve ter recebido uma cópia da Licença Pública Geral GNU
+#    junto com este programa. Se não, veja <https://www.gnu.org/licenses/>.
+
+
+#    apt list   | cut -d/ -f1 --output-delimiter=" " |cat > aptList2.txt
+
+
+import gi
+
+gi.require_version("Gdk", "3.0")
+gi.require_version("Gtk", "3.0")
+gi.require_version("Notify", "0.7")
+gi.require_version("WebKit2", "4.0")
+
+import apt
+import re
+import requests
+
+import errno
+import gettext
+
+import json
+import locale
+import os
+import random
+import signal
+import socket
+import subprocess
+import sys
+from sys import exit
+import time
+import webbrowser
+from pathlib import Path
+local_home_user = str(Path.home())
+
+import glob
+
+import urllib.error
+import urllib.parse
+import urllib.request
+from aptdaemon.client import AptClient
+from aptdaemon.gtk3widgets import AptErrorDialog, AptConfirmDialog, \
+                                  AptProgressDialog
+import aptdaemon.errors
+from aptdaemon.enums import *
+from gi.repository import GLib, Gio, Gdk, Gtk, Notify, WebKit2
+from threading import Thread
+from shutil import which
+from subprocess import DEVNULL, PIPE
+
+from app_info import loja_site, __VERSION__, __VERSION_WEB__, \
+                                     cabecalho, tema_dark, tema_white
+
+try:
+    import setproctitle
+    proctitle_available = True
+except ImportError:
+    proctitle_available = False
+    
+##################################
+#  Miscellaneous
+##################################
+def get_string(schema, path, key):
+    if path:
+        settings = Gio.Settings.new_with_path(schema, path)
+    else:
+        settings = Gio.Settings.new(schema)
+    return settings.get_string(key)
+
+
+from dialog_info import dialog_info
+
+def goodbye(a=None, b=None):
+    # NOTE: _a_ and _b_ are passed via the close window 'delete-event'.
+    ''' Closing the program '''
+
+    # Refuse to quit if operations are in progress.
+    if dynamicapps.operations_busy:
+        dbg.stdout('Loja Horizon OS ',' Recusando-se a sair com as alterações de software em andamento!', 0, 1)
+        dialog_info(string.loja, "Foi detectado uma alteração no Arquivo", "Ok")
+
+    else:
+        dbg.stdout('Loja Horizon OS', 'Aplicação encerrada', 0, 0)
+        Gtk.main_quit()
+        # Be quite forceful, particularly those child screenshot windows.
+        exit()
+
+
+def notify_send(title, description, icon_path):
+    """
+    Send system notification to the user.
+    """
+    if not arg.install_app:
+        try:
+            Notify.init(_("Loja Horizon OS"))
+            notification=Notify.Notification.new(title, description, icon_path)
+            notification.show()
+        except Exception as e:
+            dbg.stdout("Notificar", "Exceção ao enviar notificação: " + str(e), 0, 1)
+    else:
+        print(title)
+        print(description)
+
+def run_external_command(command, with_shell=False):
+    # Runs external commands and cleans up the output.
+    if with_shell:
+        raw = str(subprocess.Popen(command, stdout=subprocess.PIPE, shell=True).communicate()[0])
+    else:
+        raw = str(subprocess.Popen(command, stdout=subprocess.PIPE).communicate()[0])
+    output = raw.replace("b'","").replace('b"',"").replace("\\n'","").replace("\\n","\n")
+    return output
+
+
+
+##################################
+#  Apt and Installation Operations
+##################################
+class SimpleApt(object):
+    def __init__(self, packages, action, program_id=None):
+        self._timeout = 100
+        self.packages = packages
+        self.action = action
+        self.source_to_update = None
+        self.update_cache = False
+        self.loop = GLib.MainLoop()
+        self.client = AptClient()
+        self.program_id = program_id
+
+    def on_error(self, error):
+        dynamicapps.operations_busy = False
+        if isinstance(error, aptdaemon.errors.NotAuthorizedError):
+            # Silently ignore auth failures
+            return
+        elif not isinstance(error, aptdaemon.errors.TransactionFailed):
+            # Catch internal errors of the client
+            error = aptdaemon.errors.TransactionFailed(ERROR_UNKNOWN,
+                                                       str(error))
+        error_dialog = AptErrorDialog(error)
+        error_dialog.run()
+        error_dialog.hide()
+
+    def on_finished_fix_incomplete_install(self, transaction, status):
+        dynamicapps.operations_busy = False
+        self.loop.quit()
+        if status == 'exit-success':
+            notify_send( _("Correção executada com sucesso."), _("Todas as instalações anteriormente incompletas foram concluídas."), data_path + 'img/notify/fix-success.svg' )
+            return True
+        else:
+            notify_send( _("Falha ao executar a correção."), _("Ocorreram erros ao concluir uma instalação incompleta."), data_path + 'img/notify/fix-error.svg' )
+            return False
+
+    def on_finished_fix_broken_depends(self, transaction, status):
+        dynamicapps.operations_busy = False
+        self.loop.quit()
+        if status == 'exit-success':
+            notify_send( _("Correção executada com sucesso."), _("Pacotes com dependências quebradas foram resolvidos."), data_path + 'img/notify/fix-success.svg')
+            return True
+        else:
+            notify_send( _("Falha ao executar a correção."), _("Os pacotes ainda podem ter dependências quebradas."), data_path + 'img/notify/fix-error.svg')
+            return False
+
+    def on_finished_update(self, transaction, status):
+        dynamicapps.operations_busy = False
+        # Show notification if user forces cache update.
+        if self.action == 'update':
+            self.loop.quit()
+            if status == 'exit-success':
+                notify_send(_("Cache atualizado com sucesso."), _("O software está pronto para instalação."), data_path + 'img/notify/fix-success.svg')
+                return True
+            else:
+                notify_send( _("Falha ao atualizar o cache."), _("Pode haver um problema com a configuração do seu repositório."), data_path + 'img/notify/fix-error.svg')
+                return False
+        elif self.action == 'install':
+            if status != 'exit-success':
+                self.do_notify(status)
+                self.loop.quit()
+                return False
+
+            GLib.timeout_add(self._timeout,self.do_install)
+            return True
+        elif self.action == 'upgrade':
+            if status != 'exit-success':
+                self.do_notify(status)
+                self.loop.quit()
+                return False
+
+            GLib.timeout_add(self._timeout,self.do_upgrade)
+            return True
+
+    def on_finished_install(self, transaction, status):
+        dynamicapps.operations_busy = False
+        self.loop.quit()
+        if status != 'exit-success':
+            return False
+        else:
+            self.do_notify(status)
+
+    def on_finished_remove(self, transaction, status):
+        dynamicapps.operations_busy = False
+        self.loop.quit()
+        if status != 'exit-success':
+            return False
+        else:
+            self.do_notify(status)
+
+    def on_finished_upgrade(self, transaction, status):
+        dynamicapps.operations_busy = False
+        self.loop.quit()
+        if status != 'exit-success':
+            return False
+        else:
+            self.do_notify(status)
+
+    def do_notify(self, status):
+        # Notifications for individual applications.
+        if self.program_id:
+            name = dynamicapps.get_attribute_for_app(self.program_id, 'name')
+            img = dynamicapps.get_attribute_for_app(self.program_id, 'img')
+            img_path = os.path.join(data_path, 'img', 'applications', img + '')
+            if not os.path.exists(img_path):
+                img_path = 'package'
+
+            dbg.stdout('Apps', 'Changed status for "' + self.program_id + '": ' + status, 0, 3)
+
+            # Mostrar uma notificação diferente para as atualizações da Loja Horizon OS
+            if self.program_id == 'horizon_os_loja' and status == 'exit-success':
+                notify_send( _("Loja Horizon OS foi atualizada."), \
+                             _("Loja Horizon OS e a Loja estão definidos para receber as atualizações mais recentes."), \
+                             os.path.join(data_path, 'img', 'logo', 'loja-horizon.svg'))
+                return
+
+            if self.action == 'install':
+                title_success   = name + ' ' + _('Instalado')
+                descr_success   = _("O aplicativo está pronto para uso.")
+
+                title_cancel    = name + ' ' + _("não foi instalado.")
+                descr_cancel    = _("A operação foi cancelada.")
+
+                title_error     = name + ' ' + _("falhou na instalação!")
+                descr_error     = _("Houve um problema ao instalar a aplicação.")
+
+            elif self.action == 'remove':
+                title_success   = name + ' ' + _('Removed')
+                descr_success   = _("The application has been uninstalled.")
+
+                title_cancel    = name + ' ' + _("não foi removido.")
+                descr_cancel    = _("A operação foi cancelada.")
+
+                title_error     = name + ' ' + _("falha ao remover")
+                descr_error     = _("Um problema está impedindo que este aplicativo seja removido.")
+
+            elif self.action == 'upgrade':
+                title_success   = name + ' ' + _('Atualizado')
+                descr_success   = _("Este aplicativo está configurado para usar a versão mais recente.")
+
+                title_cancel    = name + ' ' + _("não foi atualizado.")
+                descr_cancel    = _("O aplicativo continuará usando a versão estável.")
+
+                title_error     = name + ' ' + _("falha ao atualizar")
+                descr_error     = _("Um problema está impedindo que este aplicativo seja atualizado.")
+
+            # Do not show notifications when updating the cache
+            if self.action != 'update':
+                if status == 'exit-success':
+                    notify_send(title_success, descr_success, img_path)
+                elif status == 'exit-cancelled':
+                    notify_send(title_cancel, descr_cancel, img_path)
+                else:
+                    notify_send(title_error, descr_error, img_path)
+
+    def do_fix_incomplete_install(self):
+        dynamicapps.operations_busy = True
+        # Corresponds to: dpkg --configure -a
+        apt_fix_incomplete = self.client.fix_incomplete_install()
+        apt_fix_incomplete.connect("finished",self.on_finished_fix_incomplete_install)
+
+        fix_incomplete_dialog = AptProgressDialog(apt_fix_incomplete)
+        fix_incomplete_dialog.run(close_on_finished=True, show_error=True,
+                reply_handler=lambda: True,
+                error_handler=self.on_error,
+                )
+        return False
+        dynamicapps.operations_busy = False
+
+    def do_fix_broken_depends(self):
+        dynamicapps.operations_busy = True
+        # Corresponds to: apt-get --fix-broken install
+        apt_fix_broken = self.client.fix_broken_depends()
+        apt_fix_broken.connect("finished",self.on_finished_fix_broken_depends)
+
+        fix_broken_dialog = AptProgressDialog(apt_fix_broken)
+        fix_broken_dialog.run(close_on_finished=True, show_error=True,
+                reply_handler=lambda: True,
+                error_handler=self.on_error,
+                )
+        return False
+        dynamicapps.operations_busy = False
+
+    def do_update(self):
+        if self.source_to_update:
+            apt_update = self.client.update_cache(self.source_to_update)
+        else:
+            apt_update = self.client.update_cache()
+        try:
+            apt_update.connect("finished",self.on_finished_update)
+        except AttributeError:
+            return
+
+        if pref.get('hide-apt-progress', False):
+            apt_update.run()
+        else:
+            update_dialog = AptProgressDialog(apt_update)
+            update_dialog.run(close_on_finished=True, show_error=True,
+                    reply_handler=lambda: True,
+                    error_handler=self.on_error,
+                    )
+        return False
+
+    def do_install(self):
+        apt_install = self.client.install_packages(self.packages)
+        apt_install.connect("finished", self.on_finished_install)
+
+        if pref.get('hide-apt-progress', False):
+            apt_install.run()
+        else:
+            install_dialog = AptProgressDialog(apt_install)
+            install_dialog.run(close_on_finished=True, show_error=True,
+                            reply_handler=lambda: True,
+                            error_handler=self.on_error,
+                            )
+        return False
+    
+
+    def do_remove(self):
+        apt_remove = self.client.remove_packages(self.packages)
+        apt_remove.connect("finished", self.on_finished_remove)
+        
+        if pref.get('hide-apt-progress', False):
+            apt_remove.run()
+        else:
+            remove_dialog = AptProgressDialog(apt_remove)
+            remove_dialog.run(close_on_finished=True, show_error=True,
+                            reply_handler=lambda: True,
+                            error_handler=self.on_error,
+                            )
+        return False
+
+    def do_upgrade(self):
+        apt_upgrade = self.client.upgrade_system(True)
+        apt_upgrade.connect("finished", self.on_finished_upgrade)
+
+        upgrade_dialog = AptProgressDialog(apt_upgrade)
+        upgrade_dialog.run(close_on_finished=True, show_error=True,
+                        reply_handler=lambda: True,
+                        error_handler=self.on_error,
+                        )
+        return False
+
+    def install_packages(self):
+        dynamicapps.operations_busy = True
+        if self.update_cache:
+            GLib.timeout_add(self._timeout,self.do_update)
+        else:
+            GLib.timeout_add(self._timeout,self.do_install)
+        self.loop.run()
+        dynamicapps.operations_busy = False
+
+    def remove_packages(self):
+        dynamicapps.operations_busy = True
+        GLib.timeout_add(self._timeout,self.do_remove)
+        self.loop.run()
+        dynamicapps.operations_busy = False
+
+    def upgrade_packages(self):
+        dynamicapps.operations_busy = True
+        if self.update_cache:
+            GLib.timeout_add(self._timeout,self.do_update)
+        else:
+            GLib.timeout_add(self._timeout,self.do_upgrade)
+        self.loop.run()
+        dynamicapps.operations_busy = False
+
+    def fix_incomplete_install(self):
+        dynamicapps.operations_busy = True
+        GLib.timeout_add(self._timeout,self.do_fix_incomplete_install)
+        self.loop.run()
+        dynamicapps.operations_busy = False
+
+    def fix_broken_depends(self):
+        dynamicapps.operations_busy = True
+        GLib.timeout_add(self._timeout,self.do_fix_broken_depends)
+        self.loop.run()
+        dynamicapps.operations_busy = False
+
+def update_repos():
+    transaction = SimpleApt('', 'update')
+    transaction.update_cache = True
+    transaction.do_update()
+
+def fix_incomplete_install():
+    transaction = SimpleApt('', 'fix-incomplete-install')
+    transaction.fix_incomplete_install()
+
+def fix_broken_depends():
+    transaction = SimpleApt('', 'fix-broken-depends')
+    transaction.fix_broken_depends()
+
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc: # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else:
+            raise
+
+
+class PreInstallation(object):
+    """
+         See the JSON Structure in the `DynamicApps` class on
+         how to specify pre-configuration actions in `applications.json`
+    """
+
+    def __init__(self):
+        # Always ensure we have the correct variables, not any overrides.
+        self.os_version = subprocess.run(['lsb_release','-rs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+        self.codename = subprocess.run(['lsb_release','-cs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+        dbg.stdout('Pre-Install', "System is running Ubuntu " + self.os_version + " (" + self.codename + ")", 1, 0)
+
+    def process_packages(self, program_id, action, preconfigure_only=False):
+        simulating = arg.simulate_software_changes
+
+        # Get category for this program, which can be used to retrieve data later.
+        category = dynamicapps.get_attribute_for_app(program_id, 'category')
+        fullname = dynamicapps.get_attribute_for_app(program_id, 'img')
+        img = dynamicapps.get_attribute_for_app(program_id, 'img')
+
+        try:
+            preconfig = dynamicapps.index[category][program_id]['pre-install']
+        except:
+            dbg.stdout('Pre-Install', 'Missing pre-configuration data for "' + program_id + '". Refusing to continue.', 0, 1)
+            return
+
+        try:
+            if action == 'install':
+                packages = dynamicapps.index[category][program_id]['install-packages']
+                dbg.stdout('Apps', 'Packages to be installed:\n               ' + packages, 0, 0)
+            elif action == 'remove':
+                packages = dynamicapps.index[category][program_id]['remove-packages']
+                dbg.stdout('Apps', 'Packages to be removed:\n               ' + packages, 0, 0)
+            elif action == 'upgrade':
+                packages = dynamicapps.index[category][program_id]['upgrade-packages']
+                dbg.stdout('Apps', 'Packages to be upgraded:\n               ' + packages, 0, 0)
+            else:
+                dbg.stdout('Apps', 'Invalid action was requested.', 0, 1)
+                return
+        except:
+            dbg.stdout('Apps', 'No packages retrieved for requested action.', 0, 1)
+            return
+
+        # Validate that we have packages to work with.
+        if len(packages):
+            packages = packages.split(',')
+        else:
+            dbg.stdout('Apps', 'No package(s) supplied for "' + program_id + '".', 0, 1)
+            return
+        transaction = SimpleApt(packages, action, program_id)
+
+        # Função para executar comandos privilegiados.
+        def run_task(function):
+            subprocess.call(['pkexec', root_folder+'bin/repository_installer', os.path.abspath(os.path.join(data_path, root_folder+'/Dados/Loja.json')), function, category, program_id, target])
+        
+
+        # Determine if any pre-configuration is specific to a codename.
+        try:
+            preinstall = dynamicapps.index[category][program_id]['pre-install']
+            codenames = list(preinstall.keys())
+        except:
+            dbg.stdout('Pre-Install', 'No data specified for "' + program_id + '". This application entry is invalid.', 0, 1)
+            return
+        dbg.stdout('Pre-Install', 'Available configurations: ' + str(codenames), 1, 0)
+        target = None
+        for codename in codenames:
+            for name in codename.split(","):
+                if name == self.codename:
+                    target = codename
+                    break
+        if not target:
+                target = 'all'
+                dbg.stdout('Pre-Install', 'Using "all" pre-configuration.', 1, 0)
+        else:
+            dbg.stdout('Pre-Install', 'Using configuration for: "' + target + '".', 1, 0)
+
+        methods = preinstall[target]['method'].split('+')
+        if not methods:
+            dbg.stdout('Pre-Install', 'No pre-install method was specified. The index is invalid.', 0, 1)
+        else:
+            dbg.stdout('Pre-Install', 'Configuration changes: ' + str(methods), 0, 0)
+
+        # Perform any pre-configuration, if necessary.
+        if action == 'install' or action == 'upgrade':
+            # Enable i386 repository (19.10 and later) if app requires 32-bit libs/packages.
+            try:
+                requires_i386 = dynamicapps.get_attribute_for_app(program_id, 'enable_i386')
+                if requires_i386 == True:
+                    run_task('enable_i386')
+            except KeyError:
+                pass
+
+            # Add repository
+            for method in methods:
+                if method == 'skip':
+                    dbg.stdout('Pre-Install', 'Using the Ubuntu repository.', 0, 0)
+                    continue
+
+                elif method == 'partner-repo':
+                    dbg.stdout('Pre-Install', 'Enabling the Ubuntu partner repository.', 0, 3)
+                    if not simulating:
+                        run_task('enable_partner_repository')
+                        transaction.update_cache = True
+                        queue.must_update_cache = True
+
+                elif method == 'multiverse-repo':
+                    dbg.stdout('Pre-Install', 'Enabling the Ubuntu multiverse repository.', 0, 3)
+                    if not simulating:
+                        run_task('enable_multiverse_repository')
+                        transaction.update_cache = True
+                        queue.must_update_cache = True
+
+                elif method == 'ppa':
+                    try:
+                        ppa = preinstall[target]['enable-ppa']
+                    except:
+                        dbg.stdout('Pre-Install', 'Missing "enable-ppa" attribute. Cannot add PPA as requested.', 0, 1)
+                        return
+                    dbg.stdout('Pre-Install', 'Adicionando PPA: "' + ppa + '" e atualizando cache.', 0, 3)
+                    if not simulating:
+                        run_task('enable_ppa')
+                        transaction.update_cache = True
+                        queue.must_update_cache = True
+                    try:
+                        source_file = preinstall[target]['source-file'].replace('OSVERSION',self.os_version).replace('CODENAME',self.codename)
+                        dbg.stdout('Pre-Install', 'Atualizando a fonte Apt: "' + source_file + '.list"', 0, 3)
+                        if not simulating:
+                            transaction.source_to_update = source_file + '.list'
+                    except:
+                        dbg.stdout('Pre-Install', 'Updating entire Apt cache. (No individual source file specified)', 1, 3)
+
+                elif method == 'manual':
+                    # Do we get the apt key from a URL?
+                    try:
+                        apt_key_url = preinstall[target]['apt-key-url'].replace('OSVERSION',self.os_version).replace('CODENAME',self.codename)
+                        dbg.stdout('Pre-Install', 'Getting Apt key from URL: "' + apt_key_url + '"', 0, 3)
+                        if not simulating:
+                            run_task('add_apt_key_from_url')
+                            queue.must_update_cache = True
+                    except:
+                        dbg.stdout('Pre-Install', 'No apt key to retrieve from a URL.', 1, 0)
+
+                    # Do we get the apt key from the server?
+                    try:
+                        apt_key_server = preinstall[target]['apt-key-server'][0]
+                        apt_key_key =    preinstall[target]['apt-key-server'][1]
+                        dbg.stdout('Pre-Install', 'Getting key "' + apt_key_key + '" from keyserver: "' + apt_key_server + '"', 0, 3)
+                        if not simulating:
+                            run_task('add_apt_key_from_keyserver')
+                            queue.must_update_cache = True
+                    except:
+                        dbg.stdout('Pre-Install', 'No apt key to retrieve from a key server.', 1, 0)
+
+                    # Do we need to add an apt source file?
+                    try:
+                        source = preinstall[target]['apt-sources']
+                        source_file = preinstall[target]['source-file'].replace('OSVERSION',self.os_version).replace('CODENAME',self.codename)
+                        dbg.stdout('Pre-Install', 'Writing source file: ' + source_file + '.list', 0, 3)
+                        dbg.stdout('Pre-Install', '              -------- Start of file ------', 1, 4)
+                        for line in source:
+                            dbg.stdout('Pre-Install', '              ' + line.replace('OSVERSION',self.os_version).replace('CODENAME',self.codename), 0, 0)
+                        dbg.stdout('Pre-Install', '              -------- End of file ------', 1, 4)
+                        try:
+                            dbg.stdout('Pre-Install', 'Updating Apt Source: ' + source_file + '.list', 0, 3)
+                            if not simulating:
+                                run_task('add_apt_sources')
+                                transaction.source_to_update = source_file + '.list'
+                                transaction.update_cache = True
+                                queue.must_update_cache = True
+                        except:
+                            dbg.stdout('Pre-Install', 'Failed to add apt sources!', 0, 1)
+                    except:
+                        dbg.stdout('Pre-Install', 'No source data or source file to write.', 0, 1)
+
+        elif action == 'remove':
+            try:
+                # The function uses wild cards, so we don't need to worry about being explict.
+                listname = preinstall[target]['source-file'].replace('CODENAME','').replace('OSVERSION','')
+                if simulating:
+                    dbg.stdout('Simulation', 'Deleting Apt Source: ' + listname, 0, 3)
+                else:
+                    run_task('del_apt_sources')
+                    queue.must_update_cache = True
+            except:
+                dbg.stdout('Pre-Install', 'No apt source specified, so none will be removed.', 1, 0)
+
+        # Pre-configuration complete. Now perform the operations.
+        # Do not do this if:
+        #   * Simulation flag is active.
+        #   * Part of the bulk queue - which handles packages differently.
+
+        if not preconfigure_only:
+            if simulating:
+                dbg.stdout('Pre-Install', 'Simulation flag active. No changes will be performed.', 0, 2)
+                return
+            else:
+                if transaction.action == 'install':
+                    transaction.install_packages()
+                elif transaction.action == 'remove':
+                    transaction.remove_packages()
+                elif transaction.action == 'upgrade':
+                    transaction.upgrade_packages()
+
+
+##################################
+#  Translations Framework & Strings
+##################################
+class Translations(object):
+    def __init__(self, data_path):
+        # Pages that do not want to be translated.
+        self.excluded_pages = ['message.html']
+
+        # Determine which locale to use
+        if arg.locale:
+            self.locale = arg.locale
+        else:
+            try:
+                self.locale = str(locale.getlocale()[0])
+            except Exception:
+                dbg.stdout("i18n", "Não foi possível obter informações de localidade do sistema! Usansudo a 'pt_BR' por padrão.")
+                self.locale = "pt_BR"
+
+        # Determine if localized pages exist, or fallback to original pages.
+        def get_pages_path():
+            if os.path.exists(os.path.join(data_path, 'i18n', self.locale)):
+                self.localized = True
+                self.relative_i18n = True
+                dbg.stdout('i18n', 'Conjunto de localidades: ' + self.locale + ' (using relative path)', 1, 0)
+                return os.path.join(data_path, 'i18n', self.locale)
+            elif (os.path.exists(os.path.join(root_folder+'/Arquivos/i18n/', self.locale))):
+                self.localized = True
+                self.relative_i18n = False
+                dbg.stdout('i18n', 'Conjunto de localidades: ' + self.locale + ' (using /usr/share/ path)', 1, 0)
+                return os.path.join(root_folder+'/Arquivos/i18n/', self.locale)
+            else:
+                self.localized = False
+                self.relative_i18n = False
+                dbg.stdout('i18n', 'Localidade não disponível: ' + self.locale + ' (usando pt_BR)', 1, 1)
+                return data_path
+
+        self.pages_dir = get_pages_path()
+
+        # Should this locale not exist, try a generic one. (e.g. "en_GB" → "en")
+        if self.pages_dir == data_path:
+            self.localized = False
+            self.locale = self.locale.split('_')[0]
+            self.pages_dir = get_pages_path()
+        else:
+            self.localized = True
+
+        # Validate all the i18n pages so we have the same structure as the original.
+        page_was_lost = False
+        if not self.pages_dir == data_path:
+            for page in os.listdir(data_path):
+                if page[-5:] == '.html':
+                    if os.path.exists(os.path.join(self.pages_dir, page)):
+                        dbg.stdout('i18n', 'Page Verified: ' + page, 2, 2)
+                    else:
+                        if page not in self.excluded_pages:
+                            page_was_lost = True
+                            dbg.stdout('i18n', 'Page Missing: ' + page, 2, 1)
+        if page_was_lost:
+            dbg.stdout('i18n', 'Faltam uma ou mais páginas de tradução! Voltando para "pt_BR".', 0, 1)
+            self.pages_dir = data_path
+            self.localized = False
+        else:
+            dbg.stdout('i18n', 'Todas as páginas i18n traduzidas encontradas.', 1, 2)
+
+        # Sets the path for resources (img/css/js)
+        if self.localized:
+            # E.g. data/i18n/en_GB/*.html → data/
+            self.res_dir = '../../'
+        else:
+            # E.g. data/*.html → data/
+            self.res_dir = ''
+
+        # Initalise i18n for Python translations.
+        
+        i18n_path = root_folder+'/local/'
+        
+        global t, _
+        dbg.stdout('i18n', 'Using locale for gettext: ' + self.locale, 1, 0)
+        dbg.stdout('i18n', 'Using path for gettext: ' + i18n_path, 1, 0)
+        for lang in ['es', 'en']:
+            t = gettext.translation('base', localedir=i18n_path, languages=[self.locale], fallback=True)
+            _ = t.gettext
+            t.install()
+
+class Strings(object):
+    """ Not all strings are stored here, but those common throughout the program. """
+    def __init__(self):
+        ## To avoid needing to call i18n each time,
+        ## variables are intentional to be strings.
+
+        # General
+        self.close = str(_("Fechar"))
+        self.cancel = str(_("Cancelar"))
+
+        # Desktop launchers (not used by application - just translation scripts)
+        
+        self.loja = str(_("Loja Horizon OS"))
+       
+
+        # Rodapé
+        self.subscribed = str(_("Defina para recuperar as listagens de software mais recentes."))
+        self.subscribe_link = str(_("Retrieve the latest software listings."))
+        self.subscribing = str(_("Aguarde enquanto o aplicativo está sendo atualizado ..."))
+        self.version = str(_("Versão:"))
+    
+        # Application Listings
+        self.upgraded = str(_("Este aplicativo está definido para receber as atualizações mais recentes."))
+        self.alternate_to = str(_('Alternativa para:'))
+        self.install = str(_("Instalar"))
+        self.install_apt = str(_("Instalar via Apt"))
+        self.install_snap = str(_("Instalar via Snap"))
+        self.show_install_command = str(_("Mostrar comando de instalação"))
+        self.hide_install_command = str(_("Ocultar comando de instalação"))
+        self.copy_install_command = str(_("Clique para Copiar o Comando!"))
+        self.reinstall = str(_("Reinstalar"))
+        self.reinstall_snap = str(_("Reinstalar Snap"))
+        self.remove = str(_("Remover"))
+        self.no_remove = str(_("Não pode Remover"))
+        self.remove_snap = str(_("Remover Snap"))
+        self.no_remove_snap = str(_("Não pode Remover este Snap"))
+        self.upgrade = str(_("Atualizar"))
+        self.launch = str(_("Executar"))
+        self.launch_apt = str(_("Executar via Apt"))
+        self.launch_snap = str(_("Executar via Snap"))
+        self.no_launch = str(_("Não pode Executar"))
+        self.no_app_description_get_info = str(_("Nenhuma informação disponível!"))
+        self.license = str(_("Licença"))
+        self.platform = str(_("Platforma"))
+        self.category = str(_("Categoria"))
+        self.website = str(_("Website"))
+        self.screenshot = str(_("Captura de tela"))
+        self.source = str(_("Fonte"))
+        self.repo_main = str(_("Repositório Ubuntu"))
+        self.repo_universe = str(_("Repositório Mantido pela Comunidade Ubuntu"))
+        self.repo_restricted = str(_("Repositório de drivers proprietários do Ubuntu"))
+        self.repo_multiverse = str(_("Repositório Não-Livre do Ubuntu"))
+        self.repo_partner = str(_("Repositório de parceiros canonical"))
+        self.unknown = str(_('Desconhecido'))
+        self.undo = str(_("Desfazer mudanças"))
+        self.more_info = str(_("Mais Informações"))
+        self.undo_snap = str(_("Desfazer mudanças Snap"))
+
+        # Repository Listings
+        self.repo_unknown = str(_("Repositórios Externos"))
+        self.head_software = str(_("Programas"))
+        self.head_source = str(_("Fonte"))
+
+        # Applying Changes
+        self.install_text = str(_("Instalando..."))
+        self.remove_text = str(_("Removendo..."))
+        self.upgrade_text = str(_("Atualizando..."))
+
+        # Categories
+        self.snap_install = str(_("Snap Install"))
+        self.accessories = str(_("Accessories"))
+        self.AppsInfo = str(_("AppsInfo"))
+        self.education = str(_("Education"))
+        self.games = str(_("Games"))
+        self.graphics = str(_("Graphics"))
+        self.internet = str(_("Internet"))
+        self.office = str(_("Office"))
+        self.programming = str(_("Programming"))
+        self.media = str(_("Sound & Video"))
+        self.systools = str(_("System Tools"))
+        self.servers = str(_("Server One-Click Installation"))
+        self.misc = str(_("Miscellaneous"))
+        
+
+        # Boutique Features
+        self.search = str(_("Procurando por"))
+        self.search_begin = str(_("Por favor insira uma palavra-chave para começar!"))
+        self.search_short = str(_("Por favor insira pelo menos 3 caracteres!"))
+
+
+        # Strings a serem usadas
+        self.queue_install = str(_("Adicionado na Lista de Espera para instalação!"))
+        self.queue_remove = str(_("Adicionado na Lista de Espera para remoção!"))
+        self.queue_install_remove = str(_("Adicionado na Lista de Espera para instalação/remoção!"))
+        self.queue_prepare_remove = str(_("Preparando para remover:"))
+        self.queue_prepare_install = str(_("Preparando para instalação:"))
+        self.queue_removing = str(_("Removendo:"))
+        self.queue_installing = str(_("Instalando:"))
+        self.updating_cache = str(_("Atualizando o cache dos repositórios..."))
+        self.verifying_changes = str(_("Verifying software changes..."))
+        self.install_success = str(_("Instalação bem sucessidida"))
+        self.install_fail = str(_("Falha na instalação"))
+        self.remove_success = str(_("Removido com sucesso"))
+        self.remove_fail = str(_("Falha ao remover"))
+        self.status_install = str(_("Para ser instalado"))
+        self.status_remove = str(_("Para ser removido"))
+        self.queue_list = str(_("'Lista de Espera'"))
+        
+
+
+class DynamicApps(object):
+    
+    def __init__(self):
+        # Load JSON Index into Memory
+        self.reload_index()
+
+        # Variables to remember common details.
+        self.all_categories = ['Accessories','Education', 'Games', 'Graphics', 'Internet', 'Office', 'Programming', 'Media', 'SysTools', 'Servers', 'SnapInstall', 'MoreApps','StoreUpdates']
+        self.hide_non_free = pref.get('hide_non_free', False)
+        self.hide_non_checking = pref.get('hide_non_checking', False)
+        
+        # Indicate that operations are in progress.
+        self.operations_busy = False
+
+        # Get the version of Loja Horizon OS in use.
+        
+
+    def reload_index(self):
+        try:
+            dbg.stdout('Apps', 'Reading index...', 1, 3)
+
+            self.index = json_repository
+
+                
+            
+                
+
+                
+            dbg.stdout('Apps', 'Successfully loaded index.', 1, 2)
+        except Exception as e:
+            self.index = None
+            dbg.stdout('Apps', 'Software Index JSON is invalid or missing!', 0, 1)
+            dbg.stdout('Apps', '------------------------------------------------------------', 1, 1)
+            dbg.stdout('Apps', str(e), 1, 1)
+            dbg.stdout('Apps', '------------------------------------------------------------', 1, 1)
+
+    def set_app_info(self, category, program_id):
+
+        self.app_name = self.index[category][program_id]['name']
+        self.app_img = self.index[category][program_id]['img']
+        self.app_img_paralax = self.index[category][program_id]['img-paralax']
+        self.app_main_package = self.index[category][program_id]['main-package']
+        self.app_launch_command = self.index[category][program_id]['launch-command']
+        self.app_upgrade_only = False
+        try:
+            if self.index[category][program_id]['upgradable']:
+                self.app_upgrade_only = True
+                self.app_upgrade_packages = self.index[category][program_id]['upgrade-packages']
+        except:
+            self.app_upgrade_only = False
+
+        if not self.app_upgrade_only:
+            self.app_install_packages = self.index[category][program_id]['install-packages']
+            self.app_remove_packages = self.index[category][program_id]['remove-packages']
+        self.app_description = ''
+        for line in self.index[category][program_id]['description']:
+            self.app_description = self.app_description + ' ' + line
+        self.app_alternate_to = self.index[category][program_id]['alternate-to']
+        self.app_subcategory = self.index[category][program_id]['subcategory']
+        self.app_open_source = self.index[category][program_id]['open-source']
+        self.app_checked = self.index[category][program_id]['checking']
+        self.parental_rating = self.index[category][program_id]['parental-rating']        
+        self.parental_rating_description = self.index[category][program_id]['parental-rating-description']        
+        self.app_url_info = self.index[category][program_id]['url-info']
+        self.app_url_android = self.index[category][program_id]['url-android']
+        self.app_description_get_info = self.index[category][program_id]['description-get-info']
+        self.app_url_ios = self.index[category][program_id]['url-ios']
+        self.app_arch = self.index[category][program_id]['arch']
+        try:
+            self.app_session = self.index[category][program_id]['session']
+        except KeyError:
+            self.app_session = None
+        self.app_releases = self.index[category][program_id]['releases']
+        self.app_working = self.index[category][program_id]['working']
+
+    def append_app_listing_installed(self, category, program_id, target_element, total_softwares, track_subcategories=False):
+        # Only list the program if it's working.
+        total_software = total_softwares+1
+
+        # If the app has made it this far, it can be added to the grid.
+        # CSS breaks with dots (.), so any must become hyphens (-).
+        dbg.stdout('Apps', ' Added: ' + self.app_name, 2, 2)
+        
+        html_apps_installed = ''
+        css_class = program_id.replace('.','-')
+        css_subcategory = self.app_subcategory.replace(' ','_')
+        html_apps_installed = '<div id="#'+css_class+'-sort" class="sort">'
+        
+
+        
+        html_apps_installed += '<span class=" ' + css_class + '-remove">'
+
+        html_apps_installed += '<div class="card-installed-'+ program_id +' queue-card">'
+                                 
+                                     
+        if not self.app_upgrade_only:
+            html_apps_installed += '<div class="status-installed">'
+            html_apps_installed += '<span class="' + css_class + '-applying"> <span class="' + css_class + '-applying-status"></span> &nbsp;<img src="' + data_path + 'img/definitions/processing.svg" width="24px" height="24px"/></span>'
+            html_apps_installed += '<button class="' + css_class + '-install button-info button-install" onclick="cmd(\'install-appid?' + program_id + '\')"><span class="fa fa-download"></span>&nbsp; ' + string.install + '</button>&nbsp;'
+            html_apps_installed += '<button class="' + css_class + '-reinstall button-info button-reinstall" onclick="cmd(\'install-appid?' + program_id + '\')" data-toggle="tooltip" data-placement="top" title="' + string.reinstall + '"><span class="fa fa-refresh"></span></button>&nbsp;'
+            #html_apps_installed += '<button class="' + css_class + '-upgrade btn btn-warning" onclick="cmd(\'upgrade-appid?' + program_id + '\')"><span class="fa fa-level-up"></span>&nbsp; ' + string.upgrade + '</button>&nbsp;'
+            if not self.app_remove_packages == None:
+                html_apps_installed += '<button class="' + css_class + '-remove button-info button-uninstall" onclick="cmd(\'remove-appid?' + program_id + '\')" data-toggle="tooltip" data-placement="top" title="' + string.remove + '"><span class="fa fa-trash"></span></button>&nbsp;'
+            else:
+                html_apps_installed += '<button class="' + css_class + '-remove button-info button-uninstall" data-toggle="tooltip" data-placement="top" title="' + string.no_remove + '"><span class="fa fa-trash"></span></button>&nbsp;'
+
+        if not self.app_launch_command == None:
+            html_apps_installed += '<button style="display: none;" class="' + css_class + '-launch button-info button-installed" onclick="cmd(\'launch-appid?' + program_id + '\')"><img src="' + data_path + 'img/applications/icon/' + self.app_img + '" width="20px" height="20px" />&nbsp; ' + string.launch + '</button>&nbsp;'
+        else:
+            html_apps_installed += '<button style="display: none;" class="' + css_class + '-launch button-info button-installed" data-toggle="tooltip" data-placement="top" title="' + string.no_launch + '"><img src="' + data_path + 'img/applications/icon/' + self.app_img + '" width="20px" height="20px" />&nbsp;</button>&nbsp;'
+
+        if self.app_upgrade_only:
+            dbg.stdout('Apps', 'Upgrade: ' + self.app_name, 2, 4)
+            if not self.upgraded:
+                html_apps_installed += '<button class="' + css_class + '-upgrade btn btn-warning" onclick="cmd(\'upgrade-appid?' + program_id + '\')"><span class="fa fa-level-up"></span>&nbsp; ' + string.upgrade + '</button>&nbsp;'
+                
+        html_apps_installed += '</div>'    
+        
+        html_apps_installed += '<img  onclick="" class="icon"  src="' + data_path + 'img/applications/icon/' + self.app_img + '">\
+                                <span onclick="" class="title">' + self.app_name + '</span>\
+                                <div class="description-get-info" onclick=""  > <code data-placement="top" title="Mini info" class="fa fa-info-circle botao-info"></code>'
+
+    
+        
+        if not self.app_description_get_info == None:
+            html_apps_installed += ''+ self.app_description_get_info +''
+        else:
+            html_apps_installed +=  string.no_app_description_get_info
+
+        html_apps_installed += '</div></div></span></div>'
+        
+        
+        app.update_page(target_element, 'append', html_apps_installed)
+        app.update_page('.info-hide-'+css_class, 'hide')
+
+    def append_app_listing_full(self, category, program_id, target_element, track_subcategories=False):
+        # Only list the program if it's working.
+        
+        
+        # If the app has made it this far, it can be added to the grid.
+        # CSS breaks with dots (.), so any must become hyphens (-).
+        dbg.stdout('Apps', ' Added: ' + self.app_name, 2, 2)
+        
+        html_apps = '<div id="'+ program_id + '" hidden>'
+        css_class = program_id.replace('.','-')
+        
+        css_subcategory = self.app_subcategory.replace(' ','_')
+        install_command = self.index[category][program_id]['install-packages']
+        install_command = install_command.replace(',',' ')
+        gross_category = self.get_attribute_for_app(program_id, 'category')
+        snap_install = self.index[category][program_id]['snap-install']
+
+       # Ícones / texto para mostrar nos campos de origem
+        source_ppa = '<span class="fa fa-cube"></span>&nbsp;'
+        source_manual = '<span class="fa fa-globe"></span></button>&nbsp;'
+        source_partner = '<img src="' + data_path + 'img/logos/ubuntu-mono.png" width="16px" height="16px"/>&nbsp;' + string.repo_partner
+        source_multiverse = '<img src="' + data_path + 'img/logos/ubuntu-mono.png" width="16px" height="16px"/>&nbsp;' + string.repo_multiverse
+        source_skip = '<img src="' + data_path + 'img/logos/ubuntu-mono.png" width="16px" height="16px"/>&nbsp;' + string.repo_main
+
+        url_img_paralax = data_path + '/img/applications/wallpaper/'+ str(self.app_img_paralax)
+        
+        
+
+        if os.path.isfile(url_img_paralax):
+            html_apps += '<img class="paralax-apps-img" src="'+ url_img_paralax +'" width="100%">'
+        else:
+            if not self.app_img_paralax == None:
+                html_apps += '<img class="paralax-apps-img" src="'+ self.app_img_paralax +'" width="100%">'
+            else:
+                html_apps += '<img class="paralax-apps-img" src="' + data_path + 'img/applications/wallpaper/none.jpg" width="100%">'
+            
+        
+        if self.app_checked:
+            checking_string = _('<div style="color: blue;" class="fa fa-check-circle"></div> Verificado')
+        else:
+            checking_string = _('<div style="color: red;" class="fa fa-exclamation-circle"></div> Não Verificado')
+
+        html_apps += '<div class="box-apps-info"><div class="box-apps-info-box"> '
+        html_apps +=' \
+        <img class="loja-img-logo" src="' + data_path + 'img/applications/icon/' + self.app_img + '" width="50px" height="50px"> \
+        <h4 class="loja-texto-nome ">' + self.app_name + '</h4> <h8 class="app_checked">'+ checking_string +'</h8>'
+        
+        #Botões de gerenciamentos de programas "Instalar/Desinstalar/Remover/Reparar"
+        html_apps += '<div class="loja-botoes-de-status">'
+            
+            
+        if not self.app_upgrade_only:
+            html_apps += '<span class="' + css_class + '-applying"> <span class="' + css_class + '-applying-status"></span> &nbsp;<img src="' + data_path + 'img/definitions/processing.svg" width="24px" height="24px"/></span>'
+            
+            if snap_install:
+                snapd_logo = trans.res_dir + 'img/logos/snapd.png'
+                html_apps += '<button class="' + css_class + '_snap-undo button-status button-info button-undo-snap" onclick="cmd(\'queue-drop?' + program_id + '_snap\')" style="display:none"><span class="fa fa-undo"></span> ' + string.undo_snap + '</button>'
+                html_apps += '<button class="' + css_class + '_snap-install button-status button-install " onclick="cmd(\'install-appid?' + program_id + '_snap\')"><span> <img width="20px" src="'+snapd_logo+'"></span>&nbsp; ' + string.install_snap + '</button>'
+                if not self.app_launch_command == None:
+                    html_apps += '<button style="display: none;" class="' + css_class + '_snap-launch  button-status button-info button-start-snap" onclick="cmd(\'launch-appid?' + program_id + '_snap\')"><div class="fa fa-play"></div>&nbsp; ' + string.launch_snap + '</button>&nbsp;'
+                else:
+                    html_apps += '<button style="display: none;" class="' + css_class + '_snap-launch ' + css_class + '-launch button-status button-info button-no-start" data-toggle="tooltip" data-placement="bottom" title="' + string.no_launch + '"><div class="fa fa-ban"></div> ' + string.launch_snap + '&nbsp; </button>&nbsp;'
+                if not self.app_remove_packages == None:
+                    html_apps += '<button class="' + css_class + '_snap-remove  button-info button-status button-uninstall" onclick="cmd(\'remove-appid?' + program_id + '_snap\')" data-toggle="tooltip" data-placement="bottom" title="' + string.remove_snap + '"><span class="fa fa-trash"></span></button>&nbsp;'
+                else:
+                    html_apps += '<button class="' + css_class + '_snap-remove  button-info button-status button-uninstall" data-toggle="tooltip" data-placement="bottom" title="' + string.no_remove_snap + '"><span class="fa fa-trash"></span></button>&nbsp;'
+                html_apps += '<button class="' + css_class + '_snap-reinstall button-status button-info button-reinstall" onclick="cmd(\'install-appid?' + program_id + '_snap\')" data-toggle="tooltip" data-placement="bottom" title="' + string.reinstall_snap + '"><span class="fa fa-refresh"></span></button>&nbsp;'
+                html_apps += '<span> ou </span>'
+                
+            
+            
+            if gross_category == "SnapInstall":
+                html_apps += '<button class="' + css_class + '-install button-status button-install " onclick="cmd(\'install-appid?' + program_id + '\')"><span class="fa fa-download"></span>&nbsp; ' + string.install_snap + '</button>'
+            else:
+                if not snap_install:
+                    html_apps += '<button class="' + css_class + '-install button-status button-install " onclick="cmd(\'install-appid?' + program_id + '\')"><span class="fa fa-download"></span>&nbsp; ' + string.install + '</button>'
+                else:
+                    html_apps += '<button class="' + css_class + '-install button-status button-install " onclick="cmd(\'install-appid?' + program_id + '\')"><span class="fa fa-download"></span>&nbsp; ' + string.install_apt + '</button>'
+            html_apps += '<button data-toggle="tooltip" data-placement="right" data-original-title="' + string.show_install_command + '" id="show-install-command-' + program_id + '" class=" button-command-install" onclick="cmd(\'show-install-command?' + program_id + '\')"><span class="fa fa-angle-down"></span>&nbsp;</button>'
+            html_apps += '<button data-toggle="tooltip" data-placement="right" data-original-title="' + string.hide_install_command + '" id="hide-install-command-' + program_id + '" class=" button-command-install" onclick="cmd(\'hide-install-command?' + program_id + '\')"><span class="fa fa-angle-up"></span>&nbsp;</button>'
+            html_apps += '<div id="show-install-command-' + program_id + '-list" class="tema-modo-texto show-copy-command "><div class="fa fa-terminal"></div> <span onclick="copyToClipboard(\'#copy-command'+program_id+'\')" data-toggle="tooltip" data-placement="bottom" data-original-title="'+ string.copy_install_command +'" id="copy-command'+program_id+'">sudo apt install ' + install_command + '</span> </div>'
+            html_apps += '<button class="' + css_class + '-reinstall button-status button-info button-reinstall" onclick="cmd(\'install-appid?' + program_id + '\')" data-toggle="tooltip" data-placement="bottom" title="' + string.reinstall + '"><span class="fa fa-refresh"></span></button>&nbsp;'
+            html_apps += '<button class="' + css_class + '-undo button-status button-info button-undo" onclick="cmd(\'queue-drop?' + program_id + '\')" style="display:none"><span class="fa fa-undo"></span> ' + string.undo + '</button>'
+            if not self.app_remove_packages == None:
+                html_apps += '<button class="' + css_class + '-remove button-info button-status button-uninstall" onclick="cmd(\'remove-appid?' + program_id + '\')" data-toggle="tooltip" data-placement="bottom" title="' + string.remove + '"><span class="fa fa-trash"></span></button>&nbsp;'
+            else:
+                html_apps += '<button class="' + css_class + '-remove button-info button-status button-uninstall" data-toggle="tooltip" data-placement="bottom" title="' + string.no_remove + '"><span class="fa fa-trash"></span></button>&nbsp;'
+        if not self.app_launch_command == None:
+            if not snap_install:
+                html_apps += '<button style="display: none;" class="' + css_class + '-launch button-status button-info button-start" onclick="cmd(\'launch-appid?' + program_id + '\')"><div class="fa fa-play"></div>&nbsp; ' + string.launch + '</button>&nbsp;</div></div>'
+            else:
+                html_apps += '<button style="display: none;" class="' + css_class + '-launch button-status button-info button-start" onclick="cmd(\'launch-appid?' + program_id + '\')"><div class="fa fa-play"></div>&nbsp; ' + string.launch_apt + '</button>&nbsp;</div></div>'
+        else:
+            html_apps += '<button style="display: none;" class="' + css_class + '-launch button-status button-info button-no-start" data-toggle="tooltip" data-placement="bottom" title="' + string.no_launch + '"><div class="fa fa-ban"></div> ' + string.launch + '&nbsp; </button>&nbsp;</div></div>'
+        
+        # html_apps += '<object data="https://loja.horizon-os.org/category/'+ gross_category +'/' + program_id + '" type="text/plain"\
+        #                width="100%" style="height: 100%"></object>'
+
+        # Aqui são desovados as imagens da galeria dos apps
+        html_apps += '\
+                <div class="parental-rating-content">\
+                    <div class="parental-rating">\
+                        <div class="parental-rating-table">\
+                            <img width="70px" src="'+data_path+'img/parental-rating/'+self.parental_rating+'.svg">\
+                            <div class="parental-rating-text-title">'+self.parental_rating+'</div>\
+                        </div>\
+                        <div class="parental-rating-text-description">'+self.parental_rating_description+'</div>\
+                    </div>\
+                </div>'
+        screenshots = 1
+        
+        screenshots_end = False
+        screenshot_buffer = ''
+        while not screenshots_end:
+            
+            screenshot_img = 'img/applications/screenshots/' + self.app_img + '-' + str(screenshots) + '.jpg'
+            screenshot_path = data_path+screenshot_img.replace('.svg','').replace('.png','')
+            if os.path.exists(screenshot_path):
+                screenshot_buffer = screenshot_buffer + '\
+                <a class="lightbox" href="#' + self.app_img + str(screenshots) + '">\
+                <img src="' + screenshot_path + '" class="screenshot"/></a>'
+
+                screenshot_full = '<div class="lightbox-target lightbox-close" id="' + self.app_img + str(screenshots) + '">\
+                <div class="lightbox-target-img-box"><img src="' + screenshot_path + '" /></div>\
+                <a class="lightbox-close" alt="Fechar" href="#"></a></div>'
+            
+                app.update_page('#imagespawn', 'append', screenshot_full)
+            
+                screenshots = screenshots + 1
+            else:
+                screenshots_end = True
+
+        
+        
+        if screenshots == 1:
+            html_apps += '<div  class="no-screenshot-content screenshot-content-'+program_id+'" style="display: block;">'
+            screenshot_buffer = '\
+                <div  class="no-screenshots-info-icon fa fa-image"></div>\
+                <div class="no-screenshots-info">\
+                    Desculpe, não foi encontrado capturas de telas para este aplicativo/Programa!</div>'
+            html_apps += '<tr>' + screenshot_buffer + '</tr>'
+            html_apps += '</div>'
+        
+        else:
+            html_apps += '<div  class="screenshot-content screenshot-content-'+program_id+'" style="display: block;">'
+            html_apps += '<tr><td>' + screenshot_buffer + '</td></tr>'
+
+            html_apps += '</div>'
+            html_apps += '<button class="button-screenshot button-next-screenshot" onclick="cmd(\'next-gallery?' + program_id + '\')">&#8250;</button>'
+            html_apps += '<button class="button-screenshot button-previous-screenshot" onclick="cmd(\'previous-gallery?' + program_id + '\')">&#8249;</button>'
+        html_apps += '<span class="loja-texto-descricao "><div class="text-info-apps">' + self.app_description + '</div>'
+        
+        html_apps += '<p class="text-right">'
+        if not self.app_alternate_to == None:
+            html_apps += '<ul><li class="' + css_class + '-text"><b>' + string.alternate_to + ' </b><i>' + self.app_alternate_to + '</i></li></ul>'
+        html_apps += '<p class="text-right">'
+        html_apps += '</span><div>'
+        
+       ## Determinar sequência de caracteres para licença
+        if self.app_open_source:
+            license_string = _('Código aberto')
+        else:
+            license_string = _('Proprietário')
+
+        
+
+        ## Determinar plataformas suportadas
+        platform_string = ''
+        for arch in self.app_arch.split(','):
+            if arch == 'i386':
+                platform_string += '<span class="i386"><span class="fa fa-laptop"></span> 32-bit</span> &nbsp;&nbsp;'
+            elif arch =='amd64':
+                platform_string += '<span class="amd64"><span class="fa fa-laptop"></span> 64-bit</span> &nbsp;&nbsp;'
+            elif arch =='armhf':
+                platform_string += '<span class="armhf"><span class="fa fa-tv"></span> aarch32 (ARMv7)</span> &nbsp;&nbsp;'
+            elif arch =='powerpc':
+                platform_string += '<span class="powerpc"><span class="fa fa-desktop"></span> PowerPC</span> &nbsp;&nbsp;'
+
+        ## Add Android / iOS app links if necessary.
+        if not self.app_url_android == None:
+            platform_string += '<button onclick="cmd(\'link?' + self.app_url_android + '\')"><span class="fa fa-android"></span> Android</button> &nbsp;&nbsp;'
+
+
+
+        if not self.app_url_ios == None:
+            platform_string += '<button onclick="cmd(\'link?' + self.app_url_ios + '\')"><span class="fa fa-apple"></span> iOS</button> &nbsp;&nbsp;'
+
+        ## Adicione detalhes sobre a fonte deste arquivo.
+        try:
+            preinstall = dynamicapps.index[category][program_id]['pre-install']
+            codenames = list(preinstall.keys())
+            target = None
+            for name in codenames:
+                if name == systemstate.codename:
+                    target = name
+                    break
+            if not target:
+                    target = 'all'
+
+            methods = preinstall[target]['method'].split('+')
+            self.source_info = []
+            if len(methods) > 1:
+                multiple_sources = True
+            else:
+                multiple_sources = False
+
+            for method in methods:
+                if method == 'skip':
+                    self.source_info.insert(0, source_skip)
+
+                elif method == 'partner-repo':
+                    self.source_info.insert(0, source_partner)
+
+                elif method == 'multiverse-repo':
+                    self.source_info.insert(0, source_multiverse)
+
+                elif method == 'ppa':
+                    ppa = preinstall[target]['enable-ppa']
+                    ppa_author = ppa.split(':')[1].split('/')[0]
+                    ppa_archive = ppa.split(':')[1].split('/')[1]
+                    self.source_info.insert(0, source_ppa + ' <button onclick="cmd(\'link?https://launchpad.net/~' + ppa_author + '/+archive/ubuntu/' + ppa_archive + '\')">' + ppa + '</button>')
+
+                elif method == 'manual':
+                    apt_source = ''.join(preinstall[target]['apt-sources'])
+                    manual_text = source_manual + ' ' + string.unknown
+                    for substring in apt_source.split(' '):
+                        if substring[:4] == 'http':
+                            apt_source = substring.replace('OSVERSION',preinstallation.os_version).replace('CODENAME',preinstallation.codename)
+                            manual_text = source_manual + ' ' + apt_source
+                            break
+                    self.source_info.insert(0, manual_text)
+        except:
+            dbg.stdout('Apps', 'Failed to process pre-configuration for: ' + program_id, 0, 1)
+            self.source_info = [string.unknown]
+
+        
+        ## Adicione detalhes sobre a fonte deste arquivo....
+        html_apps += '<table class="tema-modo-texto more-details table table-striped">'
+
+        
+
+        html_apps += '<tr><th>' + string.license + '</th><td>' + license_string + '</td></tr>'
+        html_apps += '<tr><th>' + string.platform + '</th><td>' + platform_string + '</td></tr>'
+        html_apps += '<tr><th>' + string.category + '</th><td>' + self.app_subcategory + '</td></tr>'
+
+        ## Adicione um URL de site, se houver um.
+        if self.app_url_info:
+            html_apps += '<tr><th>' + string.website + '</th><td><button onclick="cmd(\'link?' + self.app_url_info + '\')">' + self.app_url_info + '</button></td></tr>'
+
+        ## Adicione a fonte para este aplicativo.
+        if multiple_sources:
+            html_apps += '<tr><th>' + string.source + '</th><td><ul>'
+            for item in self.source_info:
+                html_apps += '<li>' + item + '</li>'
+            html_apps += '</td></tr></ul>'
+        else:
+            html_apps += '<tr><th>' + string.source + '</th><td>' + self.source_info[0] + '</td></tr>'
+
+        ## Adicione uma captura de tela, se houver alguma.
+        ## As imagens devem ter o mesmo nome de 'img' e o incremento a partir de 1.
+      
+
+        html_apps += '</table>'
+
+        # End the div's for this application.
+        html_apps += '</div><br><hr class="soften"></div></div></div></div></div>'
+
+        # Append buffer to page
+        
+        app.update_page('#AppsInfo', 'append', html_apps)
+        
+        app.update_page('.info-hide-'+css_class, 'hide')
+
+    def append_app_listing(self, category, program_id, target_element, track_subcategories=False):
+        
+        # Only list the program if it's working.
+        if not self.app_working:
+            dbg.stdout('Apps', ' Skipping unlisted application: ' + self.app_name, 2, 4)
+            return 2
+
+        # Only list the program if it supports the current architecture in use.
+        supported = False
+        supported_arch = False
+        supported_release = False
+        supported_session = False
+
+        for architecture in self.app_arch.split(','):
+            if architecture == systemstate.arch:
+                supported_arch = True
+
+        if self.app_session is not None:
+          for session in self.app_session.split(','):
+            if session == systemstate.session_type :
+              supported_session = True
+        elif self.app_session is None:
+            supported_session = True
+
+        # Only list the program if it's available for the current release.
+        for release in self.app_releases.split(','):
+            if release == systemstate.codename:
+                supported_release = True
+
+        if supported_arch and supported_release and supported_session:
+            supported = True
+
+        if not supported:
+            dbg.stdout('Apps', ' Skipping unsupported: ' + self.app_name + ' (Only for architectures: ' + self.app_arch + ' and releases: ' + self.app_releases + ' and sessio: ' + str(self.app_session) + ')', 2, 4)
+            return 1
+
+        # If the app has made it this far, it can be added to the grid.
+        # CSS breaks with dots (.), so any must become hyphens (-).
+        dbg.stdout('Apps', ' Added: ' + self.app_name, 2, 2)
+        html_buffer = ''
+        css_class = program_id.replace('.','-')
+        css_subcategory = self.app_subcategory.replace(' ','_')
+
+        
+       # Pacotes "normais" que podem ser instalados / removidos pelo usuário.
+        if self.app_open_source and self.app_checked:
+            html_buffer += '<a id="View-'+program_id+'" onclick="cmd(\'view-specific-application?' + program_id + '?'+category+'\');hideButtomCategoryFilter();" class=" app-entry ' + css_class + ' filter-' + css_subcategory + ' checked">'
+        elif self.app_open_source and not self.app_checked:
+            html_buffer += '<a id="View-'+program_id+'" onclick="cmd(\'view-specific-application?' + program_id + '?'+category+'\');hideButtomCategoryFilter();" class=" app-entry ' + css_class + ' filter-' + css_subcategory + ' not-checked">'
+        elif not self.app_open_source and self.app_checked:
+            html_buffer += '<a id="View-'+program_id+'" onclick="cmd(\'view-specific-application?' + program_id + '?'+category+'\');hideButtomCategoryFilter();" class=" app-entry ' + css_class + ' filter-' + css_subcategory + ' checked proprietary">'
+        elif not self.app_open_source and not self.app_checked:
+            html_buffer += '<a id="View-'+program_id+'" onclick="cmd(\'view-specific-application?' + program_id + '?'+category+'\');hideButtomCategoryFilter();" class=" app-entry ' + css_class + ' filter-' + css_subcategory + ' not-checked proprietary">'
+        
+        
+        banner_image_program_select = data_path + '/img/applications/banner/'+ str(self.app_img)
+        icon_image_program_select = data_path + '/img/applications/icon/'+ str(self.app_img)
+        not_icon_image_program_select = data_path + '/img/definitions/not-image.svg'
+        
+        if os.path.isfile(banner_image_program_select):
+            html_buffer += '<img class="imagem-app"  src="' + banner_image_program_select + '">'
+        elif os.path.isfile(icon_image_program_select):
+            html_buffer += '<img class="imagem-app-background"  src="' + data_path + 'img/applications/banner/not-scaled.png">'
+            html_buffer += '<img class="imagem-app-not-scaled-icon" width="30%" src="' + icon_image_program_select + '">'
+        else:
+            html_buffer += '<img class="imagem-app-background"  src="' + data_path + 'img/applications/banner/not-scaled.png">'
+            html_buffer += '<img class="imagem-app-not-scaled-icon" width="30%" src="' + not_icon_image_program_select + '">'
+
+        html_buffer += '<p><b class="' + css_class + '-text text-program-select">' + self.app_name + '</b></p>'
+        html_buffer += '<span class="fa fa-check-circle installed-check ' + css_class + '-remove"> Instalado</span>'
+        html_buffer += '<span class="fa fa-times-circle not-installed-check  ' + css_class + '-install"> Não Instalado</span>'
+        # Quando o modo de fila estiver ativado, mostre o texto "plano" aqui.
+        
+        html_buffer += '<div class="fa fa-clock-o install-check ' + css_class + '-wait" hidden"> </div></div>'
+
+        html_buffer += '</a>'
+        # Verifique os pacotes "Upgrade" se o PPA já tiver sido adicionado.
+        self.upgraded = False
+        if self.app_upgrade_only:
+            try:
+                listname = dynamicapps.index[category][program_id]['pre-install']['all']['source-file']
+                listname = listname.replace('OSVERSION',preinstallation.os_version).replace('CODENAME',preinstallation.codename)
+                if os.path.exists(os.path.join('/', 'etc', 'apt', 'sources.list.d', listname+'.list')):
+                    self.upgraded = True
+                    html_buffer += '<h5 class="' + css_class + '-text"><span class="fa fa-check-circle"></span> ' + string.upgraded + '</h5>'
+            except:
+                pass
+        
+        
+        app.update_page(target_element, 'append', html_buffer)
+        app.update_page('.info-hide-'+css_class, 'hide')
+        ##print(html_buffer)
+    
+    def append_profile(self, webkit):
+        
+        profile_buffer = '<img style="width: 26px;margin-top: -18px;border-radius: 15px;" src="'+ os.path.join(os.path.expanduser('~')) +'/.face" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Perfil" >'
+        app.update_page('#profile-picture-header', 'html', profile_buffer)
+
+    
+
+    def populate_news(self, webkit):
+        
+        try:
+            dbg.stdout('------------------------------------------------------------', '', 0)
+            dbg.stdout('Noticias', ' Lendo as noticias...', 0, 3)
+            
+            json_path=local_home_user + '/.config/loja-horizon-os/Dados/Noticias-da-Loja.json'
+           
+            with open(json_path) as data_file:
+                self.news = json.load(data_file)
+        except Exception as e:
+            json_path = root_folder+'/Dados/Noticias-da-Loja.json'
+
+            with open(json_path) as data_file:
+                self.news = json.load(data_file)
+            dbg.stdout('Noticias', ' Ocorreu um erro ao usar as noticias atuais!', 0, 1)
+            dbg.stdout('Noticias', ' Usando as noticias padrão do sistema...', 0, 3)
+            dbg.stdout('Noticias', "------------------------------------------------------------", 2, 1)
+            dbg.stdout('Noticias', "Exception:", 2, 1)
+            dbg.stdout('Noticias', str(e), 2, 1)
+            dbg.stdout('Noticias', "------------------------------------------------------------", 2, 1)
+            
+
+
+        # Categorias brutas → Categorias traduzíveis para humanos
+        def get_category_string(category):
+            
+            if category == "SnapInstall":
+                return string.snap_install
+            if category == "Accessories":
+                return string.accessories
+            elif category == "Education":
+                return string.education
+            elif category == "Games":
+                return string.games
+            elif category == "Graphics":
+                return string.graphics
+            elif category == "Internet":
+                return string.internet
+            elif category == "Office":
+                return string.office
+            elif category == "Programming":
+                return string.programming
+            elif category == "Media":
+                return string.media
+            elif category == "SysTools":
+                return string.systools
+            elif category == "Servers":
+                return string.servers
+            else:
+                # Includes "Unlisted"
+                return string.misc
+
+
+        # Começa a gerar o HTML para acrescentar.
+        news_buffer = '<div class="soften">'
+        noticias = ''
+        news_versions = list(self.news.keys())
+        itens_total = 0
+        for title in news_versions:
+            
+
+            # Create "Added" list.
+            try:
+                
+                
+            
+                list_add = self.news[title]['Apps']
+                comment = str(self.news[title]['Comment'])
+                list_add.sort()
+                news_buffer += '<h4 class="noticias-titulos">' + title + '</h4>'
+                news_buffer += '<div class="noticias-comentarios"> ' + comment + '</div>'
+                news_buffer += '<div class="apps-box">'
+                for item_id in list_add:
+                    css_class = item_id.replace('.','-')
+                    # Extract it's attributes.
+                    try:
+                        
+                        item_name = str(self.get_attribute_for_app(item_id, 'name'))
+                        item_img = str(self.get_attribute_for_app(item_id, 'img'))
+                        item_category_raw = self.get_attribute_for_app(item_id, 'category')
+                        item_category = get_category_string(item_category_raw)
+                        
+                        item_subcategory = str(self.get_attribute_for_app(item_id, 'subcategory'))
+                        item_open_source = self.get_attribute_for_app(item_id, 'open-source')
+                        
+                        
+                        if item_open_source:
+                            news_buffer += '<a id="View-'+item_id+'-news" onclick="cmd(\'view-specific-application?' + item_id + '?'+item_category_raw+'\');hideButtomCategoryFilter();" class="tema-item-select app-entry ' + css_class + '" >'
+                        else:
+                            news_buffer += '<a id="View-'+item_id+'-news" onclick="cmd(\'view-specific-application?' + item_id + '?'+item_category_raw+'\');hideButtomCategoryFilter();" class="tema-item-select app-entry ' + css_class + ' proprietary" >'
+                        
+                        
+                        image_program_select_news = data_path + '/img/applications/banner/'+item_img
+        
+                        if os.path.isfile(image_program_select_news):
+                            news_buffer += '<img class="imagem-app"  src="' + image_program_select_news + '">'
+                        else:
+                            
+                            news_buffer += '<img class="imagem-app-background"  src="' + data_path + 'img/applications/banner/not-scaled.png">'
+                            news_buffer += '<img class="imagem-app-not-scaled-icon" width="30%" src="' + data_path + 'img/applications/icon/' + item_img + '">'
+
+                        
+
+                        news_buffer += '<p><b class="' + css_class + '-text text-program-select">' + item_name + '</b></p>\
+                                    <span class="fa fa-check-circle installed-check ' + css_class + '-remove"> Instalado</span>\
+                                    <div class="fa fa-clock-o install-check ' + css_class + '-wait" hidden"> </div>\
+                                    <div class="fa fa-times-circle not-installed-check ' + css_class + '-install" hidden> Não Instalado</div></a>'
+                        itens_total = itens_total +1
+                    except Exception as e:
+                        dbg.stdout('Apps', 'Failed to process news item: ' + item_id, 0, 1)
+                        dbg.stdout('Apps', 'Exception: ' + str(e), 2, 1)
+                news_buffer += '</div>'
+                
+            except:
+                pass
+
+            try:
+                news_buffer_gallery = ''
+                list_add = self.news[title]['Apps_Galery']
+                comment = str(self.news[title]['Comment'])
+                
+                
+                
+                
+                
+                for item_id in list_add:
+                    css_class = item_id.replace('.','-')
+                    #print(css_class)
+                    # Extract it's attributes.
+                    try:
+                        item_name = str(self.get_attribute_for_app(item_id, 'name'))
+                        item_img = str(self.get_attribute_for_app(item_id, 'img'))
+                        
+                        item_category_raw = self.get_attribute_for_app(item_id, 'category')
+                        item_category = get_category_string(item_category_raw)
+                        item_subcategory = str(self.get_attribute_for_app(item_id, 'subcategory'))
+                        item_open_source = self.get_attribute_for_app(item_id, 'open-source')
+                        item_description_get_info = self.get_attribute_for_app(item_id, 'description-get-info')
+                        item_img = item_img.replace('.svg','.png')
+                        
+
+                        
+                        
+                        image_location =  data_path + 'img/applications/gallery-news/' + item_img 
+                        #print(image_location)
+                        if os.path.isfile(image_location):
+                            itens_total = itens_total + 1
+                            news_buffer_gallery += '<div onclick="cmd(\'view-specific-application?' + item_id + '?'+item_category_raw+'\');hideButtomCategoryFilter();" id="View-'+item_id+'-news-gallery"  class="mySlides ">'
+                            news_buffer_gallery += '<section class="main-move" style="background-image: url(' + data_path + 'img/applications/gallery-news/' + item_img + ');">\
+                            <div class="container-text">\
+                            <h2 class="apps-title">'+item_name+'</h2>\
+                            <p class="apps-sinopse">'+item_description_get_info+'</p>  \
+                            </section>\
+                            </div>'
+                                                    
+                                  
+                    
+                              
+                    except Exception as e:
+                        dbg.stdout('Apps', 'Failed to process news item: ' + item_id, 0, 1)
+                        dbg.stdout('Apps', 'Exception: ' + str(e), 2, 1)
+                news_buffer_gallery += '<div class="prev" onclick="plusSlides(-1)">◀</div>\
+                                        <div class="next" onclick="plusSlides(1)">▶</div>'
+               
+            except:
+                pass
+
+            news_buffer += '</div>'
+        app.update_page('#navigation-news  .notif', 'html', str(itens_total))
+        app.update_page('#News-Content', 'html', news_buffer)
+        app.update_page('#populate', 'html', noticias)
+        app.update_page('#gallery-spawn', 'html', news_buffer_gallery)
+        dbg.stdout('Noticias', ' Lidas com sucesso!', 0, 3)
+        dbg.stdout('------------------------------------------------------------', '', 0)
+
+    def populate_featured_apps(self, webkit):
+        dbg.stdout('Apps', '---- Populating Featured Apps Grid ----', 2, 0)
+        # Randomly generate a list of apps to feature if supported on this architecture.
+        possible_apps = []
+        for category in self.all_categories:
+            category_items = list(self.index[category].keys())
+            for program_id in category_items:
+                if systemstate.arch in self.index[category][program_id]['arch']:
+                    possible_apps.append(self.index[category][program_id]['img'])
+
+        random.shuffle(possible_apps)
+        for no in range(1,18):
+            random_img = possible_apps[no]
+            dbg.stdout('Apps', str(no) + '. ' + random_img, 2, 4)
+            app.update_page('#featured-grid', 'append', '<img src="' + data_path + 'img/applications/icon/' + random_img + '" id="appIcon' + str(no) + '" class="grid-hidden" />')
+        webkit.run_js("initGrid();")
+        dbg.stdout('Apps', '------------------', 2, 4)
+    
+    def populate_categories(self, webkit):
+        
+        dynamicapps.append_profile(self)
+        dynamicapps.populate_news(self)
+        ''' List all of the applications supported on the current architecture. '''
+        codename = subprocess.run(['lsb_release','-cs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+        str_nothing_here = _("Desculpe, a Loja Horizon OS não pode apresentar nenhum software desta categoria que seja compatível para este sistema com o 'codename " + codename +"'")
+        total_added = 0
+        total_skipped = 0
+        total_unsupported = 0
+        total_softwares = 0
+
+        # Don't attempt to continue if the index is missing/incorrectly parsed.
+        if not self.index:
+            dbg.stdout('Apps', 'Índice do aplicativo não carregado. Não é possível preencher categorias.', 0, 1)
+            return
+        
+        # Get the app data from each category and list them.
+        for category in self.all_categories:
+            dbg.stdout('Apps', ' ------ Processing: ' + category + ' ------', 2, 0)
+            category_total = 0
+            # Convert to a list to work with. Sort alphabetically.
+            category_items = list(self.index[category].keys())
+            category_items.sort()
+            
+            # Keep a count of apps in case there are none to list.
+            apps_here = 0
+
+            # Keep track of the subcategories of the apps in this category so we can filter them.
+            self.subcategories = []
+
+            # Enumerate each program in this category.
+            
+            for program_id in category_items:
+                
+                self.set_app_info(category, program_id)
+                ##return_code = self.append_app_listing_full(category, program_id, '#AppsInfo')
+                return_code = self.append_app_listing_installed(category, program_id, '#AppsInfoInstalledSpawn', total_softwares)
+                
+                return_code = self.append_app_listing(category, program_id, '#Apps'+category)
+                
+
+                # Successfully added application
+                if return_code == 1:
+                    total_unsupported = total_unsupported + 1
+                elif return_code == 2:
+                    total_skipped = total_skipped + 1
+                    
+                else:
+                    # Keep track of how many apps added.
+                    apps_here = apps_here + 1
+                    total_added = total_added + 1
+                    # Add to filters.
+                    self.subcategories.append(self.app_subcategory)
+                    category_total = category_total + 1
+            
+
+            # Display a message if there is nothing for this category.
+            if apps_here == 0:
+                app.update_page('#'+category, 'append', "<p class='center'><span class='fa fa-warning'></span>&nbsp; " + str_nothing_here + "</p>")
+
+            # Post actions to page
+            ## Colour the architecture currently in use.
+            app.update_page('.'+systemstate.arch, 'addClass', 'arch-in-use')
+
+            # Process filters for this category.
+            filters = list(set(self.subcategories))
+            filters.sort()
+            for string in filters:
+                css_subcategory = string.replace(' ','-')
+                app.update_page('#Filter-'+category, 'append', '<button class="button-select-filter" onclick="cmd(\'filter-apps?' + css_subcategory + '?\');">' + string + '</button>')
+            
+            app.update_page('#'+category+'Btn  .notif', 'html', str(category_total))                                                      
+
+        # "Stats for nerds"
+        total_apps = total_added + total_skipped + total_unsupported
+        
+        dbg.stdout('Apps', '----------------------------------------', 1, 4)
+        dbg.stdout('Apps', 'Applications added: ' + str(total_added), 1, 4)
+        dbg.stdout('Apps', 'Applications unsupported on this architecture: ' + str(total_unsupported), 1, 4)
+        dbg.stdout('Apps', 'Applications that are broken or not suitable for inclusion: ' + str(total_skipped), 1, 4)
+        dbg.stdout('Apps', 'Total number of applications: ' + str(total_apps), 1, 4)
+        dbg.stdout('Apps', '----------------------------------------', 1, 4)
+
+    
+    def modify_app(self, webkit, action, program_id):
+        ''' Installs, removes or upgrades an application. '''
+        # Either:
+        #   -   Queue the application for install/remove later. Only in Boutique.
+        #   -   Perform a one click operation.
+        #   -   Upgrade a package (on an individual basis)
+        if queue.is_enabled() and app.current_page == 'index.html' or app.current_page == 'first-login.html'  and not action == "upgrade":
+            queue.add_item(program_id, action)
+
+        else:
+            # Indicate changes are in progress.
+            css_class = program_id.replace('.','-')
+            app.update_page('.'+css_class+'-applying', 'show')
+            app.update_page('.'+css_class+'-launch', 'hide')
+            app.update_page('.'+css_class+'-install', 'hide')
+            app.update_page('#hide-install-command-'+program_id+'', 'hide')
+            app.update_page('#show-install-command-'+program_id+'', 'hide')
+            app.update_page('#show-install-command-'+program_id+'-list', 'hide')
+            app.update_page('.'+css_class+'-reinstall', 'hide')
+            app.update_page('.'+css_class+'-remove', 'hide')
+            app.update_page('.'+css_class+'-upgrade', 'hide')
+            app.update_page('.'+css_class+'-text', 'css', 'color', '#000')
+
+            # Asynchronous apt process - perform any pre-installations.
+            if action == 'install':
+                app.update_page('.'+css_class+'-applying-status', 'html', string.install_text)
+                preinstallation.process_packages(program_id, 'install')
+            elif action == 'remove':
+                app.update_page('.'+css_class+'-applying-status', 'html', string.remove_text)
+                preinstallation.process_packages(program_id, 'remove')
+            elif action == 'upgrade':
+                app.update_page('.'+css_class+'-applying-status', 'html', string.upgrade_text)
+                preinstallation.process_packages(program_id, 'upgrade')
+            else:
+                dbg.stdout('Apps', 'An unknown action was requested.', 0, 1)
+
+            # Refresh the page to reflect changes (if any).
+            systemstate.apt_cache.close()
+            systemstate.apt_cache = apt.Cache()
+            self.update_app_status(webkit, program_id)
+
+    def is_app_installed(self, program_id):
+        main_package = self.get_attribute_for_app(program_id, 'main-package')
+        try:
+            if systemstate.apt_cache[main_package].is_installed:
+                dbg.stdout('Apt', 'Package "' + main_package + '" is present.', 1, 4)
+                return True
+            else:
+                dbg.stdout('Apt', 'Package "' + main_package + '" is not installed.', 1, 4)
+                return False
+        except:
+            dbg.stdout('Apt', 'Package "' + main_package + '" not available. Considered not installed.', 1, 4)
+            return False
+
+    def update_app_status(self, webkit, program_id):
+        ''' Update the web page for an individual application. '''
+
+        # Don't attempt to continue if the index is missing/incorrectly parsed.
+        if not self.index:
+            dbg.stdout('Apps', 'Application index not loaded. Cannot update application status.', 0, 1)
+            return
+        
+        # Check whether the application is installed or not.
+        installed = self.is_app_installed(program_id)
+        main_package = self.get_attribute_for_app(program_id, 'main-package')
+
+        # Replace any dots with dashes, as they are unsupported in CSS.
+        css_class = program_id.replace('.','-')
+
+        # Show/hide other buttons for this application.
+        app.update_page('.'+css_class+'-applying', 'hide')
+        app.update_page('.'+css_class+'-undo', 'hide')
+        app.update_page('.'+css_class+'-plan', 'slideUp', 'fast')
+        app.update_page('.'+css_class+'-plan', 'removeClass', 'install')
+        app.update_page('.'+css_class+'-plan', 'removeClass', 'remove')
+        app.update_page('.'+css_class+'-wait', 'slideUp', 'fast')
+        app.update_page('.'+css_class+'-wait', 'removeClass', 'install')
+        app.update_page('.'+css_class+'-wait', 'removeClass', 'remove')
+
+        if installed:
+            app.update_page('.'+css_class+'-launch', 'show')
+            app.update_page('.'+css_class+'-install', 'hide')
+            app.update_page('.'+css_class+'-reinstall', 'show')
+            app.update_page('.'+css_class+'-remove', 'show')
+            app.update_page('.'+css_class+'-upgrade', 'show')
+            app.update_page('#'+css_class+'-sort', 'addClass', 'sort')
+            app.update_page('#hide-install-command-'+program_id+'', 'hide')
+            app.update_page('#show-install-command-'+program_id+'', 'hide')
+            app.update_page('#show-install-command-'+program_id+'-list', 'hide')
+        else:
+            app.update_page('.'+css_class+'-launch', 'hide')
+            app.update_page('.'+css_class+'-install', 'show')
+            app.update_page('.'+css_class+'-reinstall', 'hide')
+            app.update_page('.'+css_class+'-remove', 'hide')
+            app.update_page('.'+css_class+'-upgrade', 'hide')
+            app.update_page('#'+css_class+'-sort', 'removeClass', 'sort')
+            app.update_page('#hide-install-command-'+program_id+'', 'hide')
+            app.update_page('#show-install-command-'+program_id+'', 'show')
+            app.update_page('#show-install-command-'+program_id+'-list', 'hide')
+            
+    def update_all_app_status(self, webkit):
+        ''' Update the webpage whether all indexed applications are installed or not. '''
+
+        # Don't attempt to continue if the index is missing/incorrectly parsed.
+        if not self.index:
+            dbg.stdout('Apps', 'Application index not loaded. Cannot update page.', 0, 1)
+            return
+
+        # Enumerate each program and check each one from the index.
+        dbg.stdout('Apps', '---- Verificando o cache para aplicativos instalados ----', 2, 0)
+        for category in self.all_categories:
+            category_items = list(self.index[category].keys())
+            for program_id in category_items:
+                main_package = self.index[category][program_id]['main-package']
+                # Only check if it's supported on this architecture.
+                if systemstate.arch in self.index[category][program_id]['arch']:
+                    self.update_app_status(webkit, program_id)
+                else:
+                    continue
+        dbg.stdout('Apps', '----------------------------------------', 2, 0)
+
+    def get_attribute_for_app(self, requested_id, attribute):
+        ''' Retrieves a specific attribute from a listed application,
+            without specifying its category. '''
+        for category in list(self.index.keys()):
+            category_items = list(self.index[category].keys())
+            for program_id in category_items:
+                if program_id == requested_id:
+                    if not attribute == 'category':
+                        return self.index[category][program_id][attribute]
+                    else:
+                        return category
+
+    def launch_app(self, appid):
+        ''' Launch an application directly from Loja Horizon OS '''
+        program_name = self.get_attribute_for_app(appid, 'name')
+
+        program_command = self.get_attribute_for_app(appid, 'launch-command')
+        dbg.stdout('Apps', 'Lançamento "' + program_name + '... " (Comando Executado: "' + program_command + '").', 0, 3)
+        try:
+            subprocess.Popen(program_command.split(' '))
+        except:
+            dbg.stdout('Apps', 'Falha na execução: ' + program_command, 0, 1)
+            title = string.loja + _("| Erro ao executar PROGRAM_NAME").replace('PROGRAM_NAME', program_name)
+            ok_label = _("OK")
+            text_error = _("Ocorreu um erro ao iniciar PROGRAM_NAME. Por favor, considere reinstalar o aplicativo.").replace('PROGRAM_NAME', program_name) + \
+                            '\n\n' + _("Comando Executado:") + ' "' + program_command + '"'
+            if which('zenity'):
+                dialog_app = which('zenity')
+            elif which('yad'):
+                dialog_app = which('yad')
+            else:
+                dialog_app = None
+
+            if dialog_app is not None:
+                messagebox = subprocess.Popen([dialog_app,
+                            '--error',
+                            '--title=' + title,
+                            "--text=" + text_error,
+                            "--ok-label=" + ok_label,
+                            '--width=400',
+                            '--window-icon=error',
+                            '--timeout=15'])
+
+    def toggle_non_free(self):
+        # Toggles visibility of non-free software.
+        if self.hide_non_free:
+            for element in ['#nonFreeCheckBox', '#pref-non-free']:
+                app.update_page(element, 'removeClass', 'fa-square')
+                app.update_page(element, 'addClass', 'fa-check-square')
+        else:
+            for element in ['#nonFreeCheckBox', '#pref-non-free']:
+                app.update_page(element, 'addClass', 'fa-square')
+                app.update_page(element, 'removeClass', 'fa-check-square')
+    def toggle_non_checking(self):
+        # Toggles visibility of non-checking software.
+     
+        if self.hide_non_checking:
+            for element in ['.pref-non-checking']:
+                app.update_page(element, 'removeClass', 'fa-square')
+                app.update_page(element, 'addClass', 'fa-check-square')
+                app.update_page('#info-checking', 'show')
+        else:
+            for element in ['.pref-non-checking']:
+                app.update_page(element, 'addClass', 'fa-square')
+                app.update_page(element, 'removeClass', 'fa-check-square')
+                app.update_page('#info-checking', 'hide')
+    
+
+    def apply_filter_checked(self, webkit, filter_value, nonchecked_toggle=False):
+        sub_css_class = 'filter-' + filter_value
+
+    
+        if nonchecked_toggle:
+            # Toggle the option on/off
+            if self.hide_non_checking:
+                self.hide_non_checking = False
+                pref.set('hide_non_checking', False)
+            else:
+                self.hide_non_checking = True
+                pref.set('hide_non_checking', True)
+            self.toggle_non_checking()
+
+        if filter_value == 'none':
+            dbg.stdout('Apps', 'Filter reset.', 1, 4)
+            app.update_page('.app-entry', 'show')
+            if self.hide_non_checking:
+                dbg.stdout('Apps', 'Hiding all proprietary software.', 1, 4)
+                app.update_page('.not-checked', 'hide')
+            return
+        else:
+            dbg.stdout('Apps', 'Applying filter: ' + filter_value, 1, 4)
+            app.update_page('.app-entry', 'hide')
+
+            for category in self.all_categories:
+                category_items = list(self.index[category].keys())
+                for program_id in category_items:
+                    app_checked = self.index[category][program_id]['checking']
+                    
+                    # If the application is closed source and we're told to hide it.
+                    if not app_checked and self.hide_non_checking:
+                        app.update_page('.' + program_id.replace('.','-'), 'hide')
+                        continue
+                    
+                    if self.app_subcategory.replace(' ','-') == filter_value:
+                        app.update_page('.' + program_id.replace('.','-'), 'show')
+
+                    # Only show if subcategory matches.
+               
+
+    def apply_filter(self, webkit, filter_value, nonfree_toggle=False, nonchecked_toggle=False):
+        sub_css_class = 'filter-' + filter_value
+
+        if nonfree_toggle:
+            # Toggle the option on/off
+            if self.hide_non_free:
+                self.hide_non_free = False
+                pref.set('hide_non_free', False)
+            else:
+                self.hide_non_free = True
+                pref.set('hide_non_free', True)
+            self.toggle_non_free()
+        
+        if nonchecked_toggle:
+            # Toggle the option on/off
+            if self.hide_non_checking:
+                self.hide_non_checking = False
+                pref.set('hide_non_checking', False)
+            else:
+                self.hide_non_checking = True
+                pref.set('hide_non_checking', True)
+            self.toggle_non_checking()
+
+        if filter_value == 'none':
+            dbg.stdout('Apps', 'Filter reset.', 1, 4)
+            app.update_page('.app-entry', 'show')
+            if self.hide_non_free:
+                dbg.stdout('Apps', 'Hiding all proprietary software.', 1, 4)
+                app.update_page('.proprietary', 'hide')
+            if self.hide_non_checking:
+                dbg.stdout('Apps', 'Hiding all proprietary software.', 1, 4)
+                app.update_page('.not-checked', 'hide')
+            return
+        else:
+            dbg.stdout('Apps', 'Applying filter: ' + filter_value, 1, 4)
+            app.update_page('.app-entry', 'hide')
+
+            for category in self.all_categories:
+                category_items = list(self.index[category].keys())
+                for program_id in category_items:
+                    app_subcategory = self.index[category][program_id]['subcategory'].replace(' ','-')
+                    app_open_source = self.index[category][program_id]['open-source']
+                    app_checked = self.index[category][program_id]['checking']
+                    
+                    # If the application is closed source and we're told to hide it.
+                    if not app_open_source and self.hide_non_free and self.hide_non_checking:
+                        app.update_page('.' + program_id.replace('.','-'), 'hide')
+                        continue
+                    
+                    if app_open_source and not self.hide_non_free and self.hide_non_checking:
+                        app.update_page('.' + program_id.replace('.','-'), 'hide')
+                        continue
+
+                    # Only show if subcategory matches.
+                    if app_subcategory.replace(' ','-') == filter_value:
+                        app.update_page('.' + program_id.replace('.','-'), 'show')
+
+    
+
+    
+    def perform_search(self, webkit, terms):
+        app.update_page('#search-empty', 'hide')
+        app.update_page('#search-total', 'hide')
+        # Do not allow blank searches.
+        if terms == '':
+            app.update_page('#search-results', 'fadeIn')
+            app.update_page('#search-results', 'html', '<div class="alert alert-danger"><h5>' + string.search_begin + '</h5></div>')
+            return
+
+        # Do not search if less than 3 characters
+        if len(terms) < 3:
+            app.update_page('#search-results', 'fadeIn')
+            app.update_page('#search-results', 'html', '<div class="alert alert-danger"><h5>' + string.search_short + '</h5></div>')
+            return
+
+        # Start Searching!
+        dbg.stdout('Apps', 'Searching for: ' + terms, 1, 4)
+        app.update_page('#navigation-sub-title', 'html', string.search + ': ' + terms)
+        terms.lower()
+        app.update_page('#search-results', 'hide')
+        app.update_page('#search-results', 'html', ' ')
+        total_results = 0
+        hidden_results = 0
+        matches = []
+        tag_regex = re.compile(r'<[^>]+>')
+        for category in self.all_categories:
+            app_id = list(self.index[category].keys())
+            app_id.sort()
+
+            # Gather sources to search for each app in this category
+            # Also search case insensitive
+            for program_id in app_id:
+                name = self.index[category][program_id]['name'].lower()
+                desc = self.index[category][program_id]['description']
+                desc = ' '.join(desc).lower()
+                desc = tag_regex.sub('', desc)
+                alto = str(self.index[category][program_id]['alternate-to']).lower()
+                program = {
+                    'id': program_id,
+                    'name': name,
+                    'description': desc,
+                    'alto': alto
+                }
+
+                rankings = {
+                    'name': 4,
+                    'description': 3,
+                    'id': 2,
+                    'alto': 1
+                }
+
+                rank = 0
+                app_matched = False
+                for key, value in program.items():
+                    matched_results = []
+                    for term in terms.split(' '):
+                        matched_results.append(value.find(term))
+
+                    for status in matched_results:
+                        if status != -1:
+                            app_matched = True
+                            rank = rank + rankings.get(key, 1)
+
+                if (app_matched):
+                    matches.append({
+                        'category': category,
+                        'program_id': program_id,
+                        'rank': rank
+                    })
+
+        for match in (sorted(matches, key=lambda m: m['rank'], reverse=True)):
+            category = match['category']
+            program_id = match['program_id']
+
+            # Skip this if user doesn't want non-free software.
+            oss = self.index[category][program_id]['open-source']
+            if self.hide_non_free and not oss:
+                hidden_results += 1
+                continue
+
+            # Display result to user, if it works on the system (return code 0)
+            self.set_app_info(category, program_id)
+            return_code = self.append_app_listing(category, program_id, '#search-results')
+            if not return_code == 1 or return_code == 2:
+                dynamicapps.update_app_status(self, program_id)
+                total_results = total_results + 1
+
+
+        if total_results == 0:
+            app.update_page('#search-empty', 'fadeIn')
+            if hidden_results > 0:
+                app.update_page('#search-retry-nonfree', 'show')
+            else:
+                app.update_page('#search-retry-nonfree', 'hide')
+        else:
+            app.update_page('#search-results', 'fadeIn')
+            app.update_page('#search-total', 'fadeIn')
+            app.update_page('#search-total', 'html', '<b>' + str(total_results) + ' ' + _("aplicativos encontrados.") + '</b>')
+
+            # If non-free filtering is enabled, inform of how many apps were hidden.
+            if self.hide_non_free and hidden_results > 0:
+                app.update_page('#search-total', 'append', '&nbsp;<button onclick="searchAgainNonFree()">' + str(hidden_results) + ' ' + _("proprietary applications are hidden.") + '</button>')
+            if self.hide_non_checking and hidden_results > 0:
+                app.update_page('#search-total', 'append', '&nbsp;<button onclick="searchAgainNonFree()">' + str(hidden_results) + ' ' + _("proprietary applications are hidden.") + '</button>')
+    def populate_repos(self):
+        app.webkit.run_js('switchCategory("#Preferences", "#PrettyRepos", "' + _("Software Sources") + '", true)')
+        app.update_page('#repo-table', 'hide')
+        app.update_page('#repo-table', 'html', ' ')
+        app.update_page('#repo-busy', 'slideDown')
+        
+        
+        
+
+
+        def repo_thread(self):
+            raw_repo = run_external_command("egrep -v '^#|^ *$' /etc/apt/sources.list /etc/apt/sources.list.d/*", True)
+            html_buffer = ' '
+            url_index = {}
+
+            # Gather a list of applications and their URLs.
+            categories = list(self.index.keys())
+            categories += ["KnownRepos"]
+            for category in categories:
+                items = list(self.index[category].keys())
+                for program_id in items:
+                    try:
+                        releases = list(self.index[category][program_id]['pre-install'].keys())
+                    except:
+                        continue
+
+                    for release in releases:
+                        methods = self.index[category][program_id]['pre-install'][release]['method'].split(',')
+                        for method in methods:
+                            url = ""
+
+                            # Extract the URL if an apt source
+                            if method == 'manual' or method == 'ppa+manual':
+                                apt_source_list = str(self.index[category][program_id]['pre-install'][release]['apt-sources'])
+                                apt_source_parts = apt_source_list.split(' ')
+                                for part in apt_source_parts:
+                                    if part.startswith('http'):
+                                        url = part
+                                        url_index[program_id] = url
+                                        continue
+
+                            # Generate Launchpad URL if a PPA
+                            elif method == 'ppa':
+                                ppa = self.index[category][program_id]['pre-install'][release]['enable-ppa']
+                                ppa_author = ppa.split('ppa:')[1].split('/')[0]
+                                ppa_name = ppa.split('ppa:')[1].split('/')[1]
+                                url = "http://ppa.launchpad.net/{0}/{1}/ubuntu".format(ppa_author, ppa_name)
+
+                            else:
+                                continue
+
+                            # Add this to the collection
+                            url_index[program_id] = url
+
+            # Function to add to HTML buffer
+            def add_to_table(software, source, img_path):
+                append_this = "<tr><td><img src='" + img_path + "' width='24px' height='24px'/> " + software + "</td><td>" + source + "</td></tr>"
+                return append_this
+
+            # Add table headers
+            headers = '<tr><th style="width:40%">' + string.head_software + '</th><th style="width:60%">' + string.head_source + '</th></tr>'
+            app.update_page('#repo-table', 'append', headers)
+
+            # Add system repositories to the top of the list.
+            sys_icon = trans.res_dir + 'img/logos/ubuntu.png'
+
+            if systemstate.get_system_repository_state('main') == True:
+                html_buffer += add_to_table(string.repo_main, 'main', sys_icon)
+
+            if systemstate.get_system_repository_state('universe') == True:
+                html_buffer += add_to_table(string.repo_universe, 'universe', sys_icon)
+
+            if systemstate.get_system_repository_state('main restricted') == True:
+                html_buffer += add_to_table(string.repo_restricted, 'restricted', sys_icon)
+
+            if systemstate.get_system_repository_state('multiverse') == True:
+                html_buffer += add_to_table(string.repo_multiverse, 'multiverse', sys_icon)
+
+            if systemstate.get_system_repository_state('partner') == True:
+                html_buffer += add_to_table(string.repo_partner, 'partner', sys_icon)
+
+            # Parse sources list, prevent duplicate URLs.
+            source_urls = {}
+            for line in raw_repo.split('\n'):
+                parts = line.split(' ')
+                list_file = parts[0].split(':deb')[0]
+                url = parts[1]
+
+                # Ignore any saved entries.
+                if list_file[-5:] == '.save':
+                    continue
+
+                # Ignore the file if it's 0 bytes.
+                if not os.path.getsize(list_file) > 0:
+                    continue
+
+                # Ignore if a system or the partner repository.
+                if url.find("ubuntu.com/") != -1:
+                    continue
+                if url.find("canonical.com/") != -1:
+                    continue
+
+                # Except if [arch=amd64] is specified.
+                if url[:4] != 'http':
+                    url = parts[2]
+                    if url[:4] != 'http':
+                        # Give up. Malformed URL or line.
+                        continue
+                    else:
+                        source_urls[url] = 1
+                else:
+                    source_urls[url] = 1
+
+            # Compare programs with the Boutique for pretty icons.
+            source_urls = list(source_urls)
+            source_urls.sort()
+            for url in source_urls:
+                # Initially presume this is outside of the Boutique.
+                software = string.repo_unknown
+                img = 'unknown.png'
+                source = url
+
+                # Is there a match?
+                for program_id in list(url_index.keys()):
+                    if url_index[program_id] == url:
+                        software = dynamicapps.get_attribute_for_app(program_id, 'name')
+                        img = dynamicapps.get_attribute_for_app(program_id, 'img')
+                        source = url
+
+                # Add this to the table.
+                img_path = trans.res_dir + 'img/applications/icon/' + img + ''
+                html_buffer += add_to_table(software, source, img_path)
+
+            # Done - Now append.
+            app.update_page('#repo-table tr:last', 'after', html_buffer)
+            app.update_page('#repo-busy', 'slideUp')
+            app.update_page('#repo-table', 'slideDown')
+
+        thread = Thread(target=repo_thread, args=[self])
+        thread.start()
+
+
+##################################
+#  WebKit + Python Communications
+##################################
+class AppView(WebKit2.WebView, object):
+    
+    def __init__(self):
+        # WebKit2 Initalisation
+        
+        webkit = WebKit2
+        webkit.WebView.__init__(self)
+        
+
+        # Set WebKit background to the same as GTK
+        self.set_background_color(Gdk.RGBA(0, 0, 0, 0))
+        
+        # Connect signals to application
+        self.connect('load-changed', self._load_changed_cb)
+        
+        self.connect('notify::title', self._title_changed_cb)
+        self.connect('context-menu', self._context_menu_cb)
+
+        # Enable keyboard navigation
+        self.get_settings().set_enable_spatial_navigation(True)
+        self.get_settings().set_enable_caret_browsing(True)
+
+        # Show console messages in stdout if we're debugging.
+        if dbg.verbose_level == 2:
+            self.get_settings().set_enable_write_console_messages_to_stdout(True)
+
+       
+
+        # Perform a smooth transition for footer icons.
+        self.do_smooth_footer = False
+    
+    
+    def run_js(self, function):
+        """
+        Executa uma função JavaScript na página, independentemente de qual segmento é chamado.
+        As operações GTK + devem ser executadas no mesmo encadeamento para evitar falhas.
+        """
+        GLib.idle_add(self._run_js, function)
+
+    def _run_js(self, function):
+        """
+        Runs a JavaScript function on the page when invoked from run_js()
+        """
+        self.run_javascript(function)
+        return GLib.SOURCE_REMOVE
+
+    def _push_config(self):
+        
+        if not arg.jump_software_page:
+            if not app.current_page == 'splash.html' and not app.current_page == 'index.html':
+                app.update_page('#footer-global-left', 'html', app.footer_left)
+
+        # Do not show the Close button in Boutique mode.
+        if not arg.jump_software_page:
+            app.update_page('#footer-global-right', 'html', app.footer_close)
+
+        # Display warnings if the user is not connected to the internet.
+        if systemstate.is_online:
+            app.update_page('.offline', 'hide')
+            app.update_page('.online', 'show')
+        
+            
+            def download(url, localization):
+                browser_headers = {
+                'User-Agent': 'LojaHorizonOS/'+ __VERSION_WEB__+' (X11; Linux x86_64)',
+                
+                }
+                r = requests.get(url, headers=browser_headers)
+                l = localization
+                with open(l, 'wb') as f:
+                    f.write(r.content)
+            
+            output_json_path_version = local_home_user + '/.config/loja-horizon-os/Dados/application-list-version/version.txt'
+            
+            download(loja_site+'/dados/application-list-version/version.txt',\
+                output_json_path_version)
+
+            self.new_json_path_version = open(output_json_path_version, 'r').readline().replace('\n', '')
+            if __VERSION__ < self.new_json_path_version:
+                app.update_page('#detect_new_update', 'show')
+            
+            download(loja_site+'/dados/noticias/Noticias-da-Loja.json',\
+                local_home_user + '/.config/loja-horizon-os/Dados/Noticias-da-Loja.json')
+                
+            
+        else:
+            app.update_page('.offline', 'show')
+            app.update_page('.online', 'hide')
+
+        # Smoothly fade in the footer links between pages.
+        #   splash → index
+        #   index ← → software
+        
+        if self.do_smooth_footer or app.current_page == 'index.html':
+            self.do_smooth_footer = False
+            app.update_page('#footer-left', 'hide')
+            app.update_page('#footer-left', 'fadeIn')
+            app.update_page('#navigation-right', 'hide')
+            app.update_page('#navigation-right', 'fadeIn')
+            app.update_page('header', 'hide')
+            app.update_page('header', 'fadeIn')
+            app.update_page('#navigation-topo', 'hide')
+            app.update_page('#navigation-topo', 'fadeIn')
+            app.update_page('#queue-cards-base', 'hide')
+            app.update_page('#queue-cards-base', 'fadeIn')
+            
+            
+
+        # Apply RTL for known locales
+        if trans.locale[:2] in ['ar', 'arc', 'dv', 'fa', 'ha', 'he', 'khw', 'ks', 'ku', 'ps', 'ur', 'yi']:
+            app.update_page('html', 'attr', 'dir', 'rtl')
+            app.update_page('html', 'addClass', 'rtl')
+
+
+        ### Software Page ###
+        if app.current_page == 'index.html':
+            dynamicapps.toggle_non_free()
+            dynamicapps.toggle_non_checking()
+            self.do_smooth_footer = True
+            app.update_page('#navigation-right', 'addClass', 'always-hidden')
+            app.update_page('header', 'addClass', 'always-hidden')
+            app.update_page('#navigation-topo', 'addClass', 'always-hidden')
+            app.update_page('#queue-cards-base', 'addClass', 'always-hidden')
+            
+        
+
+            if not pref.get("tema-dark", False):
+                app.update_page('#cabecalho', 'html', cabecalho+tema_white)
+                app.update_page('#ativar-tema-dark', 'show')
+                app.update_page('#desativar-tema-dark', 'hide')
+                
+
+            if pref.get("tema-dark", True):
+                    app.update_page('#cabecalho', 'html', cabecalho+tema_dark)
+                    app.update_page('#ativar-tema-dark', 'hide')
+                    app.update_page('#desativar-tema-dark', 'show')
+                    dbg.stdout("Loja Horizon OS", "Modo Dark está ativado", 0, 0)
+            
+    
+            def load_thread(self):
+                
+                # Allows smooth animations
+                time.sleep(1)
+
+                # Pass 'Servers' variable used for one-click server links.
+                self.run_js('var server_string = "' + _("Servers") + '"')
+
+                # Are we running on a non-Ubuntu MATE system?
+                # Show a warning on the first visit.
+                
+                # Preferencias
+                
+                if not pref.get("other-distro", True):
+                    self._do_command('message?boutique-on-other-distro')
+                    pref.set("other-distro", True)
+
+                # Dynamically load application lists.
+                dynamicapps.populate_categories(self)
+                dynamicapps.update_all_app_status(self)
+                dynamicapps.populate_featured_apps(self)
+                
+                
+
+                # Show a different footer in the Boutique.
+              
+
+                # Set version and subscription details.
+                
+                # Atualizar página de preferências
+                pref.refresh_pref_page('enable-queue')
+                pref.refresh_pref_page('hide-apt-progress')
+
+                # Is the queue enabled?
+                queue.refresh_page_state()
+                queue.clear()
+                
+                # Desvanecer-se suavemente para a página de introdução.
+                app.update_page('#boutique-loading', 'jAnimate', 'fadeOut')
+                app.update_page('#category-tabs', 'show')
+                app.update_page('#category-tabs', 'jAnimate', 'fadeInDown')
+                app.update_page('header', 'jAnimate', 'fadeInDown')
+                app.update_page('header',  'show')
+                if arg.url_app:
+                    app_id = arg.url_app
+                    app.webkit.run_js("setTimeout(function(){ switchCategory('#boutique-loading', '" + string.loja + "', true); changeCategoryTab('#AppsInfo');changeCategoryTab('#"+ app_id +"');}, 500);")
+                    dbg.stdout("Loja Horizon OS", app_id, 0, 0)
+                else:
+                    app.webkit.run_js("setTimeout(function(){ switchCategory('#boutique-loading', '#News', '" + string.loja + "', true); showNews(); }, 500);")
+                app.webkit.run_js("showSlides(slideIndex); setInterval(function() { plusSlides(1); }, 6000);")
+                app.update_page('#navigation-right', 'removeClass', 'always-hidden')
+                app.update_page('header', 'removeClass', 'always-hidden')
+                app.update_page('#queue-cards-base', 'removeClass', 'always-hidden')
+                app.update_page('#navigation-topo', 'removeClass', 'always-hidden')
+                
+                
+                
+
+                if arg.jump_software_page:
+                    app.update_page('#navigation-title', 'fadeIn')
+                    app.update_page('#navigation-title', 'html', "<span id='navigation-sub-title'></span>")
+                    
+                else:
+                    app.update_page('#menu-button', 'fadeIn')
+                    app.update_page('#navigation-title', 'fadeIn')
+                notify_send( _("Sucesso..."), _("A loja Horizon OS foi inicializada com sucesso!"), data_path + 'img/logos/loja-horizon.png' )
+
+            # Finish loading the Boutique.
+            thread = Thread(target=load_thread, args=[self])
+            thread.start()
+        
+        if app.current_page == 'message.html':
+            """ Displays one-time information. """
+            msg_id = app.msg_to_display
+            # Which message to display?
+            if not msg_id:
+                dbg.stdout("Loja Horizon OS", "Nenhuma identificação de mensagem definida!! Retornando ao menu principal.", 0, 1)
+                app.webkit.run_js("smoothPageFade('index.html')")
+                return
+
+            elif msg_id == "boutique-on-other-distro":
+                nav_title = _("Loja Horizon OS")
+                body_title = _("Bem vindo a Loja Horizon OS")
+                body_text = _("A loja Horizon OS é especificamente projetado para a distribuição Horizon OS " +  \
+                       "que ainda esta em fase de construção! ") + '</p><p>' + _("Queremos garantir uma ótima experiência aos usuários " + \
+                       "simplificando as instalações e atualizações de programas com a nossa loja! " + \
+                       "Em breve expandiremos ainda mais a nossa lista de instalações automatizadas!") + '</p><p>' + \
+                       '<span class="fa fa-info-circle"></span> ' + _("Esta mensagem não será mostrada novamente...")
+                image = "img/definitions/logo-horizon.svg"
+                target = "index.html"
+
+            else:
+                dbg.stdout("Bem Vindo", "ID da mensagem desconhecida: '" + msg_id + "' - Retornando ao menu principal.", 0, 1)
+                app.webkit.run_js("smoothPageFade('index.html')")
+                return
+
+            # Push message contents to page.
+            app.update_page('#navigation-title', 'html', nav_title)
+            app.update_page('#message-title', 'html', body_title)
+            app.update_page('#message-body', 'html', body_text)
+            app.update_page('#message-image', 'html', "<img src='{0}'/>".format(trans.res_dir + image))
+            app.update_page('#message-link', 'html', "<button class='btn btn-success' onclick=\"smoothPageFade(\'{0}\')\">{1}</button>".format(target, _("Continue")))
+
+        ### Introduction ###
+        if app.current_page == 'first-login.html':
+            # Navegadores
+            browsers = ['brave' ,'firefox', 'google_chrome', 'opera_browser', 'vivaldi', 'chromium']
+            for i in range(len(browsers)):
+                dynamicapps.update_app_status(self, browsers[i])
+            photo_profile = "/home/"+subprocess.run(['whoami'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')+"/.face"
+            name_profile = subprocess.run(['bash', root_folder+'bin/name_profile'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n').replace(',,,', '')
+            name_user_profile = subprocess.run(['whoami'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+                                       
+
+            app.update_page('#photo-profile-spawn', 'html', '<img src="'+photo_profile+'" class="photo-profile">')
+            app.update_page('#name-profile-spawn', 'html', '<input value="'+name_profile+'" class="name-profile">')
+            app.update_page('#name-user-profile-spawn', 'html', '<input value="'+name_user_profile+'" class="name-user-profile">')
+            
+            # Highlight default browser
+            if which('xdg-settings') != None:
+                
+                default_browser = subprocess.Popen(['xdg-settings', 'get', 'default-web-browser'], stdout=subprocess.PIPE).communicate()[0]
+                default_browser = default_browser.decode('UTF-8').strip().replace('.desktop', '').replace(';', '')
+                
+                
+                app.update_page('#default-button-' + default_browser, 'hide')
+                app.update_page('#default-' + default_browser, 'show')
+                
+
+        ### Browser Selection ###
+        if app.current_page == 'browser-selection.html':
+            # Navegadores
+            browsers = ['brave' ,'firefox', 'google_chrome', 'opera_browser', 'vivaldi', 'chromium']
+            for i in range(len(browsers)):
+                dynamicapps.update_app_status(self, browsers[i])
+            
+            # Highlight default browser
+            if which('xdg-settings') != None:
+                default_browser = subprocess.Popen(['xdg-settings', 'get', 'default-web-browser'], stdout=subprocess.PIPE).communicate()[0]
+                default_browser = default_browser.decode('UTF-8').strip().replace('.desktop', '').replace(';', '')
+                app.update_page('#' + default_browser, 'addClass', 'active')
+
+        ### Custom Colours ###
+        
+
+        app.last_page = app.current_page
+
+    def _title_changed_cb(self, view, frame):
+        title = self.get_title()
+        
+        if title != 'null' and title != '' and title != None:
+            dbg.stdout('Loja Horizon OS', 'Command: ' + title, 2, 4)
+            self._do_command(title)
+
+    def _load_changed_cb(self, view, frame):
+        
+        uri = str(self.get_uri())
+        app.current_page = uri.rsplit('/', 1)[1]
+        
+
+        # Push contents to page when finished loading.
+        if not self.is_loading():
+            dbg.stdout('Loja Horizon OS', 'Page: ' + app.current_page + '\n      ' + uri, 2, 4)
+            if arg.install_app:  
+                install_id = arg.install_app
+                dynamicapps.modify_app(self, 'install', install_id)    
+                queue.apply()
+                Gtk.main_quit()
+                exit()
+            elif arg.remove_app:  
+                remove_id = arg.remove_app
+                dynamicapps.modify_app(self, 'remove', remove_id)    
+                queue.apply()
+                Gtk.main_quit()
+                exit()
+                
+            
+            
+            self._push_config()
+
+            if app.current_page != 'splash.html':
+                app._window.show_all()
+
+    def _context_menu_cb(self, webview, menu, event, htr, user_data=None):
+        # Disable context menu.
+        return True
+    
+    
+    def _do_command(self, cmd):
+        
+        
+        if cmd.startswith('install-appid?'):
+            
+            appid = cmd[14:]
+            dynamicapps.modify_app(self, 'install', appid)
+            
+        
+        elif cmd == 'show-profile':
+            
+            import profile_user
+            profile_user.__init__()
+        elif cmd == 'update-data-path':
+            dbg.stdout('------------------------------------------------------------', '', 0)
+            dbg.stdout("Loja Horizon OS", "Atualizando a pasta de dados da loja", 0, 0)
+            if systemstate.is_online:
+                try:    
+                    
+                    subprocess.run(['svn','checkout','http://svn.horizon-os.org/p/horizon-os/loja/', local_home_user + '/.config/loja-horizon-os/'])
+                    dbg.stdout('Dados', ' Informações obtidas com sucesso com a internet!', 0, 3)
+                    
+                except Exception as e:
+                    dbg.stdout('Loja Horizon OS', ' Não foi possível atualizar a pasta de dados da loja', 0, 1)
+                    dbg.stdout('Loja Horizon OS', ' Verifique sua conexão com a internet', 0, 1)
+                    dbg.stdout('------------------------------------------------------------', '', 0)
+            else:
+                dbg.stdout('Loja Horizon OS', ' Verifique sua conexão com a internet', 0, 1)
+                dbg.stdout('------------------------------------------------------------', '', 0)
+
+        
+        # Função de alterar parametros e visualizár o aplicativo/programa novamente através de outra função mais direta
+        elif cmd.startswith('browser-status'):
+            
+            browsers = ['brave' ,'firefox', 'google_chrome', 'opera_browser']
+            for i in range(len(browsers)):
+           
+                dynamicapps.set_app_info("Internet", browsers[i])
+                dynamicapps.update_app_status(self, browsers[i])
+                
+
+        elif cmd.startswith('view-specific-application?'):
+            
+            program_id_vsa = cmd.split('?')[1]
+            category_vsa = cmd.split('?')[2]
+            
+            dynamicapps.set_app_info(category_vsa, program_id_vsa)
+            dynamicapps.append_app_listing_full(category_vsa, program_id_vsa, '#AppsInfo')
+            dynamicapps.update_app_status(self, program_id_vsa)
+
+            # Define as variáveis em JavaScript 
+            self.run_js('var view_app = document.getElementById("View-'+program_id_vsa+'");')
+            self.run_js('var view_app_news = document.getElementById("View-'+program_id_vsa+'-news");')
+            self.run_js('var view_app_news_gallery = document.getElementById("View-'+program_id_vsa+'-news-gallery");')
+
+            # Aplicar e altera as variaveis e funções em JavaScript/HTML para "view-specific-application?"
+            # não ser executado novamente para o mesmo Aplicativo/Programa
+            self.run_js('if (view_app)\
+                view_app.setAttribute( "onClick", "changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#'+ program_id_vsa +'' '\');hideButtomCategoryFilter();" );')
+            self.run_js('if (view_app_news)\
+                view_app_news.setAttribute( "onClick", "changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#'+ program_id_vsa +'' '\');hideButtomCategoryFilter();" );')
+            self.run_js('if (view_app_news_gallery)\
+                view_app_news_gallery.setAttribute( "onClick", "changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#'+ program_id_vsa +'' '\');hideButtomCategoryFilter();" );')
+
+            self.run_js('changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#'+ program_id_vsa +'' '\');') 
+        
+            
+        elif cmd.startswith('remove-appid?'):
+            appid = cmd[13:]
+            dynamicapps.modify_app(self, 'remove', appid)
+        elif cmd.startswith('upgrade-appid?'):
+            appid = cmd[14:]
+            dynamicapps.modify_app(self, 'upgrade', appid)
+        elif cmd == 'queue-start':
+            queue.apply()
+        elif cmd == 'queue-clear':
+            queue.clear()
+        elif cmd.startswith('queue-drop?'):
+            program_id = cmd[11:]
+            queue.drop_item(program_id)
+        elif cmd == 'queue-refresh':
+            queue.refresh_page_state()
+        elif cmd.startswith('launch-appid?'):
+            dynamicapps.launch_app(cmd[13:])
+        elif cmd.startswith('filter-apps?'):
+            filter_name = cmd.split('?')[1]
+            nonfree_toggle = cmd.split('?')[2]
+            if nonfree_toggle == 'toggle':
+                dynamicapps.apply_filter(self, filter_name, True)
+            else:
+                dynamicapps.apply_filter(self, filter_name)
+        elif cmd.startswith('filter-apps-checked?'):
+            filter_name = cmd.split('?')[1]
+            nonchecked_toggle = cmd.split('?')[2]
+            if nonchecked_toggle == 'toggle':
+                dynamicapps.apply_filter_checked(self, filter_name, True)
+            else:
+                dynamicapps.apply_filter_checked(self, filter_name)
+        elif cmd.startswith('app-info-show?'):
+            appid = cmd.split('?')[1]
+            app.update_page('.info-show-'+appid, 'hide')
+            app.update_page('.info-hide-'+appid, 'show')
+            app.update_page('.details-'+appid, 'slideDown', 'fast')
+        elif cmd.startswith('app-info-hide?'):
+            appid = cmd.split('?')[1]
+            app.update_page('.info-show-'+appid, 'show')
+            app.update_page('.info-hide-'+appid, 'hide')
+            app.update_page('.details-'+appid, 'slideUp', 'fast')
+        elif cmd == 'apt-update':
+            update_repos()
+            systemstate.apt_cache.close()
+            systemstate.apt_cache = apt.Cache()
+        elif cmd == 'fix-incomplete-install':
+            fix_incomplete_install()
+            systemstate.apt_cache.close()
+            systemstate.apt_cache = apt.Cache()
+            self._push_config()
+        elif cmd == 'fix-broken-depends':
+            fix_broken_depends()
+            systemstate.apt_cache.close()
+            systemstate.apt_cache = apt.Cache()
+            self._push_config()
+         
+        # Ativa o modo escuro
+        elif cmd == 'ativar-tema-dark':
+            pref.set("tema-dark", True)
+            app.update_page('#cabecalho', 'html', cabecalho+tema_dark)
+            app.update_page('#ativar-tema-dark', 'hide')
+            app.update_page('#desativar-tema-dark', 'show')
+            dbg.stdout("Loja Horizon OS", "Modo Dark foi ativado", 0, 0)
+        
+        # Ativa o modo claro            
+        elif cmd == 'desativar-tema-dark':
+            pref.set("tema-dark", False)
+            app.update_page('#cabecalho', 'html', cabecalho+tema_white)
+            app.update_page('#ativar-tema-dark', 'show')
+            app.update_page('#desativar-tema-dark', 'hide')
+            dbg.stdout("Loja Horizon OS", "Modo Dark foi desativado", 0, 0)
+        
+        elif cmd == 'activate-button-search':
+            app.update_page('#deactivate-button-search', 'show')
+            app.update_page('#activate-button-search', 'hide')
+            app.update_page('#search-terms', 'show')
+        elif cmd == 'deactivate-button-search':
+            app.update_page('#deactivate-button-search', 'hide')
+            app.update_page('#activate-button-search', 'show')
+            app.update_page('#search-terms', 'hide')
+        
+        # Mostra o comando de instalação manual do aplicativo/programa
+        elif cmd.startswith('show-install-command?'):
+            installation_command = cmd.split('?')[1]
+            app.update_page('#show-install-command-' + installation_command + '', 'hide')
+            app.update_page('#hide-install-command-' + installation_command + '', 'show')
+            app.update_page('#show-install-command-' + installation_command + '-list', 'show')
+        
+        # Mostra o comando de instalação manual do aplicativo/programa
+        elif cmd.startswith('hide-install-command?'):
+            installation_command = cmd.split('?')[1]
+            app.update_page('#show-install-command-' + installation_command + '', 'show')
+            app.update_page('#hide-install-command-' + installation_command + '', 'hide')
+            app.update_page('#show-install-command-' + installation_command + '-list', 'hide')
+        elif cmd.startswith('previous-gallery?'):
+            previous_gallery = cmd.split('?')[1]
+            self.run_js('var leftPos1 = $(".screenshot-content-'+ previous_gallery +'").scrollLeft();$(".screenshot-content-'+ previous_gallery +'").animate({scrollLeft: leftPos1 - 550}, 50);')
+            
+        elif cmd.startswith('next-gallery?'):
+            next_gallery = cmd.split('?')[1]
+            self.run_js('var leftPos2 = $(".screenshot-content-'+ next_gallery +'").scrollLeft();$(".screenshot-content-'+ next_gallery +'").animate({scrollLeft: leftPos2 + 550}, 50);')
+
+        elif cmd == 'quit':
+            goodbye()
+        elif cmd == 'update':
+            subprocess.Popen(['update-manager'])
+        elif cmd.startswith('run?'):
+            subprocess.Popen([cmd[4:]])
+        elif cmd.startswith('link?'):
+            webbrowser.open_new_tab(cmd[5:])
+        elif cmd == 'checkInternetConnection':
+            systemstate.check_internet_connection()
+            if systemstate.is_online:
+                app.update_page('.offline', 'hide')
+                app.update_page('.online', 'show')
+            else:
+                app.update_page('.offline', 'show')
+                app.update_page('.online', 'hide')
+        elif cmd == 'subscribe-updates':
+            dbg.stdout('Loja Horizon OS', 'Inscrevendo-se nas Atualizações da Loja Horizon OS', 0, 3)
+            app.update_page('#update-notification', 'hide')
+            app.update_page('#update-subscribing', 'show')
+            #dynamicapps.modify_app(self, 'install', 'loja_horizon_os_dados')
+            # Verify if the PPA was successfully added.
+            if os.path.exists(systemstate.loja_horizon_os_ppa_file):
+                if os.path.getsize(systemstate.loja_horizon_os_ppa_file) > 0:
+                    dbg.stdout('Loja Horizon OS', 'Sucesso -  PPA Adicionado Reiniciando o aplicativo...', 0, 2)
+                    os.execv(__file__, sys.argv)
+            else:
+                dbg.stdout('Loja Horizon OS', 'Failed - Loja Horizon OS PPA not detected!', 0, 1)
+                app.update_page('#update-subscribing', 'hide')
+                app.update_page('#update-notification', 'show')
+        elif cmd.startswith('search?'):
+            keywords = cmd.split('?')[1]
+            dynamicapps.perform_search(self, keywords)
+            
+        elif cmd.startswith('set-pref'):
+            key = cmd.split('?')[1]
+            value = cmd.split('?')[2]
+            pref.set(key, value)
+        elif cmd.startswith('toggle-pref'):
+            key = cmd.split('?')[1]
+            pref.toggle(key)
+            pref.refresh_pref_page(key)
+            queue.refresh_page_state()
+        elif cmd.startswith('message'):
+            app.msg_to_display = cmd.split('?')[1]
+            self.run_js("smoothPageFade('message.html')")
+        elif cmd == 'list-repos':
+            dynamicapps.populate_repos()
+        elif cmd.startswith('set-default-web-browser'):
+            browser = cmd.split('?')[1]
+            browser_file = browser + '.desktop'
+            dbg.stdout('Loja Horizon OS', 'Setting default browser to: ' + browser_file, 0, 3)
+            subprocess.Popen(['xdg-settings', 'set', 'default-web-browser', browser_file])
+            app.update_page('.default-label', 'hide')
+            app.update_page('#default-' + browser, 'show')
+            
+       
+        
+        else:
+            dbg.stdout('Loja Horizon OS', 'Unknown command: ' + cmd, 0, 1)
+
+class Arguments(object):
+    '''Check arguments passed the application.'''
+
+    def __init__(self):
+        
+        self.autostarted = False
+        self.verbose_enabled = False
+        self.simulate_arch = None
+        self.simulate_session = None
+        self.simulate_codename = None
+        self.simulate_no_connection = False
+        self.simulate_force_connection = False
+        self.jump_software_page = True
+        self.simulate_software_changes = False
+        self.locale = None
+        self.jump_to = None
+        self.jump_to_fullscreen = None
+        self.font_dpi_override = None
+        self.inspector = False
+        self.url_app = None
+        self.install_app = None
+        self.remove_app = None
+        
+
+        archs = ['i386', 'amd64', 'armhf', 'arm64', 'powerpc', 'ppc64el']
+        sessions = ['guest', 'live', 'oem', 'pi', 'vbox']
+
+        for arg in sys.argv:
+            
+          if arg == '--help' or arg == '-h':
+              print('\nParâmetros da Loja Horizon OS \n Destinado apenas a fins de depuração e teste!\n')
+              print('\nUse: loja-horizon-os [arguments]')
+              #     | Command                      | Help Text                                     |
+              print('  -d, --dev, --debug           Desativa localidades e é muito detalhado')
+              print('                               destinados a fins de desenvolvimento.')
+              print('  --font-dpi=NUMBER            Adapte a configuração de zoom com base no DPI. Padrão 96.')
+              print('  -h, --help                   Mostrar este texto de ajuda')
+              print('  --force-arch=ARCH            Simule uma arquitetura específica.')
+              print('                                -- Examplos: i386, amd64, armhf, amd64')
+              print('  --force-codename=CODENAME    Simule uma versão específica.')
+              print('                                -- Examplos: xenial, bionic, focal')
+              print('  --force-net                  Simule uma conexão de internet funcionando.')
+              print('  --force-no-net               Simule nenhuma conexão à Internet.')
+              print('  --force-session=TYPE         Simule um tipo específico de sessão.')
+              print('                                -- Opções: guest, live, pi, vbox')
+              print('  --jump-to=PAGE               Abra uma página específica, excluindo *.html')
+              print('  --locale=CODE                Local para usar. e.g. fr_FR.')
+              print('  --simulate-changes           Simule alterações de pacotes de software sem')
+              print('                               modificar o sistema')
+              print('  -b, -boutique,               Abra Loja Horizon OS apenas para as seleções de software.')
+              print('  --software-only              ')
+              print('  -v, --verbose                Mostre mais detalhes ao stdout (para diagnósticos).')
+              print('')
+              exit()
+          
+          
+          if arg == '--inspect':
+              dbg.stdout('Debug', 'Inspector enabled.', 0, 0)
+              self.inspector = True
+
+          if arg == '--verbose' or arg == '-v':
+              dbg.stdout('Debug', 'Verbose mode enabled.', 0, 0)
+              dbg.verbose_level = 1
+
+          if arg.startswith('--force-arch'):
+              try:
+                  self.simulate_arch = arg.split('--force-arch=')[1]
+                  if self.simulate_arch not in archs:
+                      dbg.stdout('Debug', 'Unrecognised architecture: ' + self.simulate_arch, 0, 1)
+                      exit()
+                  else:
+                      dbg.stdout('Debug', 'Simulating architecture: ' + self.simulate_arch, 0, 0)
+              except:
+                  dbg.stdout('Debug', 'Invalid arguments for "--force-arch"', 0, 1)
+                  dbg.stdout('Debug', 'Available Options: ' + str(archs), 0, 1)
+                  exit()
+
+          if arg.startswith('--force-session'):
+              try:
+                  self.simulate_session = arg.split('--force-session=')[1]
+                  if self.simulate_session not in sessions:
+                      dbg.stdout('Debug', 'Unrecognised session type: ' + self.simulate_session, 0, 1)
+                      exit()
+                  else:
+                      dbg.stdout('Debug', 'Simulating session: ' + self.simulate_session, 0, 0)
+              except:
+                  dbg.stdout('Debug', 'Invalid arguments for "--force-session"', 0, 1)
+                  dbg.stdout('Debug', 'Available Options: ' + str(sessions), 0, 1)
+                  exit()
+
+          if arg.startswith('--force-codename'):
+              self.simulate_codename = arg.split('--force-codename=')[1]
+              dbg.stdout('Debug', 'Simulating Ubuntu release: ' + self.simulate_codename, 0, 0)
+
+          if arg == '--force-no-net':
+              dbg.stdout('Debug', 'Simulating the application without an internet connection.', 0, 0)
+              self.simulate_no_connection = True
+
+          if arg == '--force-net':
+              dbg.stdout('Debug', 'Forcing the application to think we\'re connected with an internet connection.', 0, 0)
+              self.simulate_force_connection = True
+
+          if arg.startswith('loja-horizon-os:url_app='):
+              self.url_app = arg.split('loja-horizon-os:url_app=')[1]
+              w = Gtk.Window()
+              w.maximize()
+
+          if arg.startswith('-i:'):
+              self.install_app = arg.split('-i:')[1]
+
+          if arg.startswith('-r:'):
+              self.remove_app = arg.split('-r:')[1]
+             
+
+          if arg == '--simulate-changes':
+              dbg.stdout('Debug', 'Any changes to software will be simulated without modifying the actual system.', 0, 0)
+              self.simulate_software_changes = True
+
+          if arg == '--dev' or arg == '--debug' or arg == '-d':
+              dbg.stdout('Debug', 'Running in debugging mode.', 0, 0)
+              dbg.verbose_level = 2
+              self.locale = 'null'
+
+          if arg.startswith('--locale='):
+              self.locale = arg.split('--locale=')[1]
+              dbg.stdout('Debug', 'Setting locale to: ' + self.locale, 0, 0)
+              self.locale = self.locale
+
+          if arg.startswith('--jump-to='):
+              self.jump_to = arg.split('--jump-to=')[1]
+              dbg.stdout('Debug', 'Opening page: ' + self.jump_to + '.html', 0, 0)
+
+          if arg.startswith('-tela-cheia='):
+              self.jump_to_fullscreen = arg.split('-tela-cheia=')[1]
+              dbg.stdout('Debug', 'Opening page: ' + self.jump_to_fullscreen + '.html', 0, 0)
+
+          if arg.startswith('--font-dpi='):
+              try:
+                  self.font_dpi_override = int(arg.split('--font-dpi=')[1])
+              except:
+                  dbg.stdout('Debug', 'Invalid Override Font DPI specified. Ignoring.', 0, 1)
+                  return
+              dbg.stdout('Debug', 'Overriding font DPI to ' + str(self.font_dpi_override) + '.', 0, 0)
+
+    def root_folder_arg(self):
+        try:     
+            for arg in sys.argv:
+                    if arg.startswith('--root_folder='):
+                        root_folder_argument = arg.split('--root_folder=')[1]
+                        if os.path.isdir(root_folder_argument):
+                            root_folder = root_folder_argument
+                            
+                        else:
+                            print("Não foi possivel usar endereço caminho indicado, certifique-se de que o endereço esta correto")
+                            exit()
+            return root_folder
+        except:
+            print("Você precisa indicar a pasta raiz desta aplicação utilzando '--root-folder='")
+            exit()
+
+    def data_path_arg(self):
+        data_path = root_folder+'/Arquivos/'
+    
+        for arg in sys.argv:
+            
+            if arg.startswith('--data-path='):
+                data_path_argument = arg.split('--data-path=')[1]
+                if os.path.isfile(data_path_argument+'index.html'):
+                    data_path = data_path_argument
+                    print("Usando endereço indicado '" + data_path+"'")
+                elif os.path.isfile(data_path_argument+'/index.html'):
+                    data_path = data_path_argument+'/'
+                    print("Usando endereço indicado '" + data_path+"'")
+                else:
+                    print("Não foi possivel usar endereço caminho indicado, certifique-se de que o endereço esta correto")
+                
+        return data_path
+            
+    def override_arch(self):
+        if not self.simulate_arch == None:
+            systemstate.arch = self.simulate_arch
+
+    def override_session(self):
+        if not self.simulate_session == None:
+            if self.simulate_session == 'vbox':
+                systemstate.graphics_vendor = 'VirtualBox'
+                systemstate.graphics_grep = 'VirtualBox'
+            else:
+                systemstate.session_type = self.simulate_session
+
+    def override_codename(self):
+        if not self.simulate_codename == None:
+            systemstate.codename = self.simulate_codename
+
+
+##################################
+#  Loja Horizon OS Main Application
+##################################
+from gi.repository import Gtk, GLib
+from gi.repository import WebKit2
+class LojaHorizonOSApp(object):
+    def __init__(self):
+        # Set variables
+        self.current_page = ""
+        self.last_page = ""
+        self.webkit = None
+        self.load_app()
+        
+
+       
+
+    def load_app(self):
+        # Slightly different attributes if "--software-only" is activated.
+        w = Gtk.Window()
+        
+        w.set_decorated(False)
+    
+        w.maximize()
+        
+        w.connect('delete-event',Gtk.main_quit)
+
+
+        title = string.loja
+        width = 900
+        height = 600
+        load_file = 'index.html'
+        
+
+        # Enlarge the window should the text be any larger.
+  
+        # Jump to a specific page for testing purposes.
+        if arg.jump_to:
+            load_file = arg.jump_to + '.html'
+        
+
+        if arg.jump_to_fullscreen:
+            load_file = arg.jump_to_fullscreen + '.html'
+            w.fullscreen()
+
+        # Build window
+      
+        
+        
+
+        w.set_title(title)
+
+      
+        
+        w.set_size_request(950, 528)
+        
+        icon_dir = os.path.join(data_path, 'img', 'logos', 'loja-horizon.png')
+        w.set_icon_from_file(icon_dir)
+
+        # Build WebKit2 container
+        self.webkit = AppView()
+        link_web = 'loja.horizon-os.org/index.html'
+        # Load the starting page
+        
+        #uri = 'http://' + urllib.request.pathname2url(link_web)
+        path = os.path.abspath(os.path.join(trans.pages_dir, load_file))
+        uri = 'file://' + urllib.request.pathname2url(path)
+        
+        self.webkit.load_uri(uri)
+
+        # Build scrolled window widget and add our appview container
+        sw = Gtk.ScrolledWindow()
+        sw.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        sw.add(self.webkit)
+
+        # Build an autoexpanding box and add our scrolled window
+        b = Gtk.VBox(homogeneous=False, spacing=0)
+        b.pack_start(sw, expand=True, fill=True, padding=0)
+
+        # If debugging, show the inspector window
+        if arg.inspector:
+            self.webkit.get_settings().set_property("enable-developer-extras", True)
+            inspector = self.webkit.get_inspector()
+            inspector.show()
+        # Add the box to the parent window and show
+        w.add(b)
+        w.connect('delete-event', goodbye)
+
+        self._window = w
+
+    def run(self):
+        signal.signal(signal.SIGINT, signal.SIG_DFL)
+        Gtk.main()
+
+    def close(self, p1, p2):
+        Gtk.main_quit(p1, p2);
+
+    def update_page(self, element, function, parm1=None, parm2=None):
+        """ Runs a JavaScript jQuery function on the page,
+            ensuring correctly parsed quotes. """
+        if parm1 and parm2:
+            self.webkit.run_js('$("' + element + '").' + function + "('" + parm1.replace("'", '\\\'') + "', '" + parm2.replace("'", '\\\'') + "')")
+        if parm1:
+            self.webkit.run_js('$("' + element + '").' + function + "('" + parm1.replace("'", '\\\'') + "')")
+        else:
+            self.webkit.run_js('$("' + element + '").' + function + '()')
+
+
+class Debug(object):
+    def __init__(self):
+        self.verbose_level = 0
+
+    def stdout(self, item, info, verbosity=0, colour=0):
+        # Only colourise output if running in a real terminal.
+        if sys.stdout.isatty():
+            end = '\033[0m'
+            if colour == 1:            # Failure (Red)
+                start = '\033[91m'
+            elif colour == 2:          # Success (Green)
+                start = '\033[92m'
+            elif colour == 3:          # Action (Yellow)
+                start = '\033[93m'
+            elif colour == 4:          # Debug (Blue)
+                start = '\033[96m'
+            else:                      # Normal/Misc (White)
+                start = '\033[0m'
+
+        # Ignore colours when redirected or piped.
+        else:
+            start = ''
+            end   = ''
+
+        # Output the message depending how detailed it is.
+        if self.verbose_level >= verbosity:
+            print(start + '[' + item + '] ' + info, end)
+
+
+
+class SystemState(object):
+    def __init__(self):
+        
+        # Set default variables
+        self.is_online = False
+        self.updates_subscribed = False
+        self.loja_horizon_os_versao = __VERSION__
+
+        # Get user details.
+        self.user_name = GLib.get_user_name()
+
+        
+
+        # Used for systemstate.autostart_toggle() function.
+     
+        
+
+        # Load Apt Cache
+        self.apt_cache = apt.Cache()
+
+        # Get current architecture of system.
+        # Outputs 'i386', 'amd64', etc - Based on packages instead of kernel (eg. i686, x86_64).
+        self.arch = str(subprocess.Popen(['dpkg','--print-architecture'], stdout=subprocess.PIPE).communicate()[0]).strip('\\nb\'')
+
+ 
+        self.distro = subprocess.run(['lsb_release','-is'], stdout=subprocess.PIPE).stdout.decode('utf-8').lower().strip('\n')
+        self.os_version = subprocess.run(['lsb_release','-rs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+        self.codename = subprocess.run(['lsb_release','-cs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+
+
+        # Determine which type of session we are in.
+        
+        self.session_type = 'normal'
+
+        # To inform the user if they are running in BIOS or UEFI mode.
+       
+
+        # Is there unsent telemetry?
+        
+
+        # Don't bother looking for telemetry in the Live or OEM session
+       
+        # Multithread to prevent holding up program execution.
+        thread1 = Thread(target=self.check_internet_connection)
+        thread2 = Thread(target=self.detect_graphics)
+        thread1.start()
+        thread2.start()
+
+        # Verifique se a Loja Horizon OS está inscrito para atualizações.
+                               
+        self.loja_horizon_os_ppa_file = '/etc/apt/sources.list.d/horizon-os-ubuntu-interface-kde-' + self.codename + '.list'
+        if os.path.exists(self.loja_horizon_os_ppa_file):
+            if os.path.getsize(self.loja_horizon_os_ppa_file) > 0:
+                self.updates_subscribed = True
+
+    def reload_cache(self):
+        dbg.stdout('Apt', 'Recarregando cache...', 0, 3)
+        self.apt_cache.close()
+        self.apt_cache = apt.Cache()
+        dbg.stdout('Apt', 'Cache recarregado.', 0, 2)
+
+   
+    
+    def check_internet_connection(self):
+        url = "http://archive.ubuntu.com/"
+        dbg.stdout('Teste de Rede', 'Establishing a connection test to "' + url + '"', 1, 3)
+
+        if arg.simulate_no_connection:
+            dbg.stdout('Teste de Rede', 'Simulation flag: Forcing no connection presence. Retrying will reset this.', 0, 1)
+            arg.simulate_no_connection = False
+            self.is_online = False
+            return
+
+        if arg.simulate_force_connection:
+            dbg.stdout('Teste de Rede', 'Sinalizador de simulação: Forçando uma presença de conexão.', 0, 2)
+            dbg.stdout('Teste de Rede', 'AVISO: Não tente intalar/remover softwares off-line, pois isso pode causar problemas!', 0, 1)
+            arg.simulate_connection = False
+            self.is_online = True
+            return
+
+        try:
+            response = urllib.request.urlopen(url, timeout=2).read().decode('utf-8')
+        
+        except socket.timeout:
+            dbg.stdout('Teste de Rede', 'Failed. Socket timed out to URL: ' + url, 0, 1)
+            self.is_online = False
+        except:
+            dbg.stdout('Loja Horizon OS', "Couldn't establish a connection: " + url, 0, 1)
+            self.is_online = False
+        else:
+            dbg.stdout('Loja Horizon OS', 'Successfully pinged: ' + url, 1, 2)
+            self.is_online = True
+            
+
+    def detect_graphics(self):
+        # If we're the Raspberry Pi, there is nothing to output.
+        if self.session_type == 'pi':
+            self.graphics_grep = 'Raspberry Pi'
+            self.graphics_vendor = 'Raspberry Pi'
+            return
+
+        # TODO: Support dual graphic cards.
+        dbg.stdout('Specs', 'Detecting graphics vendor... ', 1, 3)
+        try:
+            lspci_app = which('lspci')
+            output = subprocess.Popen(lspci_app + ' | grep VGA', stdout=subprocess.PIPE, shell='True').communicate()[0]
+            output = output.decode(encoding='UTF-8')
+        except:
+            # When 'lspci' does not find a VGA controller (this is the case for the RPi 2)
+            dbg.stdout('Specs', "Couldn't detect a VGA Controller on this system.", 0, 1)
+            output = 'Unknown'
+
+        # Scan for and set known brand name.
+        if output.find('NVIDIA') != -1:
+            self.graphics_vendor = 'NVIDIA'
+        elif output.find('AMD') != -1:
+            self.graphics_vendor = 'AMD'
+        elif output.find('Intel') != -1:
+            self.graphics_vendor = 'Intel'
+        elif output.find('VirtualBox') != -1:
+            self.graphics_vendor = 'VirtualBox'
+        elif output.find('VMware') != -1:
+            self.graphics_vendor = 'VirtualBox'
+        else:
+            self.graphics_vendor = 'Unknown'
+
+        self.graphics_grep = repr(output)
+        self.graphics_grep = self.graphics_grep.split("controller: ",1)[1]
+        self.graphics_grep = self.graphics_grep.split("\\n",1)[0]
+        dbg.stdout('Specs', 'Detected: ' + str(self.graphics_grep), 1, 2)
+
+
+    def get_system_repository_state(self, repo):
+        # Used to determine if a system repository is enabled.
+        # E.g. "main", "multiverse".
+        raw = run_external_command("grep '" + self.codename + " " + repo + "' /etc/apt/sources.list | grep -v 'deb-src' | grep -v 'cdrom'", True)
+        # Check for a commented line.
+        if raw[:1] != '#':
+            dbg.stdout("Repository", "Checked: '" + repo + "' = Enabled", 2, 3)
+            return True
+        else:
+            dbg.stdout("Repository", "Checked: '" + repo + "' = Disabled", 2, 3)
+            return False
+
+
+
+
+
+class ChangesQueue(object):
+    def __init__(self):
+        # Reset queues
+        self.reset()
+
+        # Whether PreInstallation class should inform us to update the cache.
+        # (For software that adds/removes a repository)
+        self.must_update_cache = False
+
+        # Card template
+        self.card_template = '<div class="card-PROGRAM_ID queue-card">' + \
+                                 '<div class="status">' + \
+                                     '<button class="drop" onclick="cmd(\'queue-drop?PROGRAM_ID\')" data-toggle="tooltip" data-placement="top" title="' + string.cancel + '"><span class="fa fa-times fa-2x"></span></button>' + \
+                                     '<span class="status-PROGRAM_ID remove-install"> DEFAULT_TEXT </span> ' + \
+                                 '</div>' + \
+                                 '<img onclick="changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#PROGRAM_ID' '\');" class="icon" src="' + data_path + 'img/applications/icon/PROGRAM_IMG"/>' + \
+                                 '<span onclick="changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#PROGRAM_ID' '\');" class="title">PROGRAM_NAME</span>' + \
+                                 '<div class="description-get-info" onclick="changeCategoryTab(\'#AppsInfo' '\');changeCategoryTab(\'#PROGRAM_ID' '\');" > <code data-placement="top" title="Mini info" class="fa fa-info-circle botao-info"></code> MINI_INFO </div>' + \
+                             '</div>'
+
+    def reset(self):
+        # Intended when re-entering the Boutique from the main menu.
+        self.install_queue = []
+        self.remove_queue = []
+        self.queue_count = 0
+        self.must_update_cache = False
+
+    def add_item(self, program_id, queue):
+        # User adds to the bulk queue
+        # Is this the first item? Hide the help text.
+        if len(self.install_queue) + len(self.remove_queue) == 0:
+            app.update_page('#queue-empty','slideUp')
+            app.update_page('#queue-options','slideDown')
+
+        # What's the plan?
+        if queue == 'install':
+            self.install_queue.append(program_id)
+            self.ui_add_card(program_id, 'install')
+            plan_html = '<div onclick="showQueue('+ string.queue_list +')" class="tema-modo-texto alert-info "><span class="fa fa-clock-o"></span> ' + string.queue_install + '</div>'
+            plan_html_list = _(" Para Instalar")
+            plan_css = 'install'
+            app.update_page('#navigation-queue', 'jAnimateOnce', 'queue-glow-add')
+
+        elif queue == 'remove':
+            self.remove_queue.append(program_id)
+            self.ui_add_card(program_id, 'remove')
+            plan_html = '<div onclick="showQueue('+ string.queue_list +')" class="tema-modo-texto alert-info "><span class="fa fa-clock-o"></span> ' + string.queue_remove + '</div>'
+            plan_html_list = _(" Para Remover")
+            plan_css = 'remove'
+            app.update_page('#navigation-queue', 'jAnimateOnce', 'queue-glow-remove')
+
+        else:
+            dbg.stdout('Queue', 'Unrecognised request: "' + queue + '" does not exist. "' + program_id + '" ignored.', 0, 1)
+            return
+
+        self.queue_count += 1
+        self.ui_update_count()
+        dbg.stdout('Queue', 'Added "' + program_id + '" to "' + queue + '" queue.', 1, 3)
+
+        # Update UI in application listings.
+        css_class = program_id.replace('.','-')
+        app.update_page('#hide-install-command-'+program_id+'', 'hide')
+        app.update_page('#show-install-command-'+program_id+'', 'hide')
+        app.update_page('#show-install-command-'+program_id+'-list', 'hide')
+        app.update_page('.'+css_class+'-launch', 'hide')
+        app.update_page('.'+css_class+'-install', 'hide')
+        app.update_page('.'+css_class+'-reinstall', 'hide')
+        app.update_page('.'+css_class+'-remove', 'hide')
+        app.update_page('.'+css_class+'-upgrade', 'hide')
+        app.update_page('.'+css_class+'-undo', 'show')
+        app.update_page('.'+css_class+'-plan', 'fadeIn', 'fast')
+        app.update_page('.'+css_class+'-plan', 'html', plan_html)
+        app.update_page('.'+css_class+'-plan', 'addClass', plan_css)
+        app.update_page('.'+css_class+'-wait', 'fadeIn', 'fast')
+        app.update_page('.'+css_class+'-wait', 'html', plan_html_list)
+        app.update_page('.'+css_class+'-wait', 'addClass', plan_css)
+
+        # Zoom the application into the queue.
+        img = dynamicapps.get_attribute_for_app(program_id, 'img')
+        img_path = data_path+"img/applications/icon/"+img
+        
+        app.update_page('#navigation-right', 'append', '<img src="' + img_path + '" class="queue-zoom-icon"/>')
+
+    def drop_item(self, program_id):
+        # User no longer wants changes to this program.
+        try:
+            self.install_queue.remove(program_id)
+            dbg.stdout('Queue', 'Dropped "' + program_id + '" from install queue.', 1, 3)
+        except:
+            pass
+
+        try:
+            self.remove_queue.remove(program_id)
+            dbg.stdout('Queue', 'Dropped "' + program_id + '" from remove queue.', 1, 3)
+        except:
+            pass
+
+        self.ui_remove_card(program_id)
+        dynamicapps.update_app_status(app.webkit, program_id)
+        self.queue_count -= 1
+        self.ui_update_count()
+
+        # Este é o último cartão? Mostre o texto de ajuda, se houver.
+        if len(self.install_queue) + len(self.remove_queue) == 0:
+            app.update_page('#queue-empty','slideDown')
+            app.update_page('#queue-options','slideUp')
+
+    def clear(self):
+        dbg.stdout('Queue', 'Clearing queue...', 1, 3)
+        while len(self.install_queue) > 0:
+            program_id = self.install_queue[0]
+            self.drop_item(program_id)
+
+        while len(self.remove_queue) > 0:
+            program_id = self.remove_queue[0]
+            self.drop_item(program_id)
+
+        self.install_queue = []
+        self.remove_queue = []
+        dbg.stdout('Queue', 'Queue cleared.', 1, 2)
+
+        # Reset UI elements
+        app.update_page('#queue-btn-apply', 'show')
+        app.update_page('#queue-btn-clear', 'show')
+        app.update_page('#queue-btn-reset', 'hide')
+
+        # Desbloquear/Restaurar a interface do usuário, se aplicável
+        app.update_page('#navigation-right', 'removeClass', 'disabled')
+        app.update_page('header', 'removeClass', 'disabled')
+        app.update_page('#navigation-topo', 'removeClass', 'disabled')
+        app.update_page('#queue-cards-base', 'removeClass', 'disabled')
+        app.update_page('#category-tabs', 'removeClass', 'disabled')
+        app.update_page('header', 'removeClass', 'disabled')
+        app.update_page('.tema-categoria', 'removeClass', 'disabled')
+        app.update_page('.menu', 'removeClass', 'disabled')
+        app.update_page('#profile-picture-header>img', 'removeClass', 'disabled')
+        app.update_page('#search-terms', 'removeClass', 'disabled')
+        app.update_page('header', 'fadeIn')
+
+        
+        app.update_page('#queue-btn-reset', 'fadeOut')
+        app.update_page('#queue-error', 'fadeOut')
+        
+        
+
+    def apply(self):
+        # "Hello, would you like a bag?"
+        #
+        # Priority:     Remove first -->  Install
+        dbg.stdout('Loja Horizon OS', 'Aplicando alterações ...', 0, 3)
+
+        # Function to check whether an application's change was successful.
+        self.bulk_all_good = True
+        def check_app_state(self, program_id, check_for_state):
+            systemstate.reload_cache()
+            installed = dynamicapps.is_app_installed(program_id)
+            name = dynamicapps.get_attribute_for_app(program_id, 'name')
+            img = dynamicapps.get_attribute_for_app(program_id, 'img')
+            img_path = os.path.join(data_path, 'img', 'applications', img + '')
+            if not os.path.exists(img_path):
+                img_path = 'package'
+
+            if installed and check_for_state == 'install':
+                self.ui_update_card(program_id, '<span class="fa fa-check"></span> ' + string.install_success, 'success')
+                notify_send( name + ' ' + _('Instalado'), _("O aplicativo agora está pronto para uso."), img_path)
+
+            elif not installed and check_for_state == 'install':
+                self.ui_update_card(program_id, '<span class="fa fa-warning"></span> ' + string.install_fail, 'error')
+                notify_send( name + ' ' + _('falhou na instalação!'), _("Houve um problema ao instalar a aplicação."), img_path)
+                self.bulk_all_good = False
+
+            elif not installed and check_for_state == 'remove':
+                self.ui_update_card(program_id, '<span class="fa fa-check"></span> ' + string.remove_success, 'success')
+                notify_send( name + ' ' + _('Removido'), _("O aplicativo foi desinstalado."), img_path)
+
+            elif installed and check_for_state == 'remove':
+                self.ui_update_card(program_id, '<span class="fa fa-warning"></span> ' + string.remove_fail, 'error')
+                notify_send( name + ' ' + _('falhou em remover'), _("Um problema está impedindo que este aplicativo seja removido."), img_path)
+                self.bulk_all_good = False
+
+        # Uninstall applications first
+        if len(self.remove_queue) > 0:
+            # Preconfiguration - delete sources/ppa if applicable
+            current = 0
+            total = len(self.remove_queue)
+            for program_id in self.remove_queue:
+                name = dynamicapps.get_attribute_for_app(program_id, 'name')
+                img  = trans.res_dir + 'img/applications/icon/' + dynamicapps.get_attribute_for_app(program_id, 'img') + ''
+                self.ui_update_progress(string.queue_prepare_remove + ' <img src="' + img + '" width="16px" height="16px"/> ' + name, current, total)
+                preinstallation.process_packages(program_id, 'remove', True)
+                current += 1
+
+            # Remove each application's packages
+            current = 0
+            total = len(self.remove_queue)
+            for program_id in self.remove_queue:
+                name = dynamicapps.get_attribute_for_app(program_id, 'name')
+                img  = trans.res_dir + 'img/applications/icon/' + dynamicapps.get_attribute_for_app(program_id, 'img') + ''
+                packages = dynamicapps.get_attribute_for_app(program_id, 'remove-packages').split(',')
+
+                self.ui_update_progress(string.queue_removing + ' <img src="' + img + '" width="16px" height="16px"/> ' + name, current, total)
+
+                transaction = SimpleApt(packages, 'remove')
+                transaction.remove_packages()
+                check_app_state(self, program_id, 'remove')
+                current += 1
+
+        # Install applications next
+        if len(self.install_queue) > 0:
+            # Pre-configuration - add sources/ppa if applicable
+            current = 0
+            total = len(self.remove_queue)
+            for program_id in self.install_queue:
+                self.ui_update_progress(string.queue_prepare_install + ' ' + dynamicapps.get_attribute_for_app(program_id, 'name'))
+                preinstallation.process_packages(program_id, 'install', True)
+                current += 1
+
+            # Update the cache (in case of repository changes)
+            if self.must_update_cache:
+                self.ui_update_progress(string.updating_cache, 0)
+                client = AptClient()
+                client.update_cache(wait=True)
+                client = None
+                systemstate.reload_cache()
+
+            # Install each application's packages
+            current = 0
+            total = len(self.install_queue)
+            for program_id in self.install_queue:
+                name = dynamicapps.get_attribute_for_app(program_id, 'name')
+                img  = trans.res_dir + 'img/applications/icon/' + dynamicapps.get_attribute_for_app(program_id, 'img') + ''
+                packages = dynamicapps.get_attribute_for_app(program_id, 'install-packages').split(',')
+
+                self.ui_update_progress(string.queue_installing + ' <img src="' + img + '" width="16px" height="16px"/> ' + name, current, total)
+
+                transaction = SimpleApt(packages, 'install')
+                transaction.install_packages()
+                check_app_state(self, program_id, 'install')
+                current += 1
+
+        # Update UI, but do not unlock until user acknowledges "Finished".
+        app.webkit.run_js('smoothFade("#queue-busy","#queue-options")')
+        app.update_page('#queue-btn-apply', 'hide')
+        app.update_page('#queue-btn-clear', 'hide')
+        app.update_page('#queue-btn-reset', 'show')
+
+        # Show a warning when something didn't go right.
+        if not self.bulk_all_good:
+            app.update_page('#queue-error', 'fadeIn')
+
+    def ui_update_progress(self, string, current=0, total=0):
+        app.update_page('#queue-status', 'html', string)
+        if not current == 0:
+            percent = str(int((current / total) * 100)) + '%'
+            app.update_page('#queue-bar', 'width', percent)
+            app.update_page('#bulk-queue-progress', 'fadeIn', 'fast')
+        else:
+            percent = '--%'
+            app.update_page('#bulk-queue-progress', 'fadeOut', 'fast')
+        dbg.stdout('Queue', 'Progress updated: "' + string + '" (' + percent + ')', 1, 4)
+
+    def ui_add_card(self, program_id, status):
+        # Get details for this card
+        name = dynamicapps.get_attribute_for_app(program_id, 'name')
+        img = dynamicapps.get_attribute_for_app(program_id, 'img')
+        mini_info = dynamicapps.get_attribute_for_app(program_id, 'description-get-info')
+        if mini_info == None:
+            mini_info = string.no_app_description_get_info
+
+        buffer = self.card_template.replace('PROGRAM_ID', program_id).replace('PROGRAM_IMG', img).replace('MINI_INFO', mini_info).replace('PROGRAM_NAME', name)
+
+        # What is the status on this card?
+        if status == 'install':
+            buffer = buffer.replace('DEFAULT_TEXT', '<span class="fa fa-download"></span> ' + string.status_install )
+        elif status == 'remove':
+            buffer = buffer.replace('DEFAULT_TEXT', '<span class="fa fa-trash"></span> ' + string.status_remove )
+
+        # Add to page
+        app.update_page('#queue-cards', 'append', buffer)
+        dbg.stdout('Queue', 'Add new card for "' + program_id + '" with status "' + status + '".', 2, 4)
+
+    def ui_update_card(self, program_id, string, colour=None):
+        # Update the status label of a card.
+        card_id   = '.card-' + program_id
+        status_id = '.status-' + program_id
+
+        app.update_page(status_id, 'html', string)
+        if colour:
+            if colour == 'error':
+                app.update_page(card_id, 'addClass', 'failed')
+                app.update_page(status_id, 'addClass', 'failed')
+            elif colour == 'success':
+                app.update_page(card_id, 'addClass', 'success')
+                app.update_page(status_id, 'addClass', 'success')
+        dbg.stdout('Queue', 'Card updated for "' + program_id + '"', 2, 4)
+
+    def ui_remove_card(self, program_id):
+        app.update_page('.card-' + program_id, 'slideUp')
+        app.update_page('.card-' + program_id, 'attr', 'card-'+program_id, 'card-old-'+program_id)
+        app.webkit.run_js('setTimeout(function(){ $("#card-old-' + program_id + '").remove(); }, 500);')
+
+    def ui_update_count(self):
+        if app.current_page == 'first-login.html':
+            app.update_page('#navigation-queue-count', 'html', str(self.queue_count))
+        else:
+            app.update_page('#navigation-queue-count', 'html', _("Aplicar ")+str(self.queue_count)+_(" Mudanças"))
+
+        if self.queue_count == 0:
+            if app.current_page == 'first-login.html':
+                app.update_page('#navigation-queue', 'hide')
+            app.update_page('#navigation-queue-count', 'addClass', 'empty')
+            app.update_page('#navigation-queue', 'removeClass', 'ApplyChanges')
+            app.update_page('#waiting-list', 'removeClass', 'waiting-list')
+            
+        else:
+            if app.current_page == 'first-login.html':
+                app.update_page('#navigation-queue', 'show')
+                
+            app.update_page('#navigation-queue-count', 'removeClass', 'empty')
+            app.update_page('#waiting-list', 'addClass', 'waiting-list')
+            
+            app.update_page('#navigation-queue', 'addClass', 'ApplyChanges')
+
+    def is_enabled(self):
+        enabled = pref.get('enable-queue', True)
+        if enabled:
+            return True
+        else:
+            return False
+
+    def refresh_page_state(self):
+        if self.is_enabled():
+            app.update_page('#navigation-queue', 'show')
+            app.update_page('#navigation-queue-disabled', 'hide')
+        else:
+            app.update_page('#navigation-queue', 'hide')
+            app.update_page('#navigation-queue-disabled', 'show')
+
+
+class ScreenshotWindow(Gtk.Window):
+    ''' Displays a simple window when enlarging a screenshot. '''
+
+    # FIXME: Destroy this window when finished as it prevents the app from closing via the "Close" button and bloats memory.
+
+    def __init__(self, filename):
+        # Strings for this child window.
+        title_string = 'Preview Screenshot'
+        close_string = 'Close'
+        path = data_path + '/img/applications/screenshots/' + filename + '.jpg'
+
+        # Build a basic pop up window containing the screenshot at its full dimensions.
+        Gtk.Window.__init__(self, title=title_string)
+        self.overlay = Gtk.Overlay()
+        self.add(self.overlay)
+        self.background = Gtk.Image.new_from_file(path)
+        self.overlay.add(self.background)
+        self.grid = Gtk.Grid()
+        self.overlay.add_overlay(self.grid)
+        self.connect('button-press-event', self.destroy_window)      # Click anywhere to close the window.
+        self.connect('delete-event', Gtk.main_quit)
+        self.set_position(Gtk.WindowPosition.CENTER)
+        self.set_resizable(False)
+        # FIXME: Set the cursor to a hand, like it was a link.
+        self.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.HAND1))
+        self.show_all()
+        
+
+        Gtk.main()
+
+    def destroy_window(self, widget, dummy=None):
+        # FIXME: Does not re-open once closed!
+        self.close()
+
+
+class Preferences(object):
+    def __init__(self):
+        self.folder = os.path.join(os.path.expanduser('~'), '.config/loja-horizon-os')
+        
+        self.config = os.path.join(self.folder, 'Dados/Preferencias.json')
+        self.data = None
+        self.load_prefs()
+
+    def reset_prefs(self):
+        if os.path.exists(self.config):
+            os.remove(self.config)
+        stream = open(self.config, "w")
+        stream.write(json.dumps({}))
+        stream.close()
+        dbg.stdout('Config', 'Preferences reset.', 1, 2)
+
+    def load_prefs(self):
+        # Create configuration data if non-existent.
+        if not os.path.exists(self.folder):
+            dbg.stdout('Config', 'Config folder non-existent. Creating...', 1, 3)
+            os.makedirs(self.folder+"/Dados")
+            os.makedirs(self.folder+"/Dados/application-list-version")
+            
+            
+
+        if not os.path.exists(self.config) or os.path.getsize(self.config) < 2:
+            dbg.stdout('Config', 'Preferences non-existent. Creating...', 1, 3)
+            self.reset_prefs()
+
+        load_error = False
+        with open(self.config) as stream:
+            try:
+                self.data = json.load(stream)
+            except Exception as e:
+                load_error = True
+                dbg.stdout('Config', 'Failed to load preferences. Reason: ' + str(e), 0, 1)
+
+        if load_error:
+            dbg.stdout('Config', 'Errors occurred while loading.', 0, 1)
+            self.reset_prefs()
+        else:
+            dbg.stdout('Queue', 'Preferences loaded from file.', 1, 2)
+
+    def write_prefs(self):
+        stream = open(self.config, "w+")
+        stream.write(json.dumps(self.data))
+        stream.close()
+        dbg.stdout('Queue', 'Preferences written to file.', 1, 2)
+
+    def set(self, key, data):
+        try:
+            dbg.stdout('Config', 'Write "' + key + '" => "' + str(data) + '"', 2, 4)
+            self.data[key] = data
+        except:
+            dbg.stdout('Config', 'Failed to write data! "' + key + '" => "' + str(data) + '"', 0, 1)
+        self.write_prefs()
+
+    def get(self, key, default):
+        try:
+            value = self.data[key]
+            dbg.stdout('Config', ' Read "' + key + '" => "' + str(value) + '"', 2, 4)
+            return value
+        except:
+            dbg.stdout('Config', ' Read "' + key + '" => "' + str(default) + '" (default)', 2, 4)
+            self.set(key, default)
+            return default
+
+    def toggle(self, key):
+        try:
+            value = self.data[key]
+            if value == True:
+                self.set(key, False)
+            else:
+                self.set(key, True)
+        except:
+            self.set(key, True)
+
+    def refresh_pref_page(self, key):
+        # Response when setting is changed via "cmd('set-pref?xxx?yyy')" or "cmd('toggle-pref?xxx')"
+        try:
+            value = self.data[key]
+            dbg.stdout('Config', 'Updating preferences page for key: ' + key + ' (' + str(value) + ')', 2, 4)
+        except:
+            dbg.stdout('Config', 'No data exists for "' + key + '"!', 1, 1)
+            return
+
+        # For boolean data, set check boxes
+        if type(value) is bool:
+            if value == True:
+                app.update_page('#pref-' + key, 'removeClass', 'fa-square')
+                app.update_page('#pref-' + key, 'addClass', 'fa-check-square')
+            else:
+                app.update_page('#pref-' + key, 'addClass', 'fa-square')
+                app.update_page('#pref-' + key, 'removeClass', 'fa-check-square')
+
+
+
+
+##################################
+#  Special
+##################################
+
+
+def should_offer_custom_themes():
+    """
+    Determine se o usuário está executando o Horizon OS 20.04 ou posterior.
+    """
+    if float(systemstate.os_version) >= 20.04 and which("gsettings") != None:
+        return True
+    else:
+        return False
+
+
+def get_gconf_value(schema, key):
+    cmd = 'gsettings get {0} {1}'.format(schema, key)
+    dbg.stdout('Subprocess', 'Running: ' + cmd, 1, 3)
+    return subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).communicate()[0].decode('utf-8')
+
+
+def set_gconf_value(schema, key, value):
+    cmd = 'gsettings set {0} {1} {2}'.format(schema, key, value)
+    dbg.stdout('Subprocess', 'Running: ' + cmd, 1, 3)
+    return subprocess.Popen(cmd, shell=True)
+
+
+
+
+
+##################################
+#  Program Initialisation
+##################################
+if __name__ == "__main__":
+
+    if proctitle_available:
+        setproctitle.setproctitle('LojaHorizonOS')
+
+    distro = subprocess.run(['lsb_release','-is'], stdout=subprocess.PIPE).stdout.decode('utf-8').lower().strip('\n')
+    os_version = subprocess.run(['lsb_release','-rs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+    codename = subprocess.run(['lsb_release','-cs'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
+                
+    
+    # Process any parameters passed to the program.
+    dbg = Debug()
+    pref = Preferences()
+    arg = Arguments()
+    
+    # Set up translations and strings
+    
+    
+    root_folder = arg.root_folder_arg()
+    data_path = arg.data_path_arg()
+    
+    trans = Translations(data_path)
+    string = Strings()
+    from hash_json import load_json
+    json_repository = load_json(root_folder)
+    systemstate = SystemState()
+    app = LojaHorizonOSApp()
+    dynamicapps = DynamicApps()
+    queue = ChangesQueue()
+    preinstallation = PreInstallation()
+    
+    # Argument Overrides
+    arg.override_arch()
+    arg.override_session()
+    arg.override_codename()
+
+    dbg.stdout('Loja Horizon OS', 'Aplicação iniciada.', 0, 0)
+    
+    app.run()
+    
+

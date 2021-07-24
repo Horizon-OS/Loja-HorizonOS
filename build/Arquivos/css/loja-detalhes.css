@@ -1,0 +1,930 @@
+.loja-img-logo {
+    cursor: cell;
+    margin-top: 35px;
+    margin-left: 15px;
+    width: 93px;
+}
+
+.loja-texto-nome {
+    margin-left: 120px;
+    margin-top: -89px;
+    text-transform: uppercase;
+}
+
+.loja-texto-descricao {
+    float: left;
+    margin-bottom: 22px;
+    width: 100%;
+    transition: 0.2s ease;
+}
+
+.text-info-apps {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.loja-botoes-de-status {
+    top: 3px;
+    margin-left: 118px;
+}
+
+a.lightbox img {
+    height: 150px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, .3);
+    margin: 24px 20px 20px 20px;
+}
+
+
+/* Styles the lightbox, removes it from sight and adds the fade-in transition */
+
+.lightbox-target {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, .7);
+    height: 100%;
+    opacity: 0;
+    -webkit-transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -o-transition: opacity .5s ease-in-out;
+    transition: opacity .5s ease-in-out;
+    overflow: hidden;
+    left: 0px;
+    z-index: 10;
+}
+
+
+/* Styles the lightbox image, centers it vertically and horizontally, adds the zoom-in transition and makes it responsive using a combination of margin and absolute positioning */
+
+.lightbox-target-img-box {
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 90%;
+    height: 90%;
+    top: -30px;
+}
+
+.lightbox-target img {
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 3px solid;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, .3);
+    box-sizing: border-box;
+    -webkit-transition: .5s ease-in-out;
+    -moz-transition: .5s ease-in-out;
+    -o-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+}
+
+
+/* Styles the close link, adds the slide down transition */
+
+a.lightbox-close {
+    display: block;
+    width: 40px;
+    height: 40px;
+    box-sizing: border-box;
+    border: 3px solid #4343d8;
+    background: black;
+    color: black;
+    text-decoration: none;
+    position: absolute;
+    margin-top: 10px;
+    right: 10px;
+    -webkit-transition: .5s ease-in-out;
+    -moz-transition: .5s ease-in-out;
+    -o-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+    border-radius: 30px;
+}
+
+
+/* Provides part of the "X" to eliminate an image from the close link */
+
+a.lightbox-close:before {
+    content: "";
+    display: block;
+    height: 30px;
+    width: 1px;
+    background: white;
+    position: absolute;
+    left: 17px;
+    top: 2px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+/* Provides part of the "X" to eliminate an image from the close link */
+
+a.lightbox-close:after {
+    content: "";
+    display: block;
+    height: 30px;
+    width: 1px;
+    background: white;
+    position: absolute;
+    left: 17px;
+    top: 02px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+
+/* Uses the :target pseudo-class to perform the animations upon clicking the .lightbox-target anchor */
+
+.lightbox-target:target {
+    opacity: 1;
+    top: 0;
+    bottom: 0;
+}
+
+.lightbox-target:target img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.lightbox-target:target a.lightbox-close {
+    top: -1px;
+}
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-filter {
+    margin-top: -26px;
+    position: fixed;
+    margin-left: 271px;
+}
+
+.dropdown-filter-button {
+    left: -26px;
+    /* border-radius: 6px; */
+    right: auto;
+    min-width: auto;
+    width: 88px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0px;
+    height: auto;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+.item-select {
+    font-size: medium;
+}
+
+.tema-topo {
+    background: var(--bg);
+}
+
+.tema-item {
+    background-color: rgb(248, 248, 248);
+}
+
+.noticias-titulos {
+    width: 100%;
+}
+
+.noticias-comentarios {
+    padding-bottom: 10px;
+    width: 98%;
+}
+
+
+/* Slides */
+
+.wtricks-headerbar {
+    width: 100%;
+    height: 100px;
+    background: #FFC402;
+    padding-top: 10px;
+}
+
+.wtricks-logo {
+    width: 286px;
+    height: 77px;
+    margin: 0 auto;
+    display: block;
+    text-indent: -9999px;
+    background: url('http://cdn.wtricks.com.br/images-theme/logo.png');
+}
+
+.wrap {
+    width: 100%;
+    height: 100vh;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.page-header,
+.page-footer {
+    width: 100%;
+    margin: 20px;
+    text-align: center;
+    /* Take careful when you use text-align center
+     Bacause this affects postion of gallery navigation! I recomend you use it
+     inside a container like this. */
+}
+
+@media (min-width: 800px) {
+    .page-header,
+    .page-footer {
+        width: 800px;
+        padding: 0;
+    }
+}
+
+.page-header p {
+    margin-top: 20px;
+    font-size: .8em;
+}
+
+.page-footer p {
+    color: #ccc;
+}
+
+.page-footer a {
+    color: #000;
+    text-decoration: none;
+}
+
+
+/* Final page style
+ !!Below this line, Gallery's code starts!!*/
+
+
+/* Slideshow container */
+
+.gallery-container {
+    margin-top: 10px;
+    /* width: 100%; */
+    /* height: auto; */
+    /* border-radius: 20px; */
+}
+
+
+/* Hide the images by default */
+
+.mySlides {
+    display: none;
+}
+
+
+/* Next & previous buttons */
+
+.prev,
+.next {
+    cursor: pointer;
+    width: auto;
+    margin-top: -16vw;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    background-color: rgba(0, 0, 0, 0.623);
+    z-index: 1;
+}
+
+.prev {
+    float: left;
+}
+
+.next {
+    float: right;
+}
+
+
+/* Position the "next button" to the right */
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+
+/* On hover, add a black background color with a little bit see-through */
+
+.prev:hover,
+.next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+/* Caption text */
+
+.text {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    width: 100%;
+    text-align: center;
+}
+
+.imgslide {
+    width: 100%;
+}
+
+
+/* Number text (1/3 etc) */
+
+.numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+}
+
+@media (max-width: 768px) {
+    .numbertext {
+        top: 15px;
+    }
+}
+
+
+/* Fading animation */
+
+.fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+    from {
+        opacity: .4
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes fade {
+    from {
+        opacity: .4
+    }
+    to {
+        opacity: 1
+    }
+}
+
+.box-gallery-info {
+    margin-top: -60px;
+    float: right;
+    margin-right: 6px;
+    padding-bottom: 5px;
+    padding-right: 8px;
+    border-radius: 30px;
+    padding-left: 10px;
+    border-color: rgb(110, 89, 89);
+    border-style: solid;
+}
+
+.box-gallery-info-no-img-gallery {
+    position: relative;
+    margin-top: -240px;
+    float: right;
+    margin-right: calc(50% - 70px);
+    padding-bottom: 5px;
+    padding-right: 8px;
+    border-radius: 30px;
+    padding-left: 10px;
+    border-color: rgb(110, 89, 89);
+    border-style: solid;
+}
+
+.box-gallery-info-comment {
+    margin-top: -26px;
+    float: left;
+    padding-left: 2px;
+    border-color: rgb(110, 89, 89);
+    border-style: solid;
+}
+
+.button-info {
+    border: none;
+    width: 184px;
+    height: 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 20px;
+}
+
+.button-info-gallery {
+    background-color: rgb(32, 47, 54);
+}
+
+.button-command-install {
+    /* border: none; */
+    padding: 4px 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    padding-left: 8px;
+    margin: 4px 2px;
+    cursor: pointer;
+    /* border-radius: 20px; */
+    background-color: #3a636f;
+    color: white;
+    margin-left: -30px;
+    /* border-style: solid; */
+}
+
+.button-install {
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 20px;
+    background-color: #1c87a8;
+    color: white;
+    width: auto;
+    height: 30px;
+    padding-right: 34px;
+    padding-left: 14px;
+}
+
+.button-install-gallery {
+    background-color: #1c87a8;
+}
+
+.button-start {
+    background-color: #1c87a8;
+    color: white;
+    width: 118px;
+    cursor: pointer;
+}
+
+.button-start-gallery {
+    background-color: #1c87a8;
+}
+
+.button-start-snap {
+    background-color: #1c87a8;
+    color: white;
+    width: 188px;
+    cursor: pointer;
+}
+
+.button-no-start {
+    background-color: #1c87a8;
+    color: white;
+    width: 118px;
+}
+
+.button-clear {
+    background-color: #cecece;
+    color: rgb(26, 22, 22);
+    cursor: pointer;
+}
+
+.button-reinstall {
+    background-color: #96be26;
+    color: white;
+    width: 30px;
+    cursor: pointer;
+}
+
+.button-uninstall {
+    background-color: #bb2916;
+    color: white;
+    width: 30px;
+    cursor: pointer;
+}
+
+.button-undo {
+    background-color: #130b0a;
+    color: white;
+    cursor: pointer;
+}
+
+.button-undo-gallery {
+    background-color: #130b0a;
+}
+
+.button-undo-snap {
+    background-color: #130b0a;
+    color: white;
+    width: 230px;
+    cursor: pointer;
+}
+
+.button-status {
+    border-radius: 8px;
+    /* background-color: rgb(103 83 152 / 47%); */
+}
+
+.button-screenshot {
+    cursor: pointer;
+    width: auto;
+    margin-top: -130px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    background-color: rgba(0, 0, 0, 0.637);
+    z-index: 1;
+}
+
+.button-next-screenshot {
+    float: right;
+}
+
+.button-previous-screenshot {
+    float: left;
+}
+
+.paralax-apps-background {
+    padding-top: 160px;
+    padding-right: 50px;
+    padding-left: 50px;
+}
+
+.paralax-apps-img {
+    position: absolute;
+    z-index: -1;
+}
+
+.alert-info {
+    color: #000000;
+    background-color: rgba(255, 255, 255, 0);
+    width: 400px;
+    height: 20px;
+    padding-left: 8px;
+}
+
+.show-copy-command {
+    color: #ffffff;
+    background-color: rgb(39, 15, 15);
+    width: calc(100% - 5px);
+    margin-left: -20px;
+    margin-top: 10px;
+    padding-left: 5px;
+}
+
+.gallery {
+    background: #EEE;
+}
+
+.gallery-cell {
+    background-image: url(https://res.cloudinary.com/css-tricks/image/upload/f_auto,q_auto/v1578251803/FEM-sidebar-Generic_dipjef.png);
+    width: 66%;
+    height: 200px;
+    margin-right: 10px;
+    counter-increment: gallery-cell;
+}
+
+#search-terms {
+    position: fixed;
+    left: 156px;
+    transform: translate(-39%, 0);
+    font-size: 16px;
+    padding: 14px;
+    padding-left: 30px;
+    box-sizing: border-box;
+    display: block;
+    margin-top: -27px;
+    /* width: 209px; */
+    border-radius: 7px;
+}
+
+.button-select-filter {
+    height: auto;
+    width: 100%;
+    color: var(--section_text);
+    display: inline-block;
+    padding: 4px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 20px;
+    vertical-align: middle;
+    cursor: pointer;
+    text-decoration: none !important;
+    text-align-last: left;
+    /* border-width: 1px; */
+    border-left: hidden;
+    border-right: hidden;
+}
+
+.list-filter {
+    overflow: auto;
+    max-height: 566px;
+    min-height: 31px;
+}
+
+.content-primary {}
+
+.dropdown-menu {
+    min-width: 280px;
+}
+
+.waiting-list {
+    float: left;
+    margin-left: 2px;
+    margin-top: 3px;
+    color: white;
+}
+
+.no-waiting-list {
+    margin-top: 3px;
+}
+
+.app_checked {
+    margin-left: 119px;
+}
+
+.box-apps-info-box {
+    margin-top: 26px;
+    height: 163px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 35px rgba(0, 0, 0, 0.5);
+    transition: 0.7s ease;
+}
+
+.box-apps-info {
+    float: left;
+    height: 100%;
+    margin-left: 28px;
+    margin-right: 28px;
+}
+
+.no-screenshots-info {
+    text-align: center;
+    margin-top: 170px;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 0 3px 3px 0;
+}
+
+.no-screenshots-info-icon {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    font-size: 150px;
+    transition: 0.7s ease;
+}
+
+.parental-rating {
+    /* position: absolute; */
+    transition: 0.7s ease;
+    /* margin-top: -120px; */
+    float: right;
+    margin-top: 5px;
+    margin-right: 4px;
+}
+
+.parental-rating-text-description {
+    transition: 0.7s ease;
+    text-align: right;
+    padding-right: 80px;
+}
+
+.parental-rating-text-title {
+    transition: 0.7s ease;
+    text-align: center;
+    text-transform: uppercase;
+    /* width: 70px; */
+}
+
+.parental-rating-content {
+    float: right;
+    position: relative;
+    border-radius: 10px;
+    width: 306px;
+    margin-top: -128px;
+    margin-right: 20px;
+}
+
+.parental-rating-table {
+    width: 70px;
+    float: right;
+}
+
+
+/* CSS VARIABLES */
+
+:root {
+    --primary: #141414;
+    --light: #F3F3F3;
+    --dark: #686868;
+}
+
+.imagem-app-background,
+.imagem-app {
+    max-width: 100%;
+}
+
+.imagem-app-not-scaled-icon {
+    margin-top: -45%;
+    margin-left: 35%;
+}
+
+.tema-item-select {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* HEADER */
+
+
+/* MAIN CONTIANER */
+
+.apps-container {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.apps-box {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(5, minmax(100px, 1fr));
+}
+
+.apps-box a {
+    transition: transform .3s;
+}
+
+.apps-box a:hover {
+    transition: transform .3s;
+    transform: scale(1.1);
+}
+
+.apps-box img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+
+/* LINKS */
+
+
+/* MEDIA QUERIES */
+
+@media(max-width: 900px) {
+    .apps-box {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(4, minmax(100px, 1fr));
+    }
+}
+
+@media(max-width: 700px) {
+    .apps-box {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(3, minmax(100px, 1fr));
+    }
+}
+
+@media(max-width: 500px) {
+    .tema-item-select {
+        font-size: 15px;
+    }
+    .apps-box {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(1, 1fr);
+        text-align: center;
+    }
+    .apps-box a:hover {
+        transition: transform .3s;
+        transform: scale(1.1);
+    }
+}
+
+.main-move {
+    align-items: center;
+    background-size: cover;
+    display: flex;
+    font-size: 1rem;
+    justify-content: center;
+    width: 100%;
+    height: 31vw;
+    padding-left: 0vw;
+    background: url(../../img/applications/gallery-news/steam.png) center center / cover, rgba(0, 0, 0, 0.5);
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: column;
+}
+
+.main-move .container-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 49vw;
+    padding-bottom: 1vw;
+    padding-left: 1vw;
+    padding-right: 0.7vw;
+    background-color: rgba(0, 0, 0, 0.411);
+}
+
+.apps-title {
+    font-size: 2.5em;
+    color: white;
+}
+
+.apps-sinopse {
+    margin: -0.75vh 0px 0.5em 0px;
+    color: white;
+    font-size: 2.5vh;
+    line-height: 1.4;
+}
+
+.apps-buttons button {
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 15px 30px;
+    margin-right: 15px;
+    text-transform: uppercase;
+    transition: .3s ease all;
+}
+
+.ApplyChanges {
+    width: 211px;
+    border-top-right-radius: 157px;
+    border-top-left-radius: 39px;
+    border-bottom-left-radius: 100px;
+    transition: 0.2s ease;
+}

@@ -9,6 +9,7 @@
     <link href="../../css/font-awesome.css" rel="stylesheet" media="screen">
     <link href="../../css/welcome.css" rel="stylesheet" media="screen">
     <link href="../../css/configuracoes.css" rel="stylesheet" media="screen">
+    <link href="../../css/perfil-detalhes.css" rel="stylesheet" media="screen">
     <link href="../../css/loja-detalhes.css" rel="stylesheet" media="screen">
     <link href="../../css/tela-cheia.css" rel="stylesheet" media="screen">
     <link href="../../css/animate.css" rel="stylesheet">
@@ -95,7 +96,7 @@
     <div class="tema-item">
         <div class="_1-5zf" data-hook="bsm-main-container" style="height: 100vh;flex-direction: column;display: flex;">
             <header style="display: none;">
-                <span class="menu"><i class="material-icons">menu</i></span><span id="profile-picture-header" onclick="changeCategoryTab('#User-Profile', 'Perfil do Usuário');hideButtomCategoryFilter();" style="cursor: pointer;margin-left: 3px;"><img style="width: 26px;margin-top: -18px;border-radius: 15px;" src="../../img/logos/loja-horizon.png" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Perfil" ></span>
+                <span class="menu"><i class="material-icons">menu</i></span><span id="profile-picture-header" onclick="changeCategoryTab('#User-Profile', 'Perfil do Usuário');hideButtomCategoryFilter();cmd('show-profile')" style="cursor: pointer;margin-left: 3px;"><img style="width: 26px;margin-top: -18px;border-radius: 15px;" src="../../img/logos/loja-horizon.png" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Perfil" ></span>
                 <input type="text" class="tema-topo-busca" id="search-terms" placeholder="Procurar por..." onchange="showSearch();" style="display: block;">
                 <div style="position: fixed;">
                     <div class="dropdown-filter hideButtomCategoryFilter" id="button-filter-education">
@@ -163,7 +164,8 @@
                     <button id="detect_new_update" class="animated fadeIn" onclick="cmd('install-appid?dados_loja_horizon_os');$(detect_new_update).remove();showQueue('Atualização')" style="display:none">Nova Atualização Disponivel</button>
                     <button id="navigation-queue" class="tema-modo-texto-topo navigation-button animated fadeIn " onclick="showQueue('Lista de Espera');hideButtomCategoryFilter()" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Lista de Espera">                  <span id="waiting-list" class=" no-waiting-list fa fa-clock-o"></span><div id="navigation-queue-count" class="empty">Aplicar 0 Mudanças</div></button>
                     <button id="navigation-queue-disabled" class="tema-modo-texto-topo navigation-button animated fadeIn" data-toggle="tooltip" data-placement="bottom" title="" style="display:none" data-original-title="Lista de Espera Desabilitada">                         <span class="fa fa-clock-o" style="opacity:0.5"></span></button>
-
+                    
+                    
                     <button id="ativar-tema-dark" class="tema-modo-texto-topo navigation-button animated fadeIn" onclick="cmd('ativar-tema-dark')" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Ativar Modo Escuro">              <span class="fa fa-moon-o"></span></button>
                     <button id="desativar-tema-dark" class="tema-modo-texto-topo navigation-button animated fadeIn" onclick="cmd('desativar-tema-dark')" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Desativar Modo Escuro">              <span class="fa fa-sun-o"></span></button>
 
@@ -292,8 +294,9 @@
 
                             <div class="container-fluid">
                                 <div id="User-Profile" style="display: none;">
-                                    <iframe src="file:///Programas/Loja-HorizonOS/Arquivos/i18n/pt_BR/profile.html?NameUser=Horizon%20OS&Email=contato@horizon-os.org&PhoneNumber=(65)%20981344783&Address=Brasil,%20Mato%20Grosso" style="display: block;       /* iframes are inline by default */    background: #000;    border: none;         /* Reset default border */    height: 100vw;        /* Viewport-relative units */    width: 100vw;    "
-                                        scrolling="no"></iframe>
+                                    
+                                    <div class="box-profile-left"><img src="../../img/logos/loja-horizon.png" class="center-object">
+<div class="center-object">Nome User</div></div><div class="box-profile-right"></div>
                                 </div>
                                 <div id="News" style="display: none;">
                                     <div class="offline">
@@ -364,7 +367,7 @@
                                     <!--<iframe src="http://horizon-os.org/" height="100%" width="100%"></iframe>-->
                                 </div>
                                 <div id="AppsInfoInstalled" style="display: none;">
-                                    <h2>Instalados</h2>
+                                    <h2 class="title-category">Instalados</h2>
                                     <p>Aplicativos/Programas instalados, reconhecidos pela <code>Loja Horizon OS</code></p>
                                     <div id="info-installed-sort" class="queue-card ">
                                         <button onclick="sortList()">Organizar em ordem Alfabética? <code class="">Isto pode demorar alguns segundos!</code></button>
@@ -377,8 +380,8 @@
 
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Acessórios</h2>
-                                            <p>Utilitários práticos para as suas necessidades de computação.</p>
+                                            <h2 class="title-category">Acessórios</h2>
+                                            <p class="description-category">Utilitários práticos para as suas necessidades de computação.</p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -397,8 +400,8 @@
 
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Educação</h2>
-                                            <p>Para estudantes e crianças </p>
+                                            <h2 class="title-category">Educação</h2>
+                                            <p class="description-category">Para estudantes e crianças </p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -413,18 +416,11 @@
                                     </div>
                                 </div>
                                 <div id="Games" style="display: none;">
-                                    <img src="../../img/applications/banner/category-games.png" style="
-                                    position: absolute;
-                                    z-index: -1;
-                                    height: 333px;
-                                    width: 100%;
-                                    top: -81px;
-                                ">
-                                    <div class="row-fluid">
+                                        <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Jogos</h2>
+                                            <h2 class="title-category">Jogos</h2>
 
-                                            <p>Uma coletânea de jogos 2D e 3D para o seu divertimento</p>
+                                            <p class="description-category">Uma coletânea de jogos 2D e 3D para o seu divertimento</p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -442,11 +438,11 @@
 
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Gráficos</h2>
+                                            <h2 class="title-category">Gráficos</h2>
 
 
 
-                                            <p>Para a produção e edição de trabalhos artísticos.</p>
+                                            <p class="description-category">Para a produção e edição de trabalhos artísticos.</p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -465,9 +461,9 @@
 
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Internet</h2>
+                                            <h2 class="title-category">Internet</h2>
 
-                                            <p>Para continuar ligado e aproveitar as características de sua própria nuvem.</p>
+                                            <p class="description-category">Para continuar ligado e aproveitar as características de sua própria nuvem.</p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -485,8 +481,8 @@
 
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Escritório</h2>
-                                            <p>Para mais do que apenas documentos e planilhas.</p>
+                                            <h2 class="title-category">Escritório</h2>
+                                            <p class="description-category">Para mais do que apenas documentos e planilhas.</p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -504,8 +500,8 @@
 
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Programação</h2>
-                                            <p>Para os desenvolvedores e administradores de sistemas de fora.</p>
+                                            <h2 class="title-category">Programação</h2>
+                                            <p class="description-category">Para os desenvolvedores e administradores de sistemas de fora.</p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -523,8 +519,8 @@
 
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Som &amp; Vídeo</h2>
-                                            <p>Programas de multimídia para ouvir e reproduzir.</p>
+                                            <h2 class="title-category">Som &amp; Vídeo</h2>
+                                            <p class="description-category">Programas de multimídia para ouvir e reproduzir.</p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -542,8 +538,8 @@
 
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Ferramentas do Sistema</h2>
-                                            <p>Programa que aproveita ao máximo recursos do seu sistema.</p>
+                                            <h2 class="title-category">Ferramentas do Sistema</h2>
+                                            <p class="description-category">Programa que aproveita ao máximo recursos do seu sistema.</p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -561,8 +557,8 @@
 
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Pacotes Snap</h2>
-                                            <p>Instale seus pacotes Snaps favoritos diretamente da loja!</p>
+                                            <h2 class="title-category">Pacotes Snap</h2>
+                                            <p class="description-category">Instale seus pacotes Snaps favoritos diretamente da loja!</p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -579,8 +575,8 @@
                                 <div id="UnivAccess" hidden="" style="display: none;">
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Acesso Universal</h2>
-                                            <p>Programa que faz seu computador ser mais acessível.</p>
+                                            <h2 class="title-category">Acesso Universal</h2>
+                                            <p class="description-category">Programa que faz seu computador ser mais acessível.</p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -597,8 +593,8 @@
                                 <div id="Servers" style="display: none;">
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Servidores</h2>
-                                            <p>Instalação com apenas um clique para servidor de rede.</p>
+                                            <h2 class="title-category">Servidores</h2>
+                                            <p class="description-category">Instalação com apenas um clique para servidor de rede.</p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -615,8 +611,8 @@
                                 <div id="MoreApps" style="display: none;">
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <h2>Descubra mais programas</h2>
-                                            <p>Interface gráficas listando uma grande variedade de programas disponível para o seu sistema operacional.</p>
+                                            <h2 class="title-category">Descubra mais programas</h2>
+                                            <p class="description-category">Interface gráficas listando uma grande variedade de programas disponível para o seu sistema operacional.</p>
                                             <hr class="soften-light">
                                         </div>
                                     </div>
@@ -633,8 +629,8 @@
                                 <div id="Misc" style="display: none;">
                                     <div id="footer-right" class="form">
                                     </div>
-                                    <h2>Correções diversas</h2>
-                                    <p>Essa seção contém operações que podem corrigir problemas comuns que você poderá deparar-se ao atualizar ou instalar um novo Software.</p>
+                                    <h2 class="title-category">Correções diversas</h2>
+                                    <p class="description-category">Essa seção contém operações que podem corrigir problemas comuns que você poderá deparar-se ao atualizar ou instalar um novo Software.</p>
                                     <hr class="soften">
                                     <div class="row-fluid">
                                         <div class="span12">
