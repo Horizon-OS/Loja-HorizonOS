@@ -907,9 +907,9 @@ class DynamicApps(object):
         self.app_releases = self.index[category][program_id]['releases']
         self.app_working = self.index[category][program_id]['working']
 
-    def append_app_listing_installed(self, category, program_id, target_element, total_softwares, track_subcategories=False):
+    def append_app_listing_installed(self, category, program_id, target_element, track_subcategories=False):
         # Only list the program if it's working.
-        total_software = total_softwares+1
+        
 
         # If the app has made it this far, it can be added to the grid.
         # CSS breaks with dots (.), so any must become hyphens (-).
