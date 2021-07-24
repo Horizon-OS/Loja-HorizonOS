@@ -7,4 +7,4 @@ set -e
 
 this_dir=$(readlink -f $(dirname "$0"))
 
-exec "$this_dir"/run "--root_folder=$this_dir/../"  "$@"
+exec "$this_dir"/loja "--root_folder=$this_dir/../"  "$@"
