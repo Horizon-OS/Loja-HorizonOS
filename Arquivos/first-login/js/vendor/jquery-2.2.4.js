@@ -9809,6 +9809,8 @@ jQuery.noConflict = function( deep ) {
 if ( !noGlobal ) {
 	window.jQuery = window.$ = jQuery;
 }
-
+jQuery.htmlPrefilter = function( html ) {
+	return html;
+};
 return jQuery;
 }));
