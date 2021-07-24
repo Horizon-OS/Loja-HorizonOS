@@ -5321,9 +5321,9 @@ function remove( elem, selector, keepData ) {
 }
 
 jQuery.extend( {
-	htmlPrefilter: function( html ) {
+	jQuery.htmlPrefilter = function( html ) {
 		return html;
-	},
+	};
 
 	clone: function( elem, dataAndEvents, deepDataAndEvents ) {
 		var i, l, srcElements, destElements,
@@ -9809,8 +9809,6 @@ jQuery.noConflict = function( deep ) {
 if ( !noGlobal ) {
 	window.jQuery = window.$ = jQuery;
 }
-jQuery.htmlPrefilter = function( html ) {
-	return html;
-};
+
 return jQuery;
 }));
