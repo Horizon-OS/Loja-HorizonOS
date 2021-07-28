@@ -2930,7 +2930,7 @@ class LojaHorizonOSApp(object):
         # Slightly different attributes if "--software-only" is activated.
         w = Gtk.Window()
         
-        w.set_decorated(False)
+        # w.set_decorated(False)
     
         w.maximize()
         
