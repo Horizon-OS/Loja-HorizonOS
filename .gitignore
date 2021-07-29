@@ -2,3 +2,5 @@
 *.pyc
 **/build/**
 **/__pycache__/
+*.x
+*.x.c
