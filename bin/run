@@ -5,6 +5,7 @@
 # make sure errors in sourced scripts will cause this script to stop
 set -e
 
-this_dir=$(readlink -f $(dirname "$0"))
+# referência https://stackoverflow.com/questions/7665/how-to-resolve-symbolic-links-in-a-shell-script/40584017#40584017
+this_dir=$( cd $(dirname $(readlink `[[ $OSTYPE == linux* ]] && echo "-f"` $0)) ; pwd -P)
 
 exec "$this_dir"/loja "--root_folder=$this_dir/../"  "$@"
