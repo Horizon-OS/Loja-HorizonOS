@@ -1,4 +1,10 @@
-loja-horizon-os (1.5+Beta) focal; urgency=medium
+loja-horizon-os (2.0) focal; urgency=medium
+
+  * lançamento oficial 2.0
+  
+ -- Igor Pereira Formighieri <igorpereira1069@gmail.com>  Sun, 29 May 2021 19:28:55 -0400
+ 
+ loja-horizon-os (1.5+Beta) focal; urgency=medium
 
   * Preparação para lançamento oficial
   
