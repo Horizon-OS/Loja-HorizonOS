@@ -1,10 +1,16 @@
+loja-horizon-os (2.1) focal; urgency=medium
+
+  * lançamento oficial 2.1
+  
+ -- Igor Pereira Formighieri <igorpereira1069@gmail.com>  Thu, 29 Jun 2021 21:57:22 -0400
+ 
 loja-horizon-os (2.0) focal; urgency=medium
 
   * lançamento oficial 2.0
   
- -- Igor Pereira Formighieri <igorpereira1069@gmail.com>  Sun, 29 May 2021 19:28:55 -0400
+ -- Igor Pereira Formighieri <igorpereira1069@gmail.com>  Thu, 29 Jul 2021 19:28:55 -0400
  
- loja-horizon-os (1.5+Beta) focal; urgency=medium
+loja-horizon-os (1.5+Beta) focal; urgency=medium
 
   * Preparação para lançamento oficial
   
@@ -24,7 +30,7 @@ loja-horizon-os (1.4+Beta1) focal; urgency=medium
 
  -- Igor Pereira Formighieri <igorpereira1069@gmail.com>  Sun, 23 May 2021 03:38:09 -0400
  
- loja-horizon-os (1.4+Beta) focal; urgency=medium
+loja-horizon-os (1.4+Beta) focal; urgency=medium
 
   * Pré-lançamento 5
 
